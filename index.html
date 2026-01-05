@@ -1,24 +1,18 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Andy la Boucherie - Viandes Premium en Ligne</title>
-    <meta name="description" content="Boucherie artisanale proposant des viandes de qualité supérieure depuis plus de 20 ans à Abidjan">
-    
+    <meta name="description" content="Boucherie artisanale proposant viandes de qualité supérieure à Abidjan">
+
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥩</text></svg>">
-    
-    <!-- Fonts -->
+
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Animations -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    
+
     <!-- Styles -->
     <link rel="stylesheet" href="Style.css">
 </head>
@@ -27,48 +21,51 @@
     <header class="header-modern">
         <div class="container header-container">
             <div class="logo-content">
-                <div class="logo-icon">🥩</div>
-                <div class="logo-text">
-                    <span class="logo-main">Andy</span>
-                    <span class="logo-sub">la Boucherie</span>
-                </div>
+                <a href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                    <div class="logo-icon">
+                        <img src="img/logo Andy.png" alt="Logo Andy la Boucherie" class="logo-img">
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main">Andy</span>
+                        <span class="logo-sub">la Boucherie</span>
+                    </div>
+                </a>
             </div>
-            
+
             <nav class="nav-modern">
                 <ul>
                     <li><a href="#home">Accueil</a></li>
                     <li><a href="#products">Nos produits</a></li>
+                    <li><a href="restaurants.html">Restaurants</a></li>
                     <li><a href="#process">Comment commander</a></li>
                     <li><a href="#about">À propos</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            
-            <div class="cart-icon modern-cart" id="cart-icon">
+
+            <div class="cart-icon modern-cart" id="cart-icon" title="Voir le panier">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count">0</span>
             </div>
-            
-            <div class="mobile-menu-toggle" id="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Menu mobile" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="hero hero-modern">
+    <section id="home" class="hero-modern">
         <div class="hero-content">
-            <div class="hero-badge animate__animated animate__fadeInDown">
+            <div class="hero-badge">
                 <i class="fas fa-award"></i>
-                <span>Boucherie Premium depuis 2025</span>
+                <span>Boucherie Premium depuis 2019</span>
             </div>
-            
-            <h1 class="animate__animated animate__fadeInUp">Le meilleur de la viande à portée de clic</h1>
-            <p class="hero-subtitle animate__animated animate__fadeInUp animate__delay-1s">Qualité, fraîcheur et service irréprochable</p>
-            <p class="hero-description animate__animated animate__fadeInUp animate__delay-2s">Commandez en ligne et recevez des produits frais sélectionnés avec soin par notre boucher Andy et son équipe.</p>
-            
+
+            <h1>Le meilleur de la viande à portée de clic</h1>
+            <p class="hero-subtitle">Qualité, fraîcheur et service irréprochable</p>
+            <p class="hero-description">Commandez en ligne et recevez des produits frais sélectionnés avec soin par notre boucher Andy et son équipe.</p>
+
             <div class="hero-buttons">
                 <a href="#products" class="btn btn-primary">Découvrir nos produits</a>
                 <a href="#process" class="btn btn-outline-white">Comment ça marche</a>
@@ -77,26 +74,25 @@
     </section>
 
     <!-- Products Section -->
-    <section id="products" class="section section-green products-modern">
+    <section id="products" class="section products-modern">
         <div class="container">
             <div class="section-header text-center">
                 <span class="section-badge">Notre Sélection</span>
                 <h2>Nos produits phares</h2>
                 <p class="section-subtitle">Découvrez notre sélection de viandes de qualité, soigneusement choisies pour vous.</p>
             </div>
-            
-            <!-- Remplacer la section des filtres de produits par : -->
-<div class="product-filters">
-    <button class="filter-btn active" data-filter="all">Tous</button>
-    <button class="filter-btn" data-filter="beef">Bœuf</button>
-    <button class="filter-btn" data-filter="lamb">Agneau</button>
-    <button class="filter-btn" data-filter="ostrich">Autruche</button>
-</div>
-            
+
+            <div class="product-filters">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <button class="filter-btn" data-filter="beef">Bœuf</button>
+                <button class="filter-btn" data-filter="lamb">Agneau</button>
+                <button class="filter-btn" data-filter="ostrich">Autruche</button>
+            </div>
+
             <div class="products-grid" id="products-grid">
                 <!-- Produits chargés dynamiquement via JS -->
             </div>
-            
+
             <div class="text-center cart-section">
                 <div class="cart-preview" id="cart-preview">
                     <div class="cart-preview-content">
@@ -104,66 +100,52 @@
                         <span class="cart-preview-text">Votre panier est vide</span>
                     </div>
                 </div>
-                
-                <a href="#" class="btn btn-primary btn-large" id="view-cart">
+
+                <button class="btn btn-primary btn-large" id="view-cart">
                     <i class="fas fa-shopping-cart"></i>
                     Voir mon panier
-                </a>
+                </button>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section section-light about-modern">
+    <section id="about" class="section about-modern">
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
                     <div class="section-header">
                         <span class="section-badge">Notre Histoire</span>
-                        <h2>Une passion pour la viande depuis 20 ans</h2>
+                        <h2>Une passion pour la viande depuis 2019</h2>
                     </div>
-                    
-                    <p class="about-intro">Depuis plus de 20 ans, Andy la Boutique Boucherie sélectionne avec passion les meilleures viandes pour vos repas. Notre engagement : vous offrir des produits d'exception, issus d'élevages locaux et respectueux du bien-être animal.</p>
-                    
+
+                    <p class="about-intro">Depuis 2019, Andy la Boutique Boucherie sélectionne avec passion les meilleures viandes pour vos repas. Notre engagement : vous offrir des produits d'exception, issus d'élevages locaux et respectueux du bien-être animal.</p>
+
                     <div class="about-features">
                         <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Traçabilité garantie</span>
+                            <i class="fas fa-check-circle"></i><span>Traçabilité garantie</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Origine locale</span>
+                            <i class="fas fa-check-circle"></i><span>Origine locale</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Qualité premium</span>
+                            <i class="fas fa-check-circle"></i><span>Qualité premium</span>
                         </div>
                     </div>
-                    
+
                     <p>Chaque jour, notre équipe de bouchers passionnés travaille avec savoir-faire pour vous proposer des morceaux soigneusement préparés, prêts à sublimer vos plats.</p>
                 </div>
-                
+
                 <div class="about-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">1000+</div>
-                        <div class="stat-label">Clients satisfaits</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">Origine locale</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">20+</div>
-                        <div class="stat-label">Années d'expérience</div>
-                    </div>
+                    <div class="stat-item"><div class="stat-number">1000+</div><div class="stat-label">Clients satisfaits</div></div>
+                    <div class="stat-item"><div class="stat-number">100%</div><div class="stat-label">Origine locale</div></div>
+                    <div class="stat-item"><div class="stat-number">20+</div><div class="stat-label">Années d'expérience</div></div>
                 </div>
-                
+
                 <div class="image-container">
-                    <img src="https://images.pexels.com/photos/4253302/pexels-photo-4253302.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Boucher Andy et son équipe">
+                    <img src="img/logo Andy.png" alt="Boucher Andy et son équipe">
                     <div class="image-overlay">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
+                        <div class="play-button"><i class="fas fa-play"></i></div>
                         <span>Découvrez notre savoir-faire</span>
                     </div>
                 </div>
@@ -172,57 +154,47 @@
     </section>
 
     <!-- Process Section -->
-    <section id="process" class="section section-light process-modern">
+    <section id="process" class="section process-modern">
         <div class="container">
             <div class="section-header text-center">
                 <span class="section-badge">Comment ça marche</span>
                 <h2>Un processus simple et sécurisé</h2>
                 <p class="section-subtitle">Recevez vos produits rapidement avec notre processus optimisé.</p>
             </div>
-            
+
             <div class="process-steps">
                 <div class="step">
                     <div class="step-number">01</div>
-                    <div class="step-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
+                    <div class="step-icon"><i class="fas fa-search"></i></div>
                     <h3>Choisissez vos produits</h3>
                     <p>Parcourez notre sélection de viandes premium et ajoutez vos favoris au panier.</p>
                 </div>
-                
+
                 <div class="step">
                     <div class="step-number">02</div>
-                    <div class="step-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
+                    <div class="step-icon"><i class="fas fa-shopping-cart"></i></div>
                     <h3>Validez votre commande</h3>
                     <p>Passez commande en quelques clics avec notre processus simplifié.</p>
                 </div>
-                
+
                 <div class="step">
                     <div class="step-number">03</div>
-                    <div class="step-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
+                    <div class="step-icon"><i class="fas fa-truck"></i></div>
                     <h3>Livraison rapide</h3>
                     <p>Recevez vos produits frais en moins de 24h ou retirez-les en boutique.</p>
                 </div>
-                
+
                 <div class="step">
                     <div class="step-number">04</div>
-                    <div class="step-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
+                    <div class="step-icon"><i class="fas fa-utensils"></i></div>
                     <h3>Dégustez</h3>
                     <p>Savourez des produits d'exception et partagez un moment convivial.</p>
                 </div>
             </div>
-            
+
             <div class="process-guarantee">
                 <div class="guarantee-content">
-                    <div class="guarantee-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
+                    <div class="guarantee-icon"><i class="fas fa-shield-alt"></i></div>
                     <div class="guarantee-text">
                         <h4>Garantie satisfaction</h4>
                         <p>Si vous n'êtes pas satisfait, nous vous remboursons intégralement</p>
@@ -233,243 +205,123 @@
     </section>
 
     <!-- Why Choose Us Section -->
-    <section id="why" class="section section-green why-modern">
+    <section id="why" class="section why-modern">
         <div class="container">
             <div class="section-header text-center">
                 <span class="section-badge">Nos Avantages</span>
                 <h2>Pourquoi nous choisir ?</h2>
                 <p class="section-subtitle">Notre engagement pour votre satisfaction et votre plaisir gustatif.</p>
             </div>
-            
+
             <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <h3>Produits bio</h3>
-                    <p>Nos viandes proviennent d'élevages biologiques respectant le bien-être animal.</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <h3>Origine locale</h3>
-                    <p>Nous travaillons exclusivement avec des producteurs locaux de confiance.</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3>Qualité certifiée</h3>
-                    <p>Tous nos produits sont certifiés et contrôlés par nos soins.</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <h3>Livraison express</h3>
-                    <p>Recevez vos produits en moins de 24h dans toute la région.</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-hand-holding-heart"></i>
-                    </div>
-                    <h3>Service personnalisé</h3>
-                    <p>Nos bouchers sont à votre écoute pour des conseils sur mesure.</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3>Paiement sécurisé</h3>
-                    <p>Payez en toute sécurité avec notre système de paiement Jeko.</p>
-                </div>
+                <div class="feature"><div class="feature-icon"><i class="fas fa-leaf"></i></div><h3>Produits bio</h3><p>Nos viandes proviennent d'élevages biologiques respectant le bien-être animal.</p></div>
+                <div class="feature"><div class="feature-icon"><i class="fas fa-map-marker-alt"></i></div><h3>Origine locale</h3><p>Nous travaillons exclusivement avec des producteurs locaux de confiance.</p></div>
+                <div class="feature"><div class="feature-icon"><i class="fas fa-certificate"></i></div><h3>Qualité certifiée</h3><p>Tous nos produits sont certifiés et contrôlés par nos soins.</p></div>
+                <div class="feature"><div class="feature-icon"><i class="fas fa-truck"></i></div><h3>Livraison express</h3><p>Recevez vos produits en moins de 24h dans toute la région.</p></div>
+                <div class="feature"><div class="feature-icon"><i class="fas fa-hand-holding-heart"></i></div><h3>Service personnalisé</h3><p>Nos bouchers sont à votre écoute pour des conseils sur mesure.</p></div>
+                <div class="feature"><div class="feature-icon"><i class="fas fa-lock"></i></div><h3>Paiement sécurisé</h3><p>Payez en toute sécurité avec notre système de paiement sécurisé.</p></div>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section class="section testimonials testimonials-modern">
+    <section class="section testimonials-modern">
         <div class="container">
             <div class="section-header text-center">
                 <span class="section-badge">Témoignages</span>
                 <h2>Ce que disent nos clients</h2>
                 <p class="section-subtitle">Découvrez les avis de nos clients satisfaits.</p>
             </div>
-            
+
             <div class="testimonial-slider">
                 <div class="testimonial">
                     <div class="testimonial-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"La qualité des viandes est exceptionnelle. Je ne commande plus que chez Andy depuis ma première expérience. Le service est impeccable et les conseils toujours pertinents."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">P</div>
-                        <div class="author-info">
-                            <div class="author-name">Pierre D.</div>
-                            <div class="author-title">Client fidèle</div>
-                        </div>
-                    </div>
+                    <p class="testimonial-text">"La qualité des viandes est exceptionnelle. Je ne commande plus que chez Andy depuis ma première expérience."</p>
+                    <div class="testimonial-author"><div class="author-avatar">P</div><div class="author-info"><div class="author-name">Pierre D.</div><div class="author-title">Client fidèle</div></div></div>
                 </div>
-                
+
                 <div class="testimonial">
                     <div class="testimonial-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"En tant que chef à domicile, je suis très exigeant sur la qualité des produits. Andy la Boucherie est devenu mon fournisseur attitré pour la qualité constante de leurs viandes."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">S</div>
-                        <div class="author-info">
-                            <div class="author-name">Sophie M.</div>
-                            <div class="author-title">Chef à domicile</div>
-                        </div>
-                    </div>
+                    <p class="testimonial-text">"En tant que chef à domicile, je suis très exigeant sur la qualité des produits. Andy la Boucherie est devenu mon fournisseur attitré."</p>
+                    <div class="testimonial-author"><div class="author-avatar">S</div><div class="author-info"><div class="author-name">Sophie M.</div><div class="author-title">Chef à domicile</div></div></div>
                 </div>
-                
+
                 <div class="testimonial">
                     <div class="testimonial-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"Livraison toujours à l'heure, produits frais et emballés avec soin. Le filet de bœuf était à tomber ! Je recommande sans hésiter."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">T</div>
-                        <div class="author-info">
-                            <div class="author-name">Thomas L.</div>
-                            <div class="author-title">Particulier</div>
-                        </div>
-                    </div>
+                    <p class="testimonial-text">"Livraison toujours à l'heure, produits frais et emballés avec soin. Le filet de bœuf était à tomber !"</p>
+                    <div class="testimonial-author"><div class="author-avatar">T</div><div class="author-info"><div class="author-name">Thomas L.</div><div class="author-title">Particulier</div></div></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section section-light contact-modern">
+    <section id="contact" class="section contact-modern">
         <div class="container">
             <div class="section-header text-center">
                 <span class="section-badge">Contact</span>
                 <h2>Nous contacter</h2>
                 <p class="section-subtitle">Une question ? Besoin d'un conseil ? Notre équipe est à votre écoute</p>
             </div>
-            
+
             <div class="contact-container">
                 <div class="contact-card">
                     <h3>Informations pratiques</h3>
-                    
+
+
                     <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div>
-                            <strong>Adresse</strong><br>
-                            Rue des Bouchers, Plateau, Abidjan, Côte d'Ivoire
-                        </div>
+                        <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div><strong>Téléphone</strong><br><a href="tel:+2250700000000">01 01 104 747</a></div>
                     </div>
-                    
+
                     <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone-alt"></i>
-                        </div>
-                        <div>
-                            <strong>Téléphone</strong><br>
-                            <a href="tel:+2250700000000">07 00 00 00 00</a>
-                        </div>
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div><strong>Email</strong><br><a href="mailto:alaboutiqueboucherie@gmail.com">alaboutiqueboucherie@gmail.com</a></div>
                     </div>
-                    
+
                     <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div>
-                            <strong>Email</strong><br>
-                            <a href="mailto:contact@andylaboutiqueboucherie.com">contact@andylaboutiqueboucherie.com</a>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div>
-                            <strong>Horaires d'ouverture</strong><br>
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        <div><strong>Horaires d'ouverture</strong><br>
                             <div class="hours-list">
-                                <div class="hour-item">
-                                    <span>Lundi - Vendredi</span> 
-                                    <span>7h30 - 19h</span>
-                                </div>
-                                <div class="hour-item">
-                                    <span>Samedi</span>
-                                    <span>7h30 - 20h</span>
-                                </div>
-                                <div class="hour-item">
-                                    <span>Dimanche</span>
-                                    <span>8h - 14h</span>
-                                </div>
+                                <div class="hour-item"><span>Lundi - Vendredi</span><span>7h - 23h</span></div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="social-section">
                         <h4>Suivez-nous</h4>
                         <div class="social-links">
-                            <a href="#" class="social-link facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="social-link instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="#" class="social-link twitter">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" class="social-link whatsapp">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
+                            <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="contact-form-section">
                     <div class="contact-form-card">
                         <h3>Envoyez-nous un message</h3>
                         <form class="contact-form" id="contact-form">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="contact-name">
-                                        <i class="fas fa-user"></i>
-                                        Nom complet *
-                                    </label>
+                                    <label for="contact-name"><i class="fas fa-user"></i> Nom complet *</label>
                                     <input type="text" id="contact-name" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="contact-email">
-                                        <i class="fas fa-envelope"></i>
-                                        Email *
-                                    </label>
+                                    <label for="contact-email"><i class="fas fa-envelope"></i> Email *</label>
                                     <input type="email" id="contact-email" required>
                                 </div>
                             </div>
+
                             <div class="form-group">
-                                <label for="contact-subject">
-                                    <i class="fas fa-tag"></i>
-                                    Sujet *
-                                </label>
+                                <label for="contact-subject"><i class="fas fa-tag"></i> Sujet *</label>
                                 <select id="contact-subject" required>
                                     <option value="">Choisissez un sujet</option>
                                     <option value="commande">Question sur une commande</option>
@@ -478,46 +330,21 @@
                                     <option value="autre">Autre</option>
                                 </select>
                             </div>
+
                             <div class="form-group">
-                                <label for="contact-message">
-                                    <i class="fas fa-comment"></i>
-                                    Message *
-                                </label>
+                                <label for="contact-message"><i class="fas fa-comment"></i> Message *</label>
                                 <textarea id="contact-message" rows="5" required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-full">
-                                <i class="fas fa-paper-plane"></i>
-                                Envoyer le message
-                            </button>
+
+                            <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-paper-plane"></i> Envoyer le message</button>
                         </form>
                     </div>
                 </div>
             </div>
-            
+
             <div class="map-section">
                 <div class="map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1010297.2746589311!2d-4.274704349999999!3d5.323550499999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfc1eb7f5d5c85f3%3A0x39a79970ab7a3c7!2sAbidjan!5e0!3m2!1sfr!2sci!4v1718900000000!5m2!1sfr!2sci" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newsletter Section -->
-    <section class="newsletter-section">
-        <div class="container">
-            <div class="newsletter-content">
-                <div class="newsletter-text">
-                    <h3>Restez informé de nos nouveautés</h3>
-                    <p>Recevez nos offres spéciales et découvrez en avant-première nos nouveaux produits</p>
-                </div>
-                <div class="newsletter-form">
-                    <form class="newsletter-form-inner">
-                        <input type="email" placeholder="Votre adresse email" required>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-envelope"></i>
-                            S'abonner
-                        </button>
-                    </form>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.207334389373!2d-4.028831925079495!3d5.325770433793257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfc1eb44cf60c229%3A0x9d5a00b45d3b5d5f!2sPlateau%2C%20Abidjan%2C%20C%C3%B4te%20d&#39;Ivoire!5e0!3m2!1sfr!2sfr!4v1710000000000!5m2!1sfr!2sfr" loading="lazy" title="Localisation de Andy la Boucherie à Abidjan, Plateau"></iframe>
                 </div>
             </div>
         </div>
@@ -528,64 +355,61 @@
         <div class="container">
             <div class="footer-container">
                 <div class="footer-about">
-                    <div class="footer-logo">
+                    <a href="index.html" style="display: inline-block; text-decoration: none;">
                         <div class="logo-content">
-                            <div class="logo-icon">🥩</div>
+                            <div class="logo-icon">
+                                <img src="img/logo Andy.png" alt="Logo Andy la Boucherie" class="logo-img">
+                            </div>
                             <div class="logo-text">
                                 <span class="logo-main">Andy</span>
                                 <span class="logo-sub">la Boucherie</span>
                             </div>
                         </div>
-                    </div>
-                    <p>Boucherie artisanale proposant des viandes de qualité supérieure, sélectionnées avec soin et préparées avec passion depuis plus de 20 ans.</p>
-                    <p>Commandez en ligne et retirez en boutique pour une expérience optimale.</p>
+                    </a>
+                    <p>Votre boucherie premium en ligne. Qualité, fraîcheur et service depuis 2019.</p>
                     <div class="footer-certifications">
                         <div class="certification">
                             <i class="fas fa-certificate"></i>
-                            <span>Certifié Bio</span>
+                            <span>Produits certifiés</span>
                         </div>
                         <div class="certification">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Traçabilité garantie</span>
+                            <i class="fas fa-leaf"></i>
+                            <span>Origine locale</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="footer-links">
-                    <h3>Navigation</h3>
+                    <h3>Liens rapides</h3>
                     <ul>
                         <li><a href="#home">Accueil</a></li>
                         <li><a href="#products">Nos produits</a></li>
+                        <li><a href="restaurants.html">Restaurants</a></li>
                         <li><a href="#process">Comment commander</a></li>
                         <li><a href="#about">À propos</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-links">
-                    <h3>Produits</h3>
+                    <h3>Catégories</h3>
                     <ul>
-                        <li><a href="#products">Bœuf</a></li>
-                        <li><a href="#products">Porc</a></li>
-                        <li><a href="#products">Agneau</a></li>
-                        <li><a href="#products">Volaille</a></li>
-                        <li><a href="#products">Spécialités</a></li>
+                        <li><a href="#products" data-filter="beef">Bœuf</a></li>
+                        <li><a href="#products" data-filter="lamb">Agneau</a></li>
+                        <li><a href="#products" data-filter="ostrich">Autruche</a></li>
+                        <li><a href="#products" data-filter="all">Tous les produits</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-contact">
-                    <h3>Contact rapide</h3>
+                    <h3>Contact</h3>
                     <div class="footer-contact-item">
                         <i class="fas fa-phone"></i>
-                        <a href="tel:+2250700000000">07 00 00 00 00</a>
+                        <a href="tel:+2250700000000">01 01 104 747</a>
                     </div>
                     <div class="footer-contact-item">
                         <i class="fas fa-envelope"></i>
-                        <a href="mailto:contact@andylaboutiqueboucherie.com">contact@andylaboutiqueboucherie.com</a>
-                    </div>
-                    <div class="footer-contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Plateau, Abidjan</span>
+                        <a href="mailto:contact@andylaboutiqueboucherie.com">alaboutiqueboucherie@gmail.com</a>
                     </div>
                     <div class="footer-social">
                         <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
@@ -595,10 +419,10 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
-                    <p>&copy; 2025 Andy la Boucherie - Abidjan, Côte d'Ivoire. Tous droits réservés.</p>
+                    <p>© <span id="year"></span>2025 Andy la Boucherie. Tous droits réservés.</p>
                     <div class="footer-bottom-links">
                         <a href="#">Mentions légales</a>
                         <a href="#">Politique de confidentialité</a>
@@ -610,154 +434,113 @@
     </footer>
 
     <!-- Cart Modal -->
-    <div class="modal modal-modern" id="cart-modal">
+    <div class="modal-modern" id="cart-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">
                     <i class="fas fa-shopping-cart"></i>
-                    <h3>Votre panier</h3>
+                    <h3>Votre Panier</h3>
                 </div>
-                <button class="close-modal">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="close-modal" id="close-modal">&times;</button>
             </div>
-            
             <div class="modal-body">
-                <div id="cart-items-container">
-                    <div class="empty-cart">
-                        <i class="fas fa-shopping-cart"></i>
-                        <h4>Votre panier est vide</h4>
-                        <p>Découvrez nos délicieux produits et ajoutez-les à votre panier</p>
-                    </div>
-                </div>
+                <div id="cart-items-container"></div>
                 
                 <div class="cart-summary">
                     <div class="cart-details">
                         <div class="cart-detail-item">
-                            <span>Sous-total :</span>
+                            <span>Sous-total</span>
                             <span id="cart-subtotal">0 FCFA</span>
                         </div>
                         <div class="cart-detail-item">
-                            <span>Frais de livraison :</span>
-                            <span>Calculé à l'étape suivante</span>
+                            <span>Livraison</span>
+                            <span>Gratuite</span>
                         </div>
                     </div>
-                    
                     <div class="cart-total">
-                        <span>Total :</span>
+                        <span>Total</span>
                         <span id="cart-total">0 FCFA</span>
                     </div>
                     
                     <div class="cart-buttons">
-                        <button class="btn btn-outline" id="continue-shopping">
-                            <i class="fas fa-arrow-left"></i>
-                            Continuer mes achats
-                        </button>
-                        <button class="btn btn-primary" id="checkout-btn">
-                            <i class="fas fa-credit-card"></i>
-                            Passer la commande
-                        </button>
+                        <button class="btn btn-outline" id="continue-shopping">Continuer mes achats</button>
+                        <button class="btn btn-primary" id="checkout-btn">Passer la commande</button>
                     </div>
-                </div>
-                
-                <!-- Checkout Form (hidden by default) -->
-                <div class="checkout-form checkout-form-modern" id="checkout-form">
-                    <div class="checkout-header">
-                        <h3>Informations de livraison</h3>
-                        <p>Remplissez vos informations pour finaliser votre commande</p>
-                    </div>
-                    
-                    <form id="checkout-form-fields">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="first-name">
-                                    <i class="fas fa-user"></i>
-                                    Prénom *
-                                </label>
-                                <input type="text" id="first-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="last-name">
-                                    <i class="fas fa-user"></i>
-                                    Nom *
-                                </label>
-                                <input type="text" id="last-name" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">
-                                    <i class="fas fa-envelope"></i>
-                                    Email *
-                                </label>
-                                <input type="email" id="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">
-                                    <i class="fas fa-phone"></i>
-                                    Téléphone *
-                                </label>
-                                <input type="tel" id="phone" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="delivery-address">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Adresse de livraison *
-                            </label>
-                            <textarea id="delivery-address" rows="3" required></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="comments">
-                                <i class="fas fa-comment"></i>
-                                Instructions spéciales
-                            </label>
-                            <textarea id="comments" rows="2"></textarea>
-                        </div>
-                        
-    <div class="payment-section">
-    <div class="wave-payment-info">
-        <div class="payment-security">
-            <i class="fas fa-shield-alt"></i>
-            <span>Paiement 100% sécurisé</span>
-        </div>
-    </div>
-    
-    <a href="https://pay.jeko.africa/pl/aafb9b53-2952-4c05-bc10-ce89cc21d216" class="btn btn-primary btn-large btn-payment" id="pay-with-wave" target="_blank">
-        <i class="fas fa-credit-card"></i>
-        Payer maintenant
-        <span class="btn-amount" id="btn-amount">0 FCFA</span>
-    </a>
-</div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <h3>Traitement en cours...</h3>
-            <p>Veuillez patienter pendant que nous traitons votre commande</p>
+    <!-- Checkout Form -->
+    <div class="checkout-form-modern" id="checkout-form" style="display: none;">
+        <div class="checkout-header">
+            <h3>Informations de livraison</h3>
+            <p>Remplissez vos informations pour finaliser votre commande</p>
         </div>
+        
+        <form id="checkout-form-fields">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first-name"><i class="fas fa-user"></i> Prénom *</label>
+                    <input type="text" id="first-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-name"><i class="fas fa-user"></i> Nom *</label>
+                    <input type="text" id="last-name" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email *</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone"><i class="fas fa-phone"></i> Téléphone *</label>
+                    <input type="tel" id="phone" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="delivery-address"><i class="fas fa-map-marker-alt"></i> Adresse de livraison *</label>
+                <textarea id="delivery-address" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="delivery-notes"><i class="fas fa-sticky-note"></i> Notes de livraison (optionnel)</label>
+                <textarea id="delivery-notes" rows="2"></textarea>
+            </div>
+            
+            <div class="payment-section">
+                <h3>Paiement</h3>
+                <div class="payment-info">
+                    <div class="payment-security">
+                        <i class="fas fa-lock"></i>
+                        <span>Paiement 100% sécurisé</span>
+                    </div>
+                    <p>Vos informations de paiement sont cryptées et protégées.</p>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-large btn-full" id="pay-now-btn">
+                    <i class="fas fa-lock"></i>
+                    Payer maintenant
+                    <span class="btn-amount" id="btn-amount">0 FCFA</span>
+                </button>
+            </div>
+        </form>
     </div>
 
     <!-- Success Modal -->
-    <div class="modal success-modal" id="success-modal">
+    <div class="modal-modern success-modal" id="success-modal">
         <div class="modal-content">
             <div class="success-content">
                 <div class="success-icon">
-                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-check"></i>
                 </div>
                 <h3>Commande confirmée !</h3>
-                <p>Votre commande a été enregistrée avec succès. Vous allez être redirigé vers Jeko pour le paiement.</p>
+                <p>Votre commande a été enregistrée avec succès. Notre équipe vous contactera dans les plus brefs délais pour confirmer la livraison.</p>
                 <div class="success-buttons">
-                    <button class="btn btn-primary" id="close-success">Parfait !</button>
+                    <button class="btn btn-primary" id="close-success">Fermer</button>
                 </div>
             </div>
         </div>
@@ -768,7 +551,145 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toast">
+        <div class="toast-content">
+            <div class="toast-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="toast-text">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>Traitement en cours</h3>
+            <p>Veuillez patienter...</p>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="script.js"></script>
+    <script>
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mettre à jour l'année dans le footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Mobile menu toggle
+            const mobileToggle = document.getElementById('mobile-menu-toggle');
+            const nav = document.querySelector('.nav-modern');
+            
+            mobileToggle?.addEventListener('click', () => {
+                mobileToggle.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+            
+            // Fermer le menu mobile en cliquant sur un lien
+            document.querySelectorAll('.nav-modern a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                });
+            });
+            
+            // Smooth scroll pour les ancres
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Gestion du formulaire de contact
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const formData = {
+                        name: document.getElementById('contact-name')?.value.trim(),
+                        email: document.getElementById('contact-email')?.value.trim(),
+                        subject: document.getElementById('contact-subject')?.value,
+                        message: document.getElementById('contact-message')?.value.trim()
+                    };
+                    
+                    // Validation côté client
+                    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+                        showToast('Veuillez remplir tous les champs', 'Erreur');
+                        return;
+                    }
+                    
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(formData.email)) {
+                        showToast('Veuillez entrer une adresse email valide', 'Erreur');
+                        return;
+                    }
+                    
+                    try {
+                        // Envoi au serveur
+                        const response = await fetch('/api/contact', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            showToast('Votre message a été envoyé avec succès !', 'Succès');
+                            this.reset();
+                        } else {
+                            showToast(result.error || 'Une erreur est survenue', 'Erreur');
+                        }
+                    } catch (error) {
+                        console.error('Erreur lors de l\'envoi du formulaire:', error);
+                        showToast('Impossible d\'envoyer le message. Veuillez réessayer.', 'Erreur');
+                    }
+                });
+            }
+        });
+        
+        // Fonction pour afficher les toasts
+        function showToast(message, title = 'Notification') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            
+            toast.querySelector('.toast-title').textContent = title;
+            toast.querySelector('.toast-message').textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+            
+            // Fermeture manuelle
+            toast.querySelector('.toast-close').addEventListener('click', () => {
+                toast.classList.remove('show');
+            });
+        }
+        
+        // Exposer la fonction pour les autres scripts
+        window.showToast = showToast;
+    </script>
 </body>
 </html>

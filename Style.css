@@ -33,6 +33,17 @@ h2 {
     padding-bottom: 0.5rem;
 }
 
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #4a8c2b 0%, #5ba832 100%);
+    border-radius: 2px;
+}
+
 h3 {
     font-size: clamp(1.5rem, 3vw, 2rem);
     color: #2c5e1a;
@@ -40,7 +51,7 @@ h3 {
 
 p {
     margin-bottom: 1rem;
-    color: #ffffff;
+    color: #333;
 }
 
 a {
@@ -170,6 +181,11 @@ img {
     transform: scale(1.05);
 }
 
+.btn.small {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+}
+
 /* Sections */
 .section {
     padding: 100px 0;
@@ -241,6 +257,19 @@ img {
 .logo-icon {
     font-size: 2.5rem;
     filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+}
+
+.logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .logo-text {
@@ -364,6 +393,7 @@ img {
     color: white;
     position: relative;
     overflow: hidden;
+    margin-top: 76px;
 }
 
 .hero-modern::before {
@@ -397,7 +427,7 @@ img {
     font-weight: 600;
 }
 
-.hero h1 {
+.hero-modern h1 {
     color: white;
     margin-bottom: 20px;
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
@@ -422,29 +452,6 @@ img {
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
-}
-
-.hero-scroll {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-}
-
-.scroll-indicator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    cursor: pointer;
-    animation: bounce 2s infinite;
-}
-
-.scroll-indicator span {
-    font-size: 0.9rem;
-    font-weight: 500;
 }
 
 /* About Modern */
@@ -572,6 +579,120 @@ img {
 /* Products Modern */
 .products-modern {
     position: relative;
+    background: linear-gradient(135deg, #f0f7ec 0%, #e8f5e0 100%);
+}
+
+/* Restaurants Modern */
+.restaurants-modern {
+    position: relative;
+    background: white;
+}
+
+.restaurants-hero {
+    margin-top: 76px;
+    min-height: 60vh;
+}
+
+.nav-modern ul li a.active {
+    color: #4a8c2b;
+    font-weight: 600;
+}
+
+.nav-modern ul li a.active::after {
+    width: 100%;
+}
+
+.filter-btn-restaurant {
+    padding: 12px 24px;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    color: #666;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn-restaurant:hover,
+.filter-btn-restaurant.active {
+    background: #4a8c2b;
+    border-color: #4a8c2b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 140, 43, 0.3);
+}
+
+.restaurant-product-card .product-price {
+    display: none;
+}
+
+.restaurant-cart-preview {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.restaurant-cart-preview.has-items {
+    background: linear-gradient(135deg, #4a8c2b 0%, #5ba832 100%);
+    color: white;
+}
+
+.restaurant-cart-preview-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-weight: 600;
+}
+
+.quote-items-list {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.quote-items-list h4 {
+    color: #2c5e1a;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.quote-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid #4a8c2b;
+}
+
+.quote-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.quote-item-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.quote-item-quantity {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.quote-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
 }
 
 .product-filters {
@@ -829,6 +950,10 @@ img {
 }
 
 /* Process Modern */
+.process-modern {
+    background: white;
+}
+
 .process-modern .process-steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -927,6 +1052,10 @@ img {
 }
 
 /* Why Modern */
+.why-modern {
+    background: linear-gradient(135deg, #f0f7ec 0%, #e8f5e0 100%);
+}
+
 .why-modern .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -987,7 +1116,7 @@ img {
 
 /* Testimonials Modern */
 .testimonials-modern {
-    margin-top: 80px;
+    background: white;
 }
 
 .testimonial-slider {
@@ -1063,6 +1192,10 @@ img {
 }
 
 /* Contact Modern */
+.contact-modern {
+    background: white;
+}
+
 .contact-modern .contact-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1156,7 +1289,7 @@ img {
 }
 
 .social-link.facebook { background: #3b5998; }
-.social-link.instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
+.social-link.instagram { background: #e4405f; }
 .social-link.twitter { background: #1da1f2; }
 .social-link.whatsapp { background: #25d366; }
 
@@ -1232,49 +1365,6 @@ img {
     width: 100%;
     height: 100%;
     border: none;
-}
-
-/* Newsletter Section */
-.newsletter-section {
-    background: linear-gradient(135deg, #2c5e1a 0%, #4a8c2b 100%);
-    color: white;
-    padding: 80px 0;
-}
-
-.newsletter-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
-}
-
-.newsletter-text h3 {
-    color: white;
-    font-size: 2rem;
-    margin-bottom: 15px;
-}
-
-.newsletter-text p {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1.1rem;
-}
-
-.newsletter-form-inner {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-}
-
-.newsletter-form-inner input {
-    flex: 1;
-    padding: 15px 20px;
-    border: none;
-    border-radius: 50px;
-    font-size: 1rem;
-}
-
-.newsletter-form-inner button {
-    white-space: nowrap;
 }
 
 /* Footer Modern */
@@ -1517,6 +1607,11 @@ img {
     margin-bottom: 10px;
 }
 
+.empty-cart p {
+    color: #666;
+    margin: 0;
+}
+
 /* Cart Items */
 .modern-cart-item {
     display: flex;
@@ -1702,15 +1797,6 @@ img {
     gap: 15px;
 }
 
-.jeko-logo {
-    background: linear-gradient(135deg, #4a8c2b 0%, #5ba832 100%);
-    color: white;
-    padding: 5px 15px;
-    border-radius: 15px;
-    font-weight: 700;
-    font-size: 0.9rem;
-}
-
 /* Loading Overlay */
 .loading-overlay {
     display: none;
@@ -1770,7 +1856,7 @@ img {
 .success-icon {
     width: 100px;
     height: 100px;
-    background: linear-gradient(135deg, #28a745 0%, #34ce57 100%);
+    background: linear-gradient(135deg, #4a8c2b 0%, #5ba832 100%);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -1782,7 +1868,7 @@ img {
 }
 
 .success-content h3 {
-    color: #28a745;
+    color: #2c5e1a;
     margin-bottom: 15px;
 }
 
@@ -1855,7 +1941,7 @@ img {
 .toast-icon {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #28a745 0%, #34ce57 100%);
+    background: linear-gradient(135deg, #4a8c2b 0%, #5ba832 100%);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -1913,7 +1999,7 @@ img {
 }
 
 .success-message {
-    background: #28a745;
+    background: #4a8c2b;
 }
 
 .error-message.show,
@@ -2036,12 +2122,6 @@ img {
         gap: 40px;
     }
     
-    .newsletter-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        text-align: center;
-    }
-    
     .footer-container {
         grid-template-columns: 1fr 1fr;
         gap: 30px;
@@ -2125,11 +2205,6 @@ img {
     .form-row {
         grid-template-columns: 1fr;
         gap: 20px;
-    }
-    
-    .newsletter-form-inner {
-        flex-direction: column;
-        gap: 15px;
     }
     
     .footer-container {
@@ -2243,22 +2318,18 @@ img {
     }
 }
 
-/* Styles manquants */
-.wave-payment-info {
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 10px;
+/* Styles spécifiques pour restaurant.html */
+.promo-ticker {
+    background: linear-gradient(135deg, #4a8c2b 0%, #5ba832 100%);
+    color: white;
+    padding: 10px 0;
+    margin-top: 76px;
+    overflow: hidden;
 }
 
-.payment-security {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: #4a8c2b;
+.promo-ticker marquee {
     font-weight: 600;
+    font-size: 0.95rem;
 }
 
 .no-products {
@@ -2267,77 +2338,6 @@ img {
     padding: 40px;
     color: #666;
     font-size: 1.1rem;
-}
-
-/* Animation pour le défilement */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Correction pour l'animation des cartes produits */
-.modern-product-card {
-    animation: fadeIn 0.6s ease forwards;
-}
-
-/* Correction pour le responsive du header */
-@media (max-width: 768px) {
-    .header-container {
-        padding: 10px 0;
-    }
-    
-    .logo-content {
-        flex: 1;
-    }
-    
-    .modern-cart {
-        margin-left: auto;
-        margin-right: 15px;
-    }
-}
-
-/* Styles manquants */
-.wave-payment-info {
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 10px;
-}
-
-.wave-payment-info p {
-    margin: 10px 0 0;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.payment-security {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: #4a8c2b;
-    font-weight: 600;
-}
-
-.no-products {
-    text-align: center;
-    grid-column: 1 / -1;
-    padding: 40px;
-    color: #666;
-    font-size: 1.1rem;
-}
-
-/* Animation pour le défilement */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Correction pour l'animation des cartes produits */
-.modern-product-card {
-    animation: fadeIn 0.6s ease forwards;
-    opacity: 0;
 }
 
 /* Correction pour le responsive du header */
@@ -2373,25 +2373,7 @@ img {
     animation: bounce 0.5s ease;
 }
 
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-5px);
-    }
-    60% {
-        transform: translateY(-3px);
-    }
-}
-
-/* Corrections pour l'affichage des produits */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
-    margin-bottom: 60px;
-}
+/* Les styles .products-grid sont déjà définis plus haut */
 
 /* Amélioration de la responsivité */
 @media (max-width: 768px) {
@@ -2439,68 +2421,14 @@ img {
     box-shadow: 0 5px 15px rgba(74, 140, 43, 0.3);
 }
 
-/* Correction pour l'image de produit */
+/* Les styles .product-image sont déjà définis plus haut, ajout du background pour les images manquantes */
 .product-image {
-    position: relative;
-    height: 250px;
-    overflow: hidden;
     background: #f8f9fa;
 }
 
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
+/* Les styles .modern-product-card sont déjà définis plus haut, pas besoin de duplication */
 
-/* Amélioration de l'animation des cartes */
-.modern-product-card {
-    background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    position: relative;
-    animation: fadeInUp 0.6s ease forwards;
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.modern-product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Correction pour les prix */
-.product-price {
-    display: flex;
-    align-items: baseline;
-    gap: 5px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.price-amount {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #4a8c2b;
-}
-
-.price-unit {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-/* Style spécial pour le produit personnalisé */
-.modern-product-card[data-category="custom"] {
-    border: 2px dashed #4a8c2b;
-}
-
-.modern-product-card[data-category="custom"] .product-price {
-    color: #4a8c2b;
-    font-style: italic;
-}
+/* Les styles .product-price sont déjà définis plus haut */
 
 /* Correction pour le header mobile */
 @media (max-width: 768px) {
@@ -2521,23 +2449,7 @@ img {
     }
 }
 
-/* Amélioration de la lisibilité */
-.product-info {
-    padding: 25px;
-}
-
-.product-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #2c5e1a;
-    line-height: 1.3;
-}
-
+/* Amélioration de la lisibilité - consolidation avec les styles existants */
 .product-description {
-    color: #666;
-    font-size: 0.95rem;
-    margin-bottom: 20px;
-    line-height: 1.5;
     min-height: 60px;
 }
