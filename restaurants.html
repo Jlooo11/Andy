@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Espace Restaurants - Andy la Boucherie</title>
+    <meta name="description" content="Commandes en gros et devis personnalisés pour les professionnels de la restauration">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥩</text></svg>">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-modern">
+        <div class="container header-container">
+            <div class="logo-content">
+                <a href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                    <div class="logo-icon">
+                        <img src="img/logo Andy.png" alt="Logo Andy la Boucherie" class="logo-img">
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main">Andy</span>
+                        <span class="logo-sub">la Boucherie</span>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="nav-modern">
+                <ul>
+                    <li><a href="index.html#home">Accueil</a></li>
+                    <li><a href="index.html#products">Nos produits</a></li>
+                    <li><a href="restaurants.html" class="active">Restaurants</a></li>
+                    <li><a href="index.html#process">Comment commander</a></li>
+                    <li><a href="index.html#about">À propos</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="cart-icon modern-cart" id="cart-icon" title="Voir le panier" style="display: none;">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Menu mobile" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Restaurants Hero Section -->
+    <section class="hero-modern restaurants-hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-utensils"></i>
+                <span>Espace Professionnel</span>
+            </div>
+            <h1>Espace Restaurants</h1>
+            <p class="hero-subtitle">Commandes en gros et devis personnalisés</p>
+            <p class="hero-description">Découvrez notre catalogue de produits premium pour professionnels de la restauration. Demandez un devis personnalisé selon vos besoins.</p>
+        </div>
+    </section>
+
+    <!-- Restaurants Section -->
+    <section id="restaurants" class="section restaurants-modern">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-badge">Professionnels</span>
+                <h2>Notre Catalogue Produits</h2>
+                <p class="section-subtitle">Sélectionnez les produits qui vous intéressent et demandez un devis personnalisé.</p>
+            </div>
+
+            <div class="product-filters">
+                <button class="filter-btn-restaurant active" data-filter="all">Tous</button>
+                <button class="filter-btn-restaurant" data-filter="beef">Bœuf</button>
+                <button class="filter-btn-restaurant" data-filter="lamb">Agneau</button>
+                <button class="filter-btn-restaurant" data-filter="ostrich">Autruche</button>
+            </div>
+
+            <div class="products-grid" id="restaurants-grid">
+                <!-- Produits chargés dynamiquement via JS -->
+            </div>
+
+            <div class="text-center restaurant-cart-section">
+                <div class="restaurant-cart-preview" id="restaurant-cart-preview">
+                    <div class="restaurant-cart-preview-content">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span class="restaurant-cart-preview-text">Aucun produit sélectionné</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-large" id="request-quote-btn">
+                    <i class="fas fa-file-invoice"></i>
+                    Demander un devis
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-modern">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="logo-content">
+                        <div class="logo-icon">
+                            <img src="img/logo Andy.png" alt="Logo Andy la Boucherie" class="logo-img">
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-main">Andy</span>
+                            <span class="logo-sub">la Boucherie</span>
+                        </div>
+                    </div>
+                    <p>Votre boucherie premium en ligne. Qualité, fraîcheur et service depuis 2019.</p>
+                    <div class="footer-certifications">
+                        <div class="certification">
+                            <i class="fas fa-certificate"></i>
+                            <span>Produits certifiés</span>
+                        </div>
+                        <div class="certification">
+                            <i class="fas fa-leaf"></i>
+                            <span>Origine locale</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="index.html#home">Accueil</a></li>
+                        <li><a href="index.html#products">Nos produits</a></li>
+                        <li><a href="restaurants.html">Restaurants</a></li>
+                        <li><a href="index.html#process">Comment commander</a></li>
+                        <li><a href="index.html#about">À propos</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Catégories</h3>
+                    <ul>
+                        <li><a href="index.html#products" data-filter="beef">Bœuf</a></li>
+                        <li><a href="index.html#products" data-filter="lamb">Agneau</a></li>
+                        <li><a href="index.html#products" data-filter="ostrich">Autruche</a></li>
+                        <li><a href="index.html#products" data-filter="all">Tous les produits</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+2250700000000">01 01 104 747</a>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:alaboutiqueboucherie@gmail.com">alaboutiqueboucherie@gmail.com</a>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>© <span id="year"></span>2025 Andy la Boucherie. Tous droits réservés.</p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Mentions légales</a>
+                        <a href="#">Politique de confidentialité</a>
+                        <a href="#">CGV</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Restaurant Quote Modal -->
+    <div class="modal-modern" id="restaurant-quote-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-file-invoice"></i>
+                    <h3>Demande de Devis</h3>
+                </div>
+                <button class="close-modal" id="close-quote-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="restaurant-quote-items"></div>
+                
+                <form id="restaurant-quote-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="restaurant-name"><i class="fas fa-building"></i> Nom du restaurant *</label>
+                            <input type="text" id="restaurant-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="restaurant-contact"><i class="fas fa-user"></i> Nom du contact *</label>
+                            <input type="text" id="restaurant-contact" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="restaurant-email"><i class="fas fa-envelope"></i> Email *</label>
+                            <input type="email" id="restaurant-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="restaurant-phone"><i class="fas fa-phone"></i> Téléphone *</label>
+                            <input type="tel" id="restaurant-phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="restaurant-address"><i class="fas fa-map-marker-alt"></i> Adresse du restaurant *</label>
+                        <textarea id="restaurant-address" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="restaurant-notes"><i class="fas fa-sticky-note"></i> Notes ou demandes particulières</label>
+                        <textarea id="restaurant-notes" rows="3" placeholder="Quantités souhaitées, fréquence de livraison, etc."></textarea>
+                    </div>
+                    
+                    <div class="quote-buttons">
+                        <button type="button" class="btn btn-outline" id="cancel-quote">Annuler</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Envoyer la demande
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-modern success-modal" id="success-modal">
+        <div class="modal-content">
+            <div class="success-content">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3>Demande envoyée !</h3>
+                <p>Votre demande de devis a été enregistrée avec succès. Notre équipe vous contactera dans les plus brefs délais.</p>
+                <div class="success-buttons">
+                    <button class="btn btn-primary" id="close-success">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toast">
+        <div class="toast-content">
+            <div class="toast-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="toast-text">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Initialisation spécifique pour la page restaurants
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mettre à jour l'année dans le footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // Mobile menu toggle
+            const mobileToggle = document.getElementById('mobile-menu-toggle');
+            const nav = document.querySelector('.nav-modern');
+            
+            mobileToggle?.addEventListener('click', () => {
+                mobileToggle.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+            
+            // Fermer le menu mobile en cliquant sur un lien
+            document.querySelectorAll('.nav-modern a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                });
+            });
+            
+            // Smooth scroll pour les ancres
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+        
+        // Fonction pour afficher les toasts
+        function showToast(message, title = 'Notification') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            
+            toast.querySelector('.toast-title').textContent = title;
+            toast.querySelector('.toast-message').textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+            
+            // Fermeture manuelle
+            toast.querySelector('.toast-close').addEventListener('click', () => {
+                toast.classList.remove('show');
+            });
+        }
+        
+        // Exposer la fonction pour les autres scripts
+        window.showToast = showToast;
+    </script>
+</body>
+</html>
