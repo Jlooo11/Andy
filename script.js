@@ -850,15 +850,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialiser le gestionnaire d'UI
     const uiManager = new UIManager();
     
-    // Smooth scroll pour les liens d'ancrage
+    // Smooth scroll pour les liens d'ancrage (seulement ceux qui pointent vers des ancres sur la même page)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
-            if (href === '#') return;
+            if (href === '#' || href === '#!') return;
             
-            e.preventDefault();
+            // Vérifier que l'ancre existe sur la page
             const target = document.querySelector(href);
             if (target) {
+                e.preventDefault();
+                
                 // Fermer le menu mobile si ouvert
                 if (uiManager.elements.nav?.classList.contains('active')) {
                     uiManager.toggleMobileMenu(false);
@@ -869,6 +871,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
             }
+            // Si l'ancre n'existe pas, laisser le comportement par défaut (navigation normale)
         });
     });
     

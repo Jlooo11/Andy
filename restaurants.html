@@ -7,229 +7,393 @@
     <meta name="description" content="Commandes en gros et devis personnalisés pour les professionnels de la restauration">
     <meta name="keywords" content="restaurant, professionnel, gros, devis, viande, boucherie, fournisseur">
     
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥩</text></svg>">
-
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Styles -->
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="Style.css">
     
-    <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="Espace Restaurants - Andy la Boucherie">
-    <meta property="og:description" content="Fournisseur de viandes premium pour les professionnels de la restauration">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/logo Andy.png">
+    
+    <!-- jsPDF pour génération PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header-modern" role="banner">
-        <div class="container header-container">
-            <div class="logo-content">
-                <a href="index.html" aria-label="Retour à l'accueil" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-                    <div class="logo-icon" aria-hidden="true">
-                        <img src="img/logo Andy.png" alt="Logo Andy la Boucherie" class="logo-img" loading="lazy">
+    <!-- Header identique au site principal -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-image">
+                        <img src="img/logo Andy.png" alt="Andy la boutique boucherie" class="logo-img">
                     </div>
                     <div class="logo-text">
-                        <span class="logo-main">Andy</span>
-                        <span class="logo-sub">la Boucherie</span>
+                        <h1 class="logo-title">Andy</h1>
+                        <p class="logo-subtitle">la boutique Boucherie</p>
                     </div>
                 </a>
+                
+                <button class="mobile-menu-btn" aria-label="Menu mobile" aria-expanded="false">
+                    <span class="menu-line"></span>
+                    <span class="menu-line"></span>
+                    <span class="menu-line"></span>
+                </button>
+                
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="#home" class="nav-link active">Accueil</a></li>
+                        <li><a href="#products" class="nav-link">Nos Produits</a></li>
+                        <li><a href="#restaurants" class="nav-link">Restaurants</a></li>
+                        <li><a href="#process" class="nav-link">Commander</a></li>
+                        <li><a href="#about" class="nav-link">À propos</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="cart-btn" aria-label="Panier professionnel" id="restaurantCartBtn">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span class="cart-count" id="restaurantCartCount">0</span>
+                    </button>
+                </div>
             </div>
-
-            <nav class="nav-modern" role="navigation" aria-label="Menu principal">
-                <ul role="menubar">
-                    <li role="none"><a href="index.html#home" role="menuitem">Accueil</a></li>
-                    <li role="none"><a href="index.html#products" role="menuitem">Nos produits</a></li>
-                    <li role="none"><a href="restaurants.html" role="menuitem" aria-current="page">Restaurants</a></li>
-                    <li role="none"><a href="index.html#process" role="menuitem">Comment commander</a></li>
-                    <li role="none"><a href="index.html#about" role="menuitem">À propos</a></li>
-                    <li role="none"><a href="index.html#contact" role="menuitem">Contact</a></li>
-                </ul>
-            </nav>
-
-            <div class="cart-icon modern-cart" id="cart-icon" title="Voir le panier" style="display: none;" aria-hidden="true">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">0</span>
-            </div>
-
-            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Menu mobile" aria-expanded="false" aria-controls="mobile-navigation">
-                <span></span><span></span><span></span>
-            </button>
         </div>
     </header>
 
-    <!-- Promo Ticker -->
-    <div class="promo-ticker" role="marquee" aria-label="Promotions pour restaurants">
-        <marquee>
-            🎯 <strong>Professionnels</strong> : Bénéficiez de tarifs préférentiels, de livraisons dédiées et d'un accompagnement personnalisé. 
-            <strong>Demandez votre devis dès maintenant !</strong>
-        </marquee>
-    </div>
-
-    <!-- Restaurants Hero Section -->
-    <section class="hero-modern restaurants-hero" role="region" aria-label="Espace professionnel">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-utensils" aria-hidden="true"></i>
-                <span>Espace Professionnel</span>
+    <!-- Hero Section Restaurants -->
+    <section class="hero" id="restaurant-hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-utensils"></i>
+                    <span>Espace Professionnel</span>
+                </div>
+                
+                <h2 class="hero-title">Fournisseur des meilleurs restaurants</h2>
+                <p class="hero-subtitle">Viandes premium pour professionnels - Tarifs dégressifs</p>
+                <p class="hero-description">Commandez en gros avec des prix préférentiels, une livraison dédiée et un accompagnement personnalisé pour votre établissement.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#restaurant-products" class="btn btn-primary">
+                        <i class="fas fa-book"></i>
+                        Voir le catalogue pro
+                    </a>
+                    <a href="#restaurant-process" class="btn btn-secondary">
+                        <i class="fas fa-play-circle"></i>
+                        Comment commander
+                    </a>
+                </div>
             </div>
-            <h1>Espace Restaurants</h1>
-            <p class="hero-subtitle">Commandes en gros et devis personnalisés</p>
-            <p class="hero-description">Découvrez notre catalogue de produits premium pour professionnels de la restauration. 
-                <br>Demandez un devis personnalisé selon vos besoins spécifiques.</p>
             
-            <div class="hero-buttons">
-                <a href="#restaurants" class="btn btn-primary" aria-label="Voir notre catalogue professionnel">
-                    <i class="fas fa-book" aria-hidden="true"></i>
-                    Voir le catalogue
-                </a>
-                <a href="index.html#contact" class="btn btn-outline-white" aria-label="Contactez-nous pour un partenariat">
-                    <i class="fas fa-handshake" aria-hidden="true"></i>
-                    Devenir partenaire
-                </a>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Service professionnel restauration">
             </div>
         </div>
     </section>
 
-    <!-- Restaurants Section -->
-    <section id="restaurants" class="section restaurants-modern" role="region" aria-label="Catalogue professionnel">
+    <!-- Products Section Restaurants (prix doublés) -->
+    <section class="section products-section" id="restaurant-products">
         <div class="container">
-            <div class="section-header text-center">
-                <span class="section-badge">Professionnels</span>
-                <h2>Notre Catalogue Produits</h2>
-                <p class="section-subtitle">Sélectionnez les produits qui vous intéressent et demandez un devis personnalisé.</p>
+            <div class="section-header">
+                <span class="section-badge">Tarifs Professionnels</span>
+                <h2 class="section-title">Notre catalogue pour restaurants</h2>
+                <p class="section-subtitle">Mêmes produits de qualité, tarifs adaptés aux professionnels de la restauration.</p>
             </div>
-
-            <div class="benefits-section">
+            
+            <div class="professional-benefits">
                 <div class="benefits-grid">
-                    <div class="benefit">
-                        <i class="fas fa-percentage" aria-hidden="true"></i>
-                        <h3>Tarifs dégressifs</h3>
-                        <p>Plus vous commandez, plus vos prix diminuent.</p>
+                    <div class="benefit-card">
+                        <i class="fas fa-percentage"></i>
+                        <h3>Remises volume</h3>
+                        <p>Jusqu'à 20% de remise sur les grosses commandes</p>
                     </div>
-                    <div class="benefit">
-                        <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                        <h3>Livraisons régulières</h3>
-                        <p>Planifiez vos livraisons selon vos besoins.</p>
+                    <div class="benefit-card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>Livraison planifiée</h3>
+                        <p>Programmez vos livraisons selon vos besoins</p>
                     </div>
-                    <div class="benefit">
-                        <i class="fas fa-user-tie" aria-hidden="true"></i>
+                    <div class="benefit-card">
+                        <i class="fas fa-user-tie"></i>
                         <h3>Conseiller dédié</h3>
-                        <p>Un interlocuteur unique pour vos commandes.</p>
+                        <p>Un interlocuteur unique pour vos commandes</p>
                     </div>
-                    <div class="benefit">
-                        <i class="fas fa-truck-loading" aria-hidden="true"></i>
-                        <h3>Flexibilité</h3>
-                        <p>Commandes modifiables jusqu'à 48h avant.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-filters" role="group" aria-label="Filtrer les produits par catégorie">
-                <button class="filter-btn-restaurant active" data-filter="all" aria-pressed="true">Tous les produits</button>
-                <button class="filter-btn-restaurant" data-filter="beef" aria-pressed="false">Bœuf</button>
-                <button class="filter-btn-restaurant" data-filter="lamb" aria-pressed="false">Agneau</button>
-                <button class="filter-btn-restaurant" data-filter="ostrich" aria-pressed="false">Autruche</button>
-            </div>
-
-            <div class="products-grid" id="restaurants-grid" role="list" aria-label="Liste des produits pour professionnels">
-                <!-- Produits chargés dynamiquement via JS -->
-            </div>
-
-            <div class="text-center restaurant-cart-section">
-                <div class="restaurant-cart-preview" id="restaurant-cart-preview" role="status" aria-live="polite">
-                    <div class="restaurant-cart-preview-content">
-                        <i class="fas fa-clipboard-list" aria-hidden="true"></i>
-                        <span class="restaurant-cart-preview-text">Aucun produit sélectionné</span>
+                    <div class="benefit-card">
+                        <i class="fas fa-file-invoice"></i>
+                        <h3>Facturation pro</h3>
+                        <p>Factures détaillées avec TVA et numéro de commande</p>
                     </div>
                 </div>
-
-                <button class="btn btn-primary btn-large" id="request-quote-btn" aria-label="Demander un devis personnalisé">
-                    <i class="fas fa-file-invoice" aria-hidden="true"></i>
+            </div>
+            
+            <div class="category-filters">
+                <button class="filter-btn active" data-filter="all">Tous les produits</button>
+                <button class="filter-btn" data-filter="beef">Bœuf</button>
+                <button class="filter-btn" data-filter="lamb">Agneau</button>
+                <button class="filter-btn" data-filter="ostrich">Autruche</button>
+            </div>
+            
+            <div class="products-grid" id="restaurantProductsGrid">
+                <!-- Produits chargés via JavaScript avec prix doublés -->
+            </div>
+            
+            <div class="cart-preview restaurant-cart-preview">
+                <div class="cart-preview-content">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="cart-preview-text" id="restaurantCartPreviewText">Votre sélection est vide</span>
+                </div>
+                <button class="btn btn-primary" id="restaurantOrderBtn">
+                    <i class="fas fa-file-invoice"></i>
                     Demander un devis
                 </button>
-                
-                <p class="info-note">
-                    <i class="fas fa-info-circle" aria-hidden="true"></i>
-                    Nos devis sont personnalisés selon vos volumes et fréquences de commande.
-                </p>
             </div>
         </div>
     </section>
 
-    <!-- Professional Services -->
-    <section class="section services-modern" role="region" aria-label="Services professionnels">
+    <!-- Process Section Restaurants -->
+    <section class="section process-section" id="restaurant-process">
         <div class="container">
-            <div class="section-header text-center">
-                <span class="section-badge">Services</span>
-                <h2>Nos Services pour Professionnels</h2>
-                <p class="section-subtitle">Nous accompagnons les restaurateurs avec des solutions sur mesure.</p>
+            <div class="section-header">
+                <span class="section-badge">Comment ça marche</span>
+                <h2 class="section-title">Processus de commande professionnel</h2>
+                <p class="section-subtitle">Un accompagnement sur mesure pour votre établissement.</p>
             </div>
+            
+            <div class="process-steps">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">
+                        <i class="fas fa-list-alt"></i>
+                    </div>
+                    <h3 class="step-title">Sélection produits</h3>
+                    <p class="step-description">Choisissez vos produits dans notre catalogue professionnel avec des tarifs dégressifs.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <h3 class="step-title">Demande de devis</h3>
+                    <p class="step-description">Remplissez le formulaire professionnel pour obtenir un devis personnalisé.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="step-title">Validation</h3>
+                    <p class="step-description">Notre équipe vous contacte pour finaliser les détails et valider la commande.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">04</div>
+                    <div class="step-icon">
+                        <i class="fas fa-truck-loading"></i>
+                    </div>
+                    <h3 class="step-title">Livraison pro</h3>
+                    <p class="step-description">Livraison à votre restaurant selon le planning convenu, facture fournie.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-cut" aria-hidden="true"></i>
+    <!-- Restaurant Order Form Section -->
+    <section class="section restaurant-form-section" id="restaurant-form">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Devis Professionnel</span>
+                <h2 class="section-title">Demandez votre devis personnalisé</h2>
+                <p class="section-subtitle">Remplissez ce formulaire pour recevoir un devis adapté à vos besoins.</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h3 class="contact-card-title">Avantages professionnels</h3>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <div class="contact-details">
+                                <strong>Tarifs dégressifs</strong>
+                                <span>Plus vous commandez, plus vous économisez</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="contact-details">
+                                <strong>Livraisons régulières</strong>
+                                <span>Planifiez vos livraisons selon vos besoins</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-user-cog"></i>
+                            </div>
+                            <div class="contact-details">
+                                <strong>Service personnalisé</strong>
+                                <span>Conseils et accompagnement dédiés</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div class="contact-details">
+                                <strong>Facturation pro</strong>
+                                <span>Factures détaillées avec toutes les mentions légales</span>
+                            </div>
+                        </div>
                     </div>
-                    <h3>Découpe sur mesure</h3>
-                    <p>Nous adaptons la découpe de nos viandes selon vos spécifications et vos recettes.</p>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-boxes" aria-hidden="true"></i>
+                
+                <div class="contact-form-container">
+                    <div class="contact-form-card">
+                        <h3 class="contact-form-title">Formulaire de devis</h3>
+                        <form id="restaurantOrderForm" class="contact-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="restaurant-name">
+                                        <i class="fas fa-building"></i>
+                                        Nom du restaurant *
+                                    </label>
+                                    <input type="text" id="restaurant-name" required placeholder="Ex: Le Bistrot Gourmand">
+                                </div>
+                                <div class="form-group">
+                                    <label for="restaurant-contact">
+                                        <i class="fas fa-user-tie"></i>
+                                        Nom du responsable *
+                                    </label>
+                                    <input type="text" id="restaurant-contact" required placeholder="Nom et prénom">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="restaurant-email">
+                                        <i class="fas fa-envelope"></i>
+                                        Email professionnel *
+                                    </label>
+                                    <input type="email" id="restaurant-email" required placeholder="contact@votrerestaurant.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="restaurant-phone">
+                                        <i class="fas fa-phone"></i>
+                                        Téléphone *
+                                    </label>
+                                    <input type="tel" id="restaurant-phone" required placeholder="01 01 104 747">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="restaurant-address">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Adresse de livraison *
+                                </label>
+                                <textarea id="restaurant-address" rows="3" required placeholder="Adresse complète de votre établissement"></textarea>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="restaurant-type">
+                                        <i class="fas fa-utensils"></i>
+                                        Type d'établissement *
+                                    </label>
+                                    <select id="restaurant-type" required>
+                                        <option value="">Sélectionnez...</option>
+                                        <option value="restaurant">Restaurant</option>
+                                        <option value="hotel">Hôtel/Résidence</option>
+                                        <option value="catering">Traiteur</option>
+                                        <option value="canteen">Cantine d'entreprise</option>
+                                        <option value="events">Événementiel</option>
+                                        <option value="other">Autre</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="delivery-frequency">
+                                        <i class="fas fa-truck"></i>
+                                        Fréquence souhaitée *
+                                    </label>
+                                    <select id="delivery-frequency" required>
+                                        <option value="">Sélectionnez...</option>
+                                        <option value="daily">Quotidienne</option>
+                                        <option value="weekly">Hebdomadaire</option>
+                                        <option value="biweekly">Bi-hebdomadaire</option>
+                                        <option value="monthly">Mensuelle</option>
+                                        <option value="occasional">Occasionnelle</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="special-notes">
+                                    <i class="fas fa-sticky-note"></i>
+                                    Notes ou demandes spéciales
+                                </label>
+                                <textarea id="special-notes" rows="4" placeholder="Découpe spécifique, conditionnement particulier, horaires de livraison..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="agree-terms" required>
+                                    <label for="agree-terms">
+                                        J'accepte les conditions générales de vente professionnelles *
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-full">
+                                <i class="fas fa-paper-plane"></i>
+                                Envoyer la demande de devis
+                            </button>
+                        </form>
                     </div>
-                    <h3>Conditionnement spécial</h3>
-                    <p>Emballages adaptés à vos besoins : sous-vide, portions individuelles, etc.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-chart-line" aria-hidden="true"></i>
-                    </div>
-                    <h3>Analyse de consommation</h3>
-                    <p>Nous vous aidons à optimiser vos stocks et réduire vos coûts.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-headset" aria-hidden="true"></i>
-                    </div>
-                    <h3>Support prioritaire</h3>
-                    <p>Une équipe dédiée pour répondre à vos urgences et besoins spécifiques.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer-modern" role="contentinfo">
+    <footer class="footer">
         <div class="container">
-            <div class="footer-container">
+            <div class="footer-content">
                 <div class="footer-about">
-                    <div class="logo-content">
-                        <div class="logo-icon">
-                            <img src="img/logo Andy.png" alt="Logo Andy la Boucherie" class="logo-img" loading="lazy">
+                    <a href="index.html" class="footer-logo">
+                        <div class="logo-image">
+                            <img src="img/logo Andy.png" alt="Andy la Boucherie" class="logo-img">
                         </div>
                         <div class="logo-text">
-                            <span class="logo-main">Andy</span>
-                            <span class="logo-sub">la Boucherie</span>
+                            <h3 class="logo-title">Andy</h3>
+                            <p class="logo-subtitle">la Boucherie</p>
                         </div>
-                    </div>
-                    <p>Votre boucherie premium en ligne. Qualité, fraîcheur et service depuis 2019.</p>
-                    <div class="footer-certifications">
+                    </a>
+                    <p class="footer-description">Votre boucherie premium en ligne. Qualité, fraîcheur et service depuis 2019.</p>
+                    
+                    <div class="certifications">
                         <div class="certification">
-                            <i class="fas fa-certificate" aria-hidden="true"></i>
+                            <i class="fas fa-certificate"></i>
                             <span>Produits certifiés</span>
                         </div>
                         <div class="certification">
-                            <i class="fas fa-leaf" aria-hidden="true"></i>
+                            <i class="fas fa-leaf"></i>
                             <span>Origine locale</span>
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="footer-links">
-                    <h3>Liens rapides</h3>
-                    <ul>
+                    <h4 class="footer-title">Liens rapides</h4>
+                    <ul class="footer-list">
                         <li><a href="index.html#home">Accueil</a></li>
                         <li><a href="index.html#products">Nos produits</a></li>
                         <li><a href="restaurants.html">Restaurants</a></li>
@@ -238,47 +402,48 @@
                         <li><a href="index.html#contact">Contact</a></li>
                     </ul>
                 </div>
-
+                
                 <div class="footer-links">
-                    <h3>Catégories</h3>
-                    <ul>
+                    <h4 class="footer-title">Catégories</h4>
+                    <ul class="footer-list">
                         <li><a href="index.html#products" data-filter="beef">Bœuf</a></li>
                         <li><a href="index.html#products" data-filter="lamb">Agneau</a></li>
                         <li><a href="index.html#products" data-filter="ostrich">Autruche</a></li>
                         <li><a href="index.html#products" data-filter="all">Tous les produits</a></li>
                     </ul>
                 </div>
-
+                
                 <div class="footer-contact">
-                    <h3>Contact Pro</h3>
-                    <div class="footer-contact-item">
-                        <i class="fas fa-phone" aria-hidden="true"></i>
+                    <h4 class="footer-title">Contact Pro</h4>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
                         <a href="tel:+2250101104747">01 01 104 747</a>
                     </div>
-                    <div class="footer-contact-item">
-                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
                         <a href="mailto:alaboutiqueboucherie@gmail.com">alaboutiqueboucherie@gmail.com</a>
                     </div>
+                    
                     <div class="footer-social">
                         <a href="#" class="social-link facebook" aria-label="Facebook">
-                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                            <i class="fab fa-facebook-f"></i>
                         </a>
                         <a href="#" class="social-link instagram" aria-label="Instagram">
-                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                            <i class="fab fa-instagram"></i>
                         </a>
                         <a href="#" class="social-link twitter" aria-label="Twitter">
-                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                            <i class="fab fa-twitter"></i>
                         </a>
                         <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
-                            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                            <i class="fab fa-whatsapp"></i>
                         </a>
                     </div>
                 </div>
             </div>
-
+            
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
-                    <p>© <span id="year">2025</span> Andy la Boucherie. Tous droits réservés.</p>
+                    <p>&copy; <span id="currentYear">2025</span> Andy la Boucherie. Tous droits réservés.</p>
                     <div class="footer-bottom-links">
                         <a href="#">Mentions légales</a>
                         <a href="#">Politique de confidentialité</a>
@@ -289,119 +454,68 @@
         </div>
     </footer>
 
-    <!-- Restaurant Quote Modal -->
-    <div class="modal-modern" id="restaurant-quote-modal" role="dialog" aria-labelledby="quote-modal-title" aria-hidden="true">
+    <!-- Cart Modal Restaurants -->
+    <div class="modal cart-modal" id="restaurantCartModal">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">
-                    <i class="fas fa-file-invoice" aria-hidden="true"></i>
-                    <h3 id="quote-modal-title">Demande de Devis Professionnel</h3>
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Votre Sélection Pro</h3>
                 </div>
-                <button class="close-modal" id="close-quote-modal" aria-label="Fermer">&times;</button>
+                <button class="close-modal" aria-label="Fermer">&times;</button>
             </div>
             <div class="modal-body">
-                <div id="restaurant-quote-items"></div>
-                
-                <form id="restaurant-quote-form" aria-label="Formulaire de demande de devis">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="restaurant-name">
-                                <i class="fas fa-building" aria-hidden="true"></i> 
-                                Nom du restaurant *
-                            </label>
-                            <input type="text" id="restaurant-name" required aria-required="true" placeholder="Ex : Le Bistrot Gourmand">
+                <div id="restaurantCartItems"></div>
+                <div class="cart-summary">
+                    <div class="cart-totals">
+                        <div class="total-item">
+                            <span>Sous-total</span>
+                            <span id="restaurantCartSubtotal">0 FCFA</span>
                         </div>
-                        <div class="form-group">
-                            <label for="restaurant-contact">
-                                <i class="fas fa-user" aria-hidden="true"></i> 
-                                Nom du contact *
-                            </label>
-                            <input type="text" id="restaurant-contact" required aria-required="true" placeholder="Nom et prénom">
+                        <div class="total-item">
+                            <span>Livraison</span>
+                            <span>Sur devis</span>
+                        </div>
+                        <div class="total-item grand-total">
+                            <span>Total estimé</span>
+                            <span id="restaurantCartTotal">0 FCFA</span>
                         </div>
                     </div>
                     
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="restaurant-email">
-                                <i class="fas fa-envelope" aria-hidden="true"></i> 
-                                Email professionnel *
-                            </label>
-                            <input type="email" id="restaurant-email" required aria-required="true" placeholder="contact@votrerestaurant.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="restaurant-phone">
-                                <i class="fas fa-phone" aria-hidden="true"></i> 
-                                Téléphone *
-                            </label>
-                            <input type="tel" id="restaurant-phone" required aria-required="true" placeholder="Votre numéro professionnel">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="restaurant-address">
-                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i> 
-                            Adresse du restaurant *
-                        </label>
-                        <textarea id="restaurant-address" rows="3" required aria-required="true" placeholder="Adresse complète pour la livraison"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="restaurant-type">
-                            <i class="fas fa-utensils" aria-hidden="true"></i> 
-                            Type d'établissement *
-                        </label>
-                        <select id="restaurant-type" required aria-required="true">
-                            <option value="">Sélectionnez...</option>
-                            <option value="restaurant">Restaurant</option>
-                            <option value="hotel">Hôtel</option>
-                            <option value="catering">Traiteur</option>
-                            <option value="canteen">Cantine</option>
-                            <option value="other">Autre</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="restaurant-notes">
-                            <i class="fas fa-sticky-note" aria-hidden="true"></i> 
-                            Notes ou demandes particulières
-                        </label>
-                        <textarea id="restaurant-notes" rows="3" placeholder="Quantités souhaitées, fréquence de livraison, découpe spécifique..."></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="newsletter-consent">
-                            <label for="newsletter-consent">
-                                J'accepte de recevoir les offres spéciales et nouveautés pour professionnels
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="quote-buttons">
-                        <button type="button" class="btn btn-outline" id="cancel-quote" aria-label="Annuler la demande">
-                            Annuler
+                    <div class="cart-actions">
+                        <button class="btn btn-outline" id="restaurantContinueShopping">
+                            Continuer la sélection
                         </button>
-                        <button type="submit" class="btn btn-primary" aria-label="Envoyer la demande de devis">
-                            <i class="fas fa-paper-plane" aria-hidden="true"></i>
-                            Envoyer la demande
+                        <button class="btn btn-primary" id="restaurantCheckoutBtn">
+                            <i class="fas fa-file-invoice"></i>
+                            Passer au devis
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Success Modal -->
-    <div class="modal-modern success-modal" id="success-modal" role="dialog" aria-labelledby="success-modal-title" aria-hidden="true">
+    <!-- Order Confirmation Modal -->
+    <div class="modal success-modal" id="restaurantSuccessModal">
         <div class="modal-content">
             <div class="success-content">
-                <div class="success-icon" aria-hidden="true">
+                <div class="success-icon">
                     <i class="fas fa-check"></i>
                 </div>
-                <h3 id="success-modal-title">Demande envoyée !</h3>
-                <p>Votre demande de devis a été enregistrée avec succès. Notre équipe commerciale vous contactera dans les plus brefs délais.</p>
-                <div class="success-buttons">
-                    <button class="btn btn-primary" id="close-success" aria-label="Fermer cette notification">
+                <h3>Devis demandé avec succès !</h3>
+                <p>Votre demande de devis a été enregistrée. Notre équipe commerciale vous contactera dans les 24h pour finaliser votre commande.</p>
+                
+                <div class="order-actions">
+                    <button class="btn btn-primary" id="downloadOrderBtn">
+                        <i class="fas fa-download"></i>
+                        Télécharger le bon de commande
+                    </button>
+                    <button class="btn btn-outline" id="printOrderBtn">
+                        <i class="fas fa-print"></i>
+                        Imprimer
+                    </button>
+                    <button class="btn btn-secondary" id="closeRestaurantSuccess">
                         Fermer
                     </button>
                 </div>
@@ -409,554 +523,1348 @@
         </div>
     </div>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="back-to-top" aria-label="Retour en haut de la page">
-        <i class="fas fa-chevron-up" aria-hidden="true"></i>
-    </button>
+    <!-- Order Summary PDF (caché) -->
+    <div id="orderSummary" style="display: none;">
+        <div class="order-summary-content">
+            <div class="order-header">
+                <div class="order-logo">
+                    <h2>Andy la Boucherie</h2>
+                    <p>Boucherie Premium</p>
+                </div>
+                <div class="order-info">
+                    <h3>Bon de Commande Professionnel</h3>
+                    <p id="orderNumberDisplay">N°: CMD-PRO-<span id="orderNumberValue"></span></p>
+                    <p id="orderDateDisplay">Date: <span id="orderDateValue"></span></p>
+                </div>
+            </div>
+            
+            <div class="order-details">
+                <div class="restaurant-info">
+                    <h4>Informations du restaurant</h4>
+                    <p id="restaurantInfoDisplay"></p>
+                </div>
+                
+                <div class="order-items">
+                    <h4>Détails de la commande</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Quantité</th>
+                                <th>Prix unitaire</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderItemsBody">
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>Sous-total:</span>
+                        <span id="orderSubtotalDisplay">0 FCFA</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Livraison:</span>
+                        <span>Sur devis</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span>Total estimé:</span>
+                        <span id="orderTotalDisplay">0 FCFA</span>
+                    </div>
+                </div>
+                
+                <div class="order-notes">
+                    <h4>Notes importantes</h4>
+                    <p>• Ce document est une demande de devis, pas une facture</p>
+                    <p>• Les prix sont indicatifs et seront confirmés par notre équipe</p>
+                    <p>• Livraison selon planning à convenir</p>
+                    <p>• Paiement: facture à 30 jours pour les professionnels établis</p>
+                </div>
+                
+                <div class="order-signature">
+                    <div class="signature-block">
+                        <p>Pour le restaurant,</p>
+                        <div class="signature-line"></div>
+                        <p>Nom et signature</p>
+                    </div>
+                    <div class="signature-block">
+                        <p>Pour Andy la Boucherie,</p>
+                        <div class="signature-line"></div>
+                        <p>Andy, Gérant</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Toast Notification -->
-    <div class="toast-notification" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast" id="restaurantToast">
         <div class="toast-content">
             <div class="toast-icon">
-                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                <i class="fas fa-check-circle"></i>
             </div>
             <div class="toast-text">
                 <div class="toast-title"></div>
                 <div class="toast-message"></div>
             </div>
-            <button class="toast-close" aria-label="Fermer cette notification">
-                <i class="fas fa-times" aria-hidden="true"></i>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
             </button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="restaurantLoadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>Traitement en cours</h3>
+            <p>Génération de votre bon de commande...</p>
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="script.js"></script>
     <script>
-        // Initialisation spécifique pour la page restaurants
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🏢 Espace Restaurants - Site initialisé');
-            
-            // Mettre à jour l'année dans le footer
-            const yearElement = document.getElementById('year');
-            if (yearElement) {
-                yearElement.textContent = new Date().getFullYear();
+        // ===== RESTAURANT PRODUCTS DATA (PRIX DOUBLÉS) =====
+        const restaurantProductsData = [
+            {
+                id: 101,
+                name: "Tomahawk de bœuf",
+                description: "Côte de bœuf avec l'os long, parfaite pour les grillades. Viande persillée et tendre, idéale pour les restaurants gastronomiques.",
+                price: 15000, // Prix doublé
+                image: "https://laboucherie.be/cdn/shop/products/tomahawk-rubia-gallega-mature-la-boucherie-viande-en-ligne.jpg?v=1643725171",
+                unit: "250g",
+                category: "beef",
+                featured: true,
+                tags: ["Premium", "Grillade", "Tendre"],
+                stock: 50,
+                weight: 250
+            },
+            {
+                id: 102,
+                name: "Entrecôte de bœuf",
+                description: "Morceau persillé, idéal pour les grillades. Origine locale, élevage en plein air. Saveur intense et texture parfaite.",
+                price: 10000, // Prix doublé
+                image: "https://boutique.pacantal.fr/wp-content/uploads/2024/08/Entrecote-scaled.jpg",
+                unit: "250g",
+                category: "beef",
+                featured: true,
+                tags: ["Local", "Persillé", "Grillade"],
+                stock: 100,
+                weight: 250
+            },
+            {
+                id: 103,
+                name: "Filet de bœuf",
+                description: "Le morceau le plus tendre, parfait pour les tournedos et béarnaise. Saveur délicate et texture fondante.",
+                price: 10000, // Prix doublé
+                image: "https://media.istockphoto.com/id/475924176/fr/photo/fruits-de-mer-de-prime-fra%C3%AEcheur-et-de-la-viande-steaks-de-faux-filet-row-pr%C3%AAt-%C3%A0-cuisiner.jpg?s=612x612&w=0&k=20&c=66UjKOXPq_OIJwh6KheK16uMDeBGxhvLJVi4JOlC7xU=",
+                unit: "250g",
+                category: "beef",
+                featured: true,
+                tags: ["Tendre", "Fondant", "Premium"],
+                stock: 80,
+                weight: 250
+            },
+            {
+                id: 104,
+                name: "T-Bone",
+                description: "Steak contenant à la fois le filet et le contre-filet. Parfait pour les amateurs de viande généreuse.",
+                price: 10000, // Prix doublé
+                image: "https://static.ticimax.cloud/43437/uploads/urunresimleri/buyuk/premium-t-bone-steak-f4212a.jpg",
+                unit: "250g",
+                category: "beef",
+                tags: ["Double saveur", "Généreux", "Amateur"],
+                stock: 60,
+                weight: 250
+            },
+            {
+                id: 105,
+                name: "Ribs de bœuf",
+                description: "Côtes levées de bœuf, idéales pour la cuisson lente et barbecue. Viande fondante et savoureuse.",
+                price: 10000, // Prix doublé
+                image: "https://meatbros.lu/site/71-home_default/st-louis-spare-ribs.jpg",
+                unit: "250g",
+                category: "beef",
+                tags: ["Barbecue", "Fondant", "Cuisse lente"],
+                stock: 120,
+                weight: 250
+            },
+            {
+                id: 106,
+                name: "Joue de bœuf",
+                description: "Viande gélatineuse parfaite pour les mijotés et plats en sauce. Saveur riche et texture unique.",
+                price: 10000, // Prix doublé
+                image: "https://maisonduroti.com/cdn/shop/products/Joue-de-boeuf_c1560eb8-e139-46df-b489-95f8bad2a8b8_530x@2x.jpg?v=1642098059",
+                unit: "250g",
+                category: "beef",
+                tags: ["Mijoté", "Gélatineux", "Sauce"],
+                stock: 150,
+                weight: 250
+            },
+            {
+                id: 107,
+                name: "Patte de bœuf",
+                description: "Idéale pour préparer du bouillon riche et nourrissant. Base parfaite pour soupes et sauces.",
+                price: 10000, // Prix doublé
+                image: "https://epicerierina.ca/wp-content/uploads/2021/07/pied-de-boeuf.png",
+                unit: "250g",
+                category: "beef",
+                tags: ["Bouillon", "Fond", "Soupe"],
+                stock: 110,
+                weight: 250
+            },
+            {
+                id: 108,
+                name: "Queue de bœuf",
+                description: "Parfaite pour les ragoûts et soupes, riche en collagène. Texture fondante après cuisson lente.",
+                price: 10000, // Prix doublé
+                image: "https://dynfiles.comme-a-la-boucherie.com/original-catalogue-produit-11-21-2023---10-05-15---706.jpg",
+                unit: "250g",
+                category: "beef",
+                tags: ["Ragoût", "Collagène", "Fondant"],
+                stock: 90,
+                weight: 250
+            },
+            {
+                id: 109,
+                name: "Cuisses de bœuf",
+                description: "Morceaux savoureux pour les plats mijotés et braisés. Viande goûteuse et parfumée.",
+                price: 10000, // Prix doublé
+                image: "https://img.freepik.com/photos-premium/cuisse-boeuf-crue-planche-bois-marron_93675-109904.jpg",
+                unit: "250g",
+                category: "beef",
+                tags: ["Mijoté", "Braisé", "Goûteux"],
+                stock: 100,
+                weight: 250
+            },
+            {
+                id: 110,
+                name: "Épaules de bœuf",
+                description: "Viande goûteuse, parfaite pour les pot-au-feu et daubes. Saveur intense et texture fondante.",
+                price: 10000, // Prix doublé
+                image: "https://monbeaubonboeuf.ca/cdn/shop/files/Marteau_de_thor_a0fcb2d0-63e3-4491-8a53-a837900ecba2.jpg?crop=center&height=3024&v=1723597252&width=3024",
+                unit: "250g",
+                category: "beef",
+                tags: ["Pot-au-feu", "Daube", "Goûteux"],
+                stock: 80,
+                weight: 250
+            },
+            {
+                id: 111,
+                name: "Saucisses de bœuf",
+                description: "Saucisses artisanales 100% bœuf, parfumées aux herbes. Parfaites pour grillades et ragoûts.",
+                price: 10000, // Prix doublé
+                image: "https://www.boeuf-a-la-ferme.fr/wp-content/uploads/2020/07/saucisse-boeuf-herbes-blond-aquitaine-ferme-producteur-gaec-villeneuve-480x480.webp",
+                unit: "250g",
+                category: "beef",
+                tags: ["Artisanal", "Herbes", "Grillade"],
+                stock: 200,
+                weight: 250
+            },
+            {
+                id: 112,
+                name: "Viande pour burger",
+                description: "Haché spécial burger, 80% de maigre, 20% de gras pour un burger juteux et savoureux.",
+                price: 10000, // Prix doublé
+                image: "https://www.leseleveursdelacharentonne.fr/documents/1383_1.jpg",
+                unit: "250g",
+                category: "beef",
+                tags: ["Burger", "Juteux", "Haché"],
+                stock: 250,
+                weight: 250
+            },
+            {
+                id: 113,
+                name: "Viande hachée",
+                description: "Haché de bœuf 15% de matière grasse, parfait pour les sauces, lasagnes et boulettes.",
+                price: 10000, // Prix doublé
+                image: "https://img-3.journaldesfemmes.fr/SFp-8xzyuMZZLC59bRuGHZvoohQ=/1500x/smart/a9e53b751f6a47748c6dd5b64c93a8af/ccmcms-jdf/35554472.jpg",
+                unit: "250g",
+                category: "beef",
+                tags: ["Haché", "Sauce", "Polyvalent"],
+                stock: 300,
+                weight: 250
+            },
+            {
+                id: 114,
+                name: "Souris d'agneau",
+                description: "Morceau d'épaule d'agneau, tendre et savoureux après cuisson lente. Parfum délicat.",
+                price: 10000, // Prix doublé
+                image: "https://drive.fechter.fr/1-large_default/souris-d-agneau-450-gr.jpg",
+                unit: "250g",
+                category: "lamb",
+                featured: true,
+                tags: ["Agneau", "Tendre", "Cuisson lente"],
+                stock: 80,
+                weight: 250
+            },
+            {
+                id: 115,
+                name: "Agneau entier",
+                description: "Agneau entier prêt à rôtir, parfait pour les grandes occasions et réceptions.",
+                price: 10000, // Prix doublé
+                image: "https://www.happymeat.ch/wp-content/uploads/2013/10/Demi-agneau.jpg",
+                unit: "250g",
+                category: "lamb",
+                tags: ["Entier", "Rôti", "Occasion"],
+                stock: 20,
+                weight: 250
+            },
+            {
+                id: 116,
+                name: "Viande d'autruche",
+                description: "Viande rouge maigre, riche en protéines et faible en cholestérol. Alternative santé savoureuse.",
+                price: 10000, // Prix doublé
+                image: "https://bretagne-autruches.com/wp-content/uploads/2024/03/bretagne-autruches-photo-cuisne-viande-autruche-non-cuite.jpg",
+                unit: "250g",
+                category: "ostrich",
+                featured: true,
+                tags: ["Maigre", "Protéines", "Santé"],
+                stock: 50,
+                weight: 250
             }
-            
-            // Mobile menu toggle
-            const mobileToggle = document.getElementById('mobile-menu-toggle');
-            const nav = document.querySelector('.nav-modern');
-            
-            mobileToggle?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isActive = mobileToggle.classList.toggle('active');
-                nav.classList.toggle('active');
-                mobileToggle.setAttribute('aria-expanded', isActive);
-            });
-            
-            // Fermer le menu mobile en cliquant sur un lien
-            document.querySelectorAll('.nav-modern a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileToggle.classList.remove('active');
-                    nav.classList.remove('active');
-                    mobileToggle.setAttribute('aria-expanded', 'false');
+        ];
+
+        // ===== RESTAURANT CART MANAGER =====
+        class RestaurantCartManager {
+            constructor() {
+                this.cart = this.loadCart();
+            }
+
+            loadCart() {
+                try {
+                    const savedCart = localStorage.getItem('andy_restaurant_cart');
+                    return savedCart ? JSON.parse(savedCart) : [];
+                } catch (error) {
+                    console.error('Erreur lors du chargement du panier restaurant:', error);
+                    return [];
+                }
+            }
+
+            saveCart() {
+                try {
+                    localStorage.setItem('andy_restaurant_cart', JSON.stringify(this.cart));
+                } catch (error) {
+                    console.error('Erreur lors de la sauvegarde du panier restaurant:', error);
+                }
+            }
+
+            addToCart(productId, quantity = 1) {
+                const product = restaurantProductsData.find(p => p.id === productId);
+                if (!product) return false;
+
+                const existingItem = this.cart.find(item => item.id === productId);
+                
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    this.cart.push({
+                        id: productId,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: quantity,
+                        unit: product.unit
+                    });
+                }
+
+                this.saveCart();
+                return true;
+            }
+
+            updateQuantity(productId, quantity) {
+                if (quantity < 1) {
+                    this.removeFromCart(productId);
+                    return;
+                }
+
+                const item = this.cart.find(item => item.id === productId);
+                if (item) {
+                    item.quantity = quantity;
+                    this.saveCart();
+                }
+            }
+
+            removeFromCart(productId) {
+                this.cart = this.cart.filter(item => item.id !== productId);
+                this.saveCart();
+            }
+
+            clearCart() {
+                this.cart = [];
+                this.saveCart();
+            }
+
+            getCartTotal() {
+                return this.cart.reduce((total, item) => {
+                    return total + (item.price * item.quantity);
+                }, 0);
+            }
+
+            getItemCount() {
+                return this.cart.reduce((total, item) => total + item.quantity, 0);
+            }
+
+            getCartItems() {
+                return this.cart;
+            }
+        }
+
+        // ===== RESTAURANT UI MANAGER =====
+        class RestaurantUIManager {
+            constructor() {
+                this.cartManager = new RestaurantCartManager();
+                this.currentFilter = 'all';
+                this.initialize();
+            }
+
+            initialize() {
+                this.cacheElements();
+                this.setupEventListeners();
+                this.renderProducts();
+                this.updateCartDisplay();
+                this.setCurrentYear();
+                this.setupMenuToggle();
+            }
+
+            cacheElements() {
+                this.elements = {
+                    mobileMenuBtn: document.querySelector('.mobile-menu-btn'),
+                    nav: document.querySelector('.nav'),
+                    restaurantCartBtn: document.getElementById('restaurantCartBtn'),
+                    restaurantCartCount: document.getElementById('restaurantCartCount'),
+                    restaurantOrderBtn: document.getElementById('restaurantOrderBtn'),
+                    filterBtns: document.querySelectorAll('.filter-btn'),
+                    restaurantProductsGrid: document.getElementById('restaurantProductsGrid'),
+                    restaurantCartPreviewText: document.getElementById('restaurantCartPreviewText'),
+                    restaurantCartModal: document.getElementById('restaurantCartModal'),
+                    closeModalBtn: document.querySelector('#restaurantCartModal .close-modal'),
+                    restaurantContinueShoppingBtn: document.getElementById('restaurantContinueShopping'),
+                    restaurantCheckoutBtn: document.getElementById('restaurantCheckoutBtn'),
+                    restaurantCartItems: document.getElementById('restaurantCartItems'),
+                    restaurantCartSubtotal: document.getElementById('restaurantCartSubtotal'),
+                    restaurantCartTotal: document.getElementById('restaurantCartTotal'),
+                    restaurantSuccessModal: document.getElementById('restaurantSuccessModal'),
+                    downloadOrderBtn: document.getElementById('downloadOrderBtn'),
+                    printOrderBtn: document.getElementById('printOrderBtn'),
+                    closeRestaurantSuccessBtn: document.getElementById('closeRestaurantSuccess'),
+                    restaurantOrderForm: document.getElementById('restaurantOrderForm'),
+                    restaurantToast: document.getElementById('restaurantToast'),
+                    restaurantLoadingOverlay: document.getElementById('restaurantLoadingOverlay')
+                };
+            }
+
+            setupEventListeners() {
+                // Menu mobile
+                this.elements.mobileMenuBtn?.addEventListener('click', () => this.toggleMobileMenu());
+                
+                // Filtres produits
+                this.elements.filterBtns?.forEach(btn => {
+                    btn.addEventListener('click', (e) => this.handleFilterClick(e));
                 });
-            });
+                
+                // Panier restaurant
+                this.elements.restaurantCartBtn?.addEventListener('click', () => this.openCartModal());
+                this.elements.restaurantOrderBtn?.addEventListener('click', () => this.openCartModal());
+                
+                // Modal panier
+                this.elements.closeModalBtn?.addEventListener('click', () => this.closeCartModal());
+                this.elements.restaurantContinueShoppingBtn?.addEventListener('click', () => this.closeCartModal());
+                this.elements.restaurantCheckoutBtn?.addEventListener('click', (e) => this.handleCheckout(e));
+                
+                // Modal succès
+                this.elements.downloadOrderBtn?.addEventListener('click', () => this.downloadOrderPDF());
+                this.elements.printOrderBtn?.addEventListener('click', () => this.printOrder());
+                this.elements.closeRestaurantSuccessBtn?.addEventListener('click', () => this.closeSuccessModal());
+                
+                // Formulaire de commande
+                this.elements.restaurantOrderForm?.addEventListener('submit', (e) => this.handleOrderForm(e));
+                
+                // Fermer les modales en cliquant à l'extérieur
+                document.addEventListener('click', (e) => this.handleOutsideClick(e));
+                
+                // Gestion des touches clavier
+                document.addEventListener('keydown', (e) => this.handleKeyDown(e));
+            }
+
+            setupMenuToggle() {
+                // Gérer le menu actif
+                const currentPage = window.location.pathname.split('/').pop();
+                if (currentPage === 'restaurants.html') {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === 'restaurants.html') {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            }
+
+            // ===== RENDU DES PRODUITS =====
+            renderProducts(filter = 'all') {
+                if (!this.elements.restaurantProductsGrid) return;
+                
+                this.currentFilter = filter;
+                const filteredProducts = filter === 'all' 
+                    ? restaurantProductsData 
+                    : restaurantProductsData.filter(product => product.category === filter);
+                
+                let html = '';
+                
+                if (filteredProducts.length === 0) {
+                    html = `
+                        <div class="no-products">
+                            <i class="fas fa-search"></i>
+                            <h3>Aucun produit trouvé</h3>
+                            <p>Essayez une autre catégorie ou revenez plus tard.</p>
+                        </div>
+                    `;
+                } else {
+                    filteredProducts.forEach(product => {
+                        const inCart = this.cartManager.cart.find(item => item.id === product.id);
+                        
+                        html += `
+                            <div class="product-card restaurant-product-card">
+                                <div class="product-image">
+                                    <img src="${product.image}" 
+                                         alt="${product.name}" 
+                                         loading="lazy"
+                                         onerror="this.src='data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\"><rect width=\"400\" height=\"300\" fill=\"%23f0f0f0\"/><text x=\"50%25\" y=\"50%25\" text-anchor=\"middle\" dy=\".3em\" fill=\"%23999\" font-family=\"Arial\" font-size=\"16\">Image non disponible</text></svg>'">
+                                </div>
+                                <div class="product-content">
+                                    <span class="product-category">${this.getCategoryName(product.category)} PRO</span>
+                                    <h3 class="product-name">${product.name}</h3>
+                                    <p class="product-description">${product.description}</p>
+                                    <div class="product-footer">
+                                        <div class="product-price">
+                                            <span class="price-label">Tarif pro:</span>
+                                            ${this.formatPrice(product.price)} FCFA
+                                            <small class="price-unit">/${product.unit}</small>
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="add-to-cart ${inCart ? 'added' : ''}" 
+                                                    data-id="${product.id}"
+                                                    aria-label="Ajouter à la sélection">
+                                                <i class="fas ${inCart ? 'fa-check' : 'fa-plus'}"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                this.elements.restaurantProductsGrid.innerHTML = html;
+                
+                // Attacher les événements aux nouveaux boutons
+                this.attachProductEventListeners();
+            }
+
+            attachProductEventListeners() {
+                document.querySelectorAll('.restaurant-product-card .add-to-cart').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.handleAddToCart(e));
+                });
+            }
+
+            // ===== GESTION DU PANIER =====
+            updateCartDisplay() {
+                const itemCount = this.cartManager.getItemCount();
+                const total = this.cartManager.getCartTotal();
+                
+                // Mettre à jour le compteur
+                if (this.elements.restaurantCartCount) {
+                    this.elements.restaurantCartCount.textContent = itemCount;
+                    this.elements.restaurantCartCount.style.display = itemCount > 0 ? 'flex' : 'none';
+                }
+                
+                // Mettre à jour l'aperçu du panier
+                if (this.elements.restaurantCartPreviewText) {
+                    if (itemCount > 0) {
+                        this.elements.restaurantCartPreviewText.textContent = `${this.formatPrice(total)} FCFA (${itemCount} produit${itemCount > 1 ? 's' : ''})`;
+                        this.elements.restaurantCartPreviewText.parentElement.parentElement.classList.add('has-items');
+                    } else {
+                        this.elements.restaurantCartPreviewText.textContent = 'Votre sélection est vide';
+                        this.elements.restaurantCartPreviewText.parentElement.parentElement.classList.remove('has-items');
+                    }
+                }
+                
+                // Mettre à jour les boutons des produits
+                this.updateProductButtons();
+            }
+
+            updateProductButtons() {
+                document.querySelectorAll('.restaurant-product-card .add-to-cart').forEach(btn => {
+                    const productId = parseInt(btn.dataset.id);
+                    const inCart = this.cartManager.cart.find(item => item.id === productId);
+                    
+                    if (inCart) {
+                        btn.classList.add('added');
+                        btn.innerHTML = '<i class="fas fa-check"></i>';
+                    } else {
+                        btn.classList.remove('added');
+                        btn.innerHTML = '<i class="fas fa-plus"></i>';
+                    }
+                });
+            }
+
+            renderCartItems() {
+                if (!this.elements.restaurantCartItems) return;
+                
+                const cart = this.cartManager.cart;
+                
+                if (cart.length === 0) {
+                    this.elements.restaurantCartItems.innerHTML = `
+                        <div class="empty-cart">
+                            <i class="fas fa-clipboard-list"></i>
+                            <h4>Votre sélection est vide</h4>
+                            <p>Sélectionnez des produits pour obtenir un devis personnalisé</p>
+                        </div>
+                    `;
+                    
+                    if (this.elements.restaurantCartSubtotal) {
+                        this.elements.restaurantCartSubtotal.textContent = `0 FCFA`;
+                    }
+                    if (this.elements.restaurantCartTotal) {
+                        this.elements.restaurantCartTotal.textContent = `0 FCFA`;
+                    }
+                    return;
+                }
+                
+                let html = '';
+                let subtotal = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    subtotal += itemTotal;
+                    
+                    html += `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-image">
+                                    <img src="${item.image}" alt="${item.name}" loading="lazy">
+                                </div>
+                                <div class="cart-item-details">
+                                    <div class="cart-item-name">${item.name}</div>
+                                    <div class="cart-item-price">${this.formatPrice(item.price)} FCFA / ${item.unit}</div>
+                                </div>
+                            </div>
+                            <div class="cart-item-actions">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn decrement" data-id="${item.id}">-</button>
+                                    <input type="number" class="quantity" value="${item.quantity}" min="1" data-id="${item.id}">
+                                    <button class="quantity-btn increment" data-id="${item.id}">+</button>
+                                </div>
+                                <button class="remove-item" data-id="${item.id}" aria-label="Retirer">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                this.elements.restaurantCartItems.innerHTML = html;
+                
+                // Mettre à jour les totaux
+                if (this.elements.restaurantCartSubtotal) {
+                    this.elements.restaurantCartSubtotal.textContent = `${this.formatPrice(subtotal)} FCFA`;
+                }
+                if (this.elements.restaurantCartTotal) {
+                    this.elements.restaurantCartTotal.textContent = `${this.formatPrice(subtotal)} FCFA`;
+                }
+                
+                // Attacher les événements
+                this.attachCartEventListeners();
+            }
+
+            attachCartEventListeners() {
+                // Incrémenter/décrémenter
+                document.querySelectorAll('.quantity-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.handleQuantityChange(e));
+                });
+                
+                // Changer la quantité via l'input
+                document.querySelectorAll('.quantity').forEach(input => {
+                    input.addEventListener('change', (e) => this.handleQuantityInput(e));
+                });
+                
+                // Retirer du panier
+                document.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.handleRemoveItem(e));
+                });
+            }
+
+            // ===== GESTION DES ÉVÉNEMENTS =====
+            handleFilterClick(e) {
+                const button = e.currentTarget;
+                const filter = button.dataset.filter;
+                
+                // Mettre à jour les boutons actifs
+                this.elements.filterBtns?.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Appliquer le filtre
+                this.renderProducts(filter);
+            }
+
+            handleAddToCart(e) {
+                const button = e.currentTarget;
+                const productId = parseInt(button.dataset.id);
+                
+                // Animation
+                button.classList.add('adding');
+                setTimeout(() => button.classList.remove('adding'), 300);
+                
+                // Ajouter au panier
+                const success = this.cartManager.addToCart(productId, 1);
+                
+                if (success) {
+                    // Mettre à jour l'affichage
+                    this.updateCartDisplay();
+                    
+                    // Afficher la notification
+                    const product = restaurantProductsData.find(p => p.id === productId);
+                    this.showToast(`${product.name} ajouté à la sélection`, 'Sélection mise à jour');
+                    
+                    // Animation de confirmation
+                    button.classList.add('added');
+                    setTimeout(() => {
+                        button.classList.remove('added');
+                        this.updateProductButtons();
+                    }, 1500);
+                }
+            }
+
+            handleQuantityChange(e) {
+                const button = e.currentTarget;
+                const productId = parseInt(button.dataset.id);
+                const isIncrement = button.classList.contains('increment');
+                
+                const item = this.cartManager.cart.find(item => item.id === productId);
+                if (!item) return;
+                
+                const newQuantity = isIncrement ? item.quantity + 1 : item.quantity - 1;
+                
+                if (newQuantity < 1) {
+                    this.cartManager.removeFromCart(productId);
+                } else {
+                    this.cartManager.updateQuantity(productId, newQuantity);
+                }
+                
+                this.updateCartDisplay();
+                this.renderCartItems();
+            }
+
+            handleQuantityInput(e) {
+                const input = e.target;
+                const productId = parseInt(input.dataset.id);
+                const quantity = parseInt(input.value) || 1;
+                
+                this.cartManager.updateQuantity(productId, quantity);
+                this.updateCartDisplay();
+                this.renderCartItems();
+            }
+
+            handleRemoveItem(e) {
+                const button = e.currentTarget;
+                const productId = parseInt(button.dataset.id);
+                
+                this.cartManager.removeFromCart(productId);
+                this.updateCartDisplay();
+                this.renderCartItems();
+                this.showToast('Produit retiré de la sélection', 'Sélection mise à jour');
+            }
+
+            handleCheckout(e) {
+                e.preventDefault();
+                
+                if (this.cartManager.cart.length === 0) {
+                    this.showToast('Votre sélection est vide', 'Erreur', 'error');
+                    return;
+                }
+                
+                this.closeCartModal();
+                
+                // Scroll vers le formulaire
+                const formSection = document.getElementById('restaurant-form');
+                if (formSection) {
+                    window.scrollTo({
+                        top: formSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            async handleOrderForm(e) {
+                e.preventDefault();
+                
+                // Validation
+                const restaurantName = document.getElementById('restaurant-name').value.trim();
+                const contactName = document.getElementById('restaurant-contact').value.trim();
+                const email = document.getElementById('restaurant-email').value.trim();
+                const phone = document.getElementById('restaurant-phone').value.trim();
+                const address = document.getElementById('restaurant-address').value.trim();
+                const restaurantType = document.getElementById('restaurant-type').value;
+                const deliveryFrequency = document.getElementById('delivery-frequency').value;
+                const specialNotes = document.getElementById('special-notes').value.trim();
+                
+                if (!restaurantName || !contactName || !email || !phone || !address || !restaurantType || !deliveryFrequency) {
+                    this.showToast('Veuillez remplir tous les champs obligatoires', 'Formulaire incomplet', 'error');
+                    return;
+                }
+                
+                // Afficher le loading
+                this.showLoading();
+                
+                // Simuler un traitement
+                setTimeout(() => {
+                    this.hideLoading();
+                    
+                    // Créer l'objet commande
+                    const orderData = {
+                        restaurantName,
+                        contactName,
+                        email,
+                        phone,
+                        address,
+                        restaurantType,
+                        deliveryFrequency,
+                        specialNotes,
+                        items: this.cartManager.getCartItems(),
+                        subtotal: this.cartManager.getCartTotal(),
+                        orderNumber: 'CMD-PRO-' + Date.now().toString().slice(-6),
+                        orderDate: new Date().toLocaleDateString('fr-FR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })
+                    };
+                    
+                    // Sauvegarder la commande
+                    localStorage.setItem('last_restaurant_order', JSON.stringify(orderData));
+                    
+                    // Réinitialiser le formulaire
+                    e.target.reset();
+                    
+                    // Afficher le modal de succès
+                    this.showSuccessModal();
+                    
+                    // Générer le bon de commande
+                    this.generateOrderPDF(orderData);
+                    
+                }, 2000);
+            }
+
+            // ===== GÉNÉRATION BON DE COMMANDE =====
+            async generateOrderPDF(orderData) {
+                try {
+                    // Mettre à jour l'affichage HTML
+                    document.getElementById('orderNumberValue').textContent = orderData.orderNumber;
+                    document.getElementById('orderDateValue').textContent = orderData.orderDate;
+                    
+                    document.getElementById('restaurantInfoDisplay').innerHTML = `
+                        <strong>${orderData.restaurantName}</strong><br>
+                        Contact: ${orderData.contactName}<br>
+                        Email: ${orderData.email}<br>
+                        Téléphone: ${orderData.phone}<br>
+                        Adresse: ${orderData.address}<br>
+                        Type: ${orderData.restaurantType}<br>
+                        Livraison: ${orderData.deliveryFrequency}
+                    `;
+                    
+                    // Remplir les produits
+                    const itemsBody = document.getElementById('orderItemsBody');
+                    itemsBody.innerHTML = '';
+                    
+                    orderData.items.forEach(item => {
+                        const total = item.price * item.quantity;
+                        itemsBody.innerHTML += `
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.quantity}</td>
+                                <td>${this.formatPrice(item.price)} FCFA</td>
+                                <td>${this.formatPrice(total)} FCFA</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    document.getElementById('orderSubtotalDisplay').textContent = `${this.formatPrice(orderData.subtotal)} FCFA`;
+                    document.getElementById('orderTotalDisplay').textContent = `${this.formatPrice(orderData.subtotal)} FCFA`;
+                    
+                } catch (error) {
+                    console.error('Erreur lors de la génération du PDF:', error);
+                }
+            }
+
+            downloadOrderPDF() {
+                this.showLoading();
+                
+                setTimeout(() => {
+                    const orderSummary = document.getElementById('orderSummary');
+                    
+                    html2canvas(orderSummary).then(canvas => {
+                        const imgData = canvas.toDataURL('image/png');
+                        
+                        // Utiliser jsPDF
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        
+                        const imgWidth = 190;
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        
+                        pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                        pdf.save(`bon-commande-${Date.now().toString().slice(-6)}.pdf`);
+                        
+                        this.hideLoading();
+                        this.showToast('Bon de commande téléchargé', 'Succès');
+                    });
+                }, 1000);
+            }
+
+            printOrder() {
+                const orderSummary = document.getElementById('orderSummary');
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Bon de Commande - Andy la Boucherie</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; }
+                            .order-header { text-align: center; margin-bottom: 30px; }
+                            .order-details { margin-top: 30px; }
+                            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                            th { background-color: #f2f2f2; }
+                            .order-totals { margin-top: 20px; }
+                            .total-row { display: flex; justify-content: space-between; margin: 5px 0; }
+                            .grand-total { font-weight: bold; font-size: 1.2em; border-top: 2px solid #000; padding-top: 10px; }
+                            .order-notes { margin-top: 30px; font-size: 0.9em; color: #666; }
+                            .order-signature { display: flex; justify-content: space-between; margin-top: 50px; }
+                            .signature-block { width: 45%; }
+                            .signature-line { border-top: 1px solid #000; width: 100%; margin: 40px 0 10px; }
+                            @media print {
+                                body { margin: 0; }
+                                button { display: none; }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${orderSummary.innerHTML}
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printWindow.focus();
+                printWindow.print();
+                printWindow.close();
+            }
+
+            // ===== MODALES =====
+            openCartModal() {
+                this.renderCartItems();
+                this.elements.restaurantCartModal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeCartModal() {
+                this.elements.restaurantCartModal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+
+            showSuccessModal() {
+                this.elements.restaurantSuccessModal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeSuccessModal() {
+                this.elements.restaurantSuccessModal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+
+            // ===== UTILITAIRES =====
+            toggleMobileMenu() {
+                this.elements.nav.classList.toggle('active');
+                this.elements.mobileMenuBtn.classList.toggle('active');
+                document.body.style.overflow = this.elements.nav.classList.contains('active') ? 'hidden' : 'auto';
+            }
+
+            formatPrice(price) {
+                return new Intl.NumberFormat('fr-FR').format(price);
+            }
+
+            getCategoryName(category) {
+                const categories = {
+                    beef: 'Bœuf',
+                    lamb: 'Agneau',
+                    ostrich: 'Autruche'
+                };
+                return categories[category] || 'Viande';
+            }
+
+            setCurrentYear() {
+                const yearElement = document.getElementById('currentYear');
+                if (yearElement) {
+                    yearElement.textContent = new Date().getFullYear();
+                }
+            }
+
+            showToast(message, title = 'Notification', type = 'success') {
+                const toast = this.elements.restaurantToast;
+                const icon = toast.querySelector('.toast-icon i');
+                const toastTitle = toast.querySelector('.toast-title');
+                const toastMessage = toast.querySelector('.toast-message');
+                
+                // Définir l'icône selon le type
+                switch(type) {
+                    case 'error':
+                        icon.className = 'fas fa-exclamation-circle';
+                        toast.style.borderLeft = '4px solid #ff4757';
+                        break;
+                    case 'warning':
+                        icon.className = 'fas fa-exclamation-triangle';
+                        toast.style.borderLeft = '4px solid #ffa502';
+                        break;
+                    default:
+                        icon.className = 'fas fa-check-circle';
+                        toast.style.borderLeft = '4px solid var(--primary)';
+                }
+                
+                toastTitle.textContent = title;
+                toastMessage.textContent = message;
+                
+                // Afficher le toast
+                toast.classList.add('show');
+                
+                // Masquer automatiquement après 5 secondes
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 5000);
+                
+                // Fermeture manuelle
+                const closeBtn = toast.querySelector('.toast-close');
+                closeBtn.onclick = () => {
+                    toast.classList.remove('show');
+                };
+            }
+
+            showLoading() {
+                if (this.elements.restaurantLoadingOverlay) {
+                    this.elements.restaurantLoadingOverlay.classList.add('show');
+                }
+            }
+
+            hideLoading() {
+                if (this.elements.restaurantLoadingOverlay) {
+                    this.elements.restaurantLoadingOverlay.classList.remove('show');
+                }
+            }
+
+            handleOutsideClick(e) {
+                // Fermer le menu mobile en cliquant à l'extérieur
+                if (this.elements.nav?.classList.contains('active') && 
+                    !e.target.closest('.nav') && 
+                    !e.target.closest('.mobile-menu-btn')) {
+                    this.toggleMobileMenu();
+                }
+                
+                // Fermer les modales en cliquant à l'extérieur
+                if (this.elements.restaurantCartModal?.classList.contains('show') && 
+                    e.target === this.elements.restaurantCartModal) {
+                    this.closeCartModal();
+                }
+                
+                if (this.elements.restaurantSuccessModal?.classList.contains('show') && 
+                    e.target === this.elements.restaurantSuccessModal) {
+                    this.closeSuccessModal();
+                }
+            }
+
+            handleKeyDown(e) {
+                // Fermer avec Escape
+                if (e.key === 'Escape') {
+                    if (this.elements.restaurantCartModal?.classList.contains('show')) {
+                        this.closeCartModal();
+                    }
+                    if (this.elements.restaurantSuccessModal?.classList.contains('show')) {
+                        this.closeSuccessModal();
+                    }
+                    if (this.elements.nav?.classList.contains('active')) {
+                        this.toggleMobileMenu();
+                    }
+                }
+            }
+        }
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🍽️ Espace Restaurants - Site initialisé');
             
-            // Smooth scroll pour les ancres
+            // Initialiser le gestionnaire d'UI restaurants
+            const restaurantUIManager = new RestaurantUIManager();
+            
+            // Smooth scroll pour les liens d'ancrage
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
-                    if (href === '#' || href === '#!') return;
+                    if (href === '#') return;
                     
                     e.preventDefault();
                     const target = document.querySelector(href);
                     if (target) {
+                        // Fermer le menu mobile si ouvert
+                        if (restaurantUIManager.elements.nav?.classList.contains('active')) {
+                            restaurantUIManager.toggleMobileMenu();
+                        }
+                        
                         window.scrollTo({
                             top: target.offsetTop - 100,
                             behavior: 'smooth'
                         });
-                        history.pushState(null, null, href);
                     }
                 });
             });
             
-            // Highlight du menu actif
-            const currentPage = window.location.pathname.split('/').pop();
-            if (currentPage === 'restaurants.html') {
-                document.querySelectorAll('.nav-modern a').forEach(link => {
-                    if (link.getAttribute('href') === 'restaurants.html') {
-                        link.setAttribute('aria-current', 'page');
-                    }
-                });
-            }
-            
-            // Initialisation des produits pour restaurants
-            if (typeof initRestaurantProducts === 'function') {
-                initRestaurantProducts();
-            }
-            
-            // Gestion du formulaire de devis
-            const quoteForm = document.getElementById('restaurant-quote-form');
-            if (quoteForm) {
-                quoteForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    
-                    // Désactiver le bouton pour éviter les double-clics
-                    const submitBtn = this.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.innerHTML;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-                    submitBtn.disabled = true;
-                    
-                    // Validation
-                    const errors = [];
-                    const restaurantName = document.getElementById('restaurant-name')?.value.trim();
-                    const restaurantContact = document.getElementById('restaurant-contact')?.value.trim();
-                    const restaurantEmail = document.getElementById('restaurant-email')?.value.trim();
-                    const restaurantPhone = document.getElementById('restaurant-phone')?.value.trim();
-                    const restaurantAddress = document.getElementById('restaurant-address')?.value.trim();
-                    const restaurantType = document.getElementById('restaurant-type')?.value;
-                    
-                    if (!restaurantName || restaurantName.length < 2) {
-                        errors.push('Le nom du restaurant est requis');
-                    }
-                    
-                    if (!restaurantContact || restaurantContact.length < 2) {
-                        errors.push('Le nom du contact est requis');
-                    }
-                    
-                    if (!restaurantEmail) {
-                        errors.push('L\'email professionnel est requis');
-                    } else {
-                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                        if (!emailRegex.test(restaurantEmail)) {
-                            errors.push('Veuillez entrer une adresse email valide');
-                        }
-                    }
-                    
-                    if (!restaurantPhone) {
-                        errors.push('Le téléphone professionnel est requis');
-                    }
-                    
-                    if (!restaurantAddress || restaurantAddress.length < 10) {
-                        errors.push('L\'adresse complète est requise');
-                    }
-                    
-                    if (!restaurantType) {
-                        errors.push('Veuillez sélectionner le type d\'établissement');
-                    }
-                    
-                    if (errors.length > 0) {
-                        window.showToast(errors.join('<br>'), 'Erreur de validation', 'error');
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                        return;
-                    }
-                    
-                    try {
-                        // Simulation d'envoi
-                        await new Promise(resolve => setTimeout(resolve, 1500));
-                        
-                        // En production, décommentez ceci :
-                        /*
-                        const response = await fetch('/api/restaurant-quote', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(quoteData)
-                        });
-                        */
-                        
-                        // Simulation de succès
-                        window.showToast(
-                            'Votre demande de devis a été envoyée ! Notre équipe vous contactera sous 48h.', 
-                            'Demande envoyée', 
-                            'success'
-                        );
-                        
-                        // Fermer le modal
-                        const quoteModal = document.getElementById('restaurant-quote-modal');
-                        quoteModal.classList.remove('show');
-                        setTimeout(() => {
-                            quoteModal.style.display = 'none';
-                            document.body.style.overflow = 'auto';
-                        }, 300);
-                        
-                        // Réinitialiser le formulaire
-                        this.reset();
-                        
-                        // Afficher le modal de succès
-                        const successModal = document.getElementById('success-modal');
-                        successModal.style.display = 'flex';
-                        setTimeout(() => {
-                            successModal.classList.add('show');
-                        }, 10);
-                        
-                    } catch (error) {
-                        console.error('Erreur lors de l\'envoi du devis:', error);
-                        window.showToast('Impossible d\'envoyer la demande. Veuillez réessayer.', 'Erreur', 'error');
-                    } finally {
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                    }
-                });
-            }
-            
-            // Gestion du modal de devis
-            const requestQuoteBtn = document.getElementById('request-quote-btn');
-            const quoteModal = document.getElementById('restaurant-quote-modal');
-            const closeQuoteModal = document.getElementById('close-quote-modal');
-            const cancelQuoteBtn = document.getElementById('cancel-quote');
-            
-            if (requestQuoteBtn && quoteModal) {
-                requestQuoteBtn.addEventListener('click', () => {
-                    // Vérifier si des produits sont sélectionnés
-                    if (window.restaurantCart && window.restaurantCart.length === 0) {
-                        window.showToast('Veuillez sélectionner au moins un produit', 'Panier vide', 'warning');
-                        return;
-                    }
-                    
-                    quoteModal.style.display = 'flex';
-                    document.body.style.overflow = 'hidden';
-                    
-                    setTimeout(() => {
-                        quoteModal.classList.add('show');
-                    }, 10);
-                    
-                    // Focus sur le premier champ
-                    const firstInput = quoteModal.querySelector('input, select, textarea');
-                    if (firstInput) {
-                        setTimeout(() => firstInput.focus(), 100);
-                    }
-                });
-            }
-            
-            if (closeQuoteModal) {
-                closeQuoteModal.addEventListener('click', () => {
-                    quoteModal.classList.remove('show');
-                    setTimeout(() => {
-                        quoteModal.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }, 300);
-                });
-            }
-            
-            if (cancelQuoteBtn) {
-                cancelQuoteBtn.addEventListener('click', () => {
-                    quoteModal.classList.remove('show');
-                    setTimeout(() => {
-                        quoteModal.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }, 300);
-                });
-            }
-            
-            // Fermer le modal en cliquant à l'extérieur
-            if (quoteModal) {
-                quoteModal.addEventListener('click', (e) => {
-                    if (e.target === quoteModal) {
-                        quoteModal.classList.remove('show');
-                        setTimeout(() => {
-                            quoteModal.style.display = 'none';
-                            document.body.style.overflow = 'auto';
-                        }, 300);
-                    }
-                });
-            }
-            
-            // Gestion du modal de succès
-            const successModal = document.getElementById('success-modal');
-            const closeSuccessBtn = document.getElementById('close-success');
-            
-            if (closeSuccessBtn && successModal) {
-                closeSuccessBtn.addEventListener('click', () => {
-                    successModal.classList.remove('show');
-                    setTimeout(() => {
-                        successModal.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }, 300);
-                });
-                
-                successModal.addEventListener('click', (e) => {
-                    if (e.target === successModal) {
-                        successModal.classList.remove('show');
-                        setTimeout(() => {
-                            successModal.style.display = 'none';
-                            document.body.style.overflow = 'auto';
-                        }, 300);
-                    }
-                });
-            }
-            
-            // Amélioration de l'expérience utilisateur
-            document.querySelectorAll('input, textarea, select').forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.parentElement.classList.add('focused');
-                });
-                
-                input.addEventListener('blur', function() {
-                    this.parentElement.classList.remove('focused');
-                });
-            });
+            // Exposer pour le débogage
+            window.restaurantUIManager = restaurantUIManager;
         });
-        
-        // Fonction pour initialiser les produits restaurants
-        function initRestaurantProducts() {
-            // Cette fonction sera appelée par script.js
-            console.log('📋 Initialisation des produits restaurants');
-        }
-        
-        // Gestion des touches clavier
-        document.addEventListener('keydown', (e) => {
-            // Fermer les modales avec Escape
-            if (e.key === 'Escape') {
-                const modals = document.querySelectorAll('.modal-modern.show');
-                modals.forEach(modal => {
-                    modal.classList.remove('show');
-                    setTimeout(() => {
-                        modal.style.display = 'none';
-                    }, 300);
-                });
-                document.body.style.overflow = 'auto';
-            }
-        });
-        
-        // Gestion du défilement
-        const header = document.querySelector('.header-modern');
-        let lastScrollTop = 0;
-        
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // Cacher/montrer le header au scroll
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-                header.style.transform = 'translateY(-100%)';
-            } else {
-                header.style.transform = 'translateY(0)';
-            }
-            
-            lastScrollTop = scrollTop;
-            
-            // Back to top button
-            const backToTop = document.getElementById('back-to-top');
-            if (backToTop) {
-                if (scrollTop > 300) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
-            }
-        });
-        
-        // Back to top functionality
-        const backToTopBtn = document.getElementById('back-to-top');
-        if (backToTopBtn) {
-            backToTopBtn.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        }
-        
-        // Fonction pour afficher les toasts
-        function showToast(message, title = 'Notification', type = 'success') {
-            window.showToast(message, title, type);
-        }
-        
-        // Exposer les fonctions nécessaires
-        window.initRestaurantProducts = initRestaurantProducts;
-        window.showToast = showToast;
     </script>
-    
+
     <style>
-        /* Styles spécifiques pour la page restaurants */
-        .promo-ticker {
-            background: linear-gradient(135deg, #4a8c2b 0%, #5ba832 100%);
-            color: white;
-            padding: 12px 0;
-            margin-top: 76px;
-            overflow: hidden;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        
-        .promo-ticker marquee {
-            padding: 0 20px;
-        }
-        
-        .benefits-section {
-            margin-bottom: 50px;
+        /* Styles spécifiques restaurants */
+        .professional-benefits {
+            margin: 40px 0;
         }
         
         .benefits-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            gap: 20px;
             margin-top: 30px;
         }
         
-        .benefit {
-            text-align: center;
+        .benefit-card {
+            background: var(--white);
             padding: 25px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            border: 2px solid var(--primary-lighter);
         }
         
-        .benefit:hover {
+        .benefit-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
         }
         
-        .benefit i {
+        .benefit-card i {
             font-size: 2.5rem;
-            color: #4a8c2b;
+            color: var(--primary);
             margin-bottom: 15px;
         }
         
-        .benefit h3 {
+        .benefit-card h3 {
             font-size: 1.2rem;
+            color: var(--primary-dark);
             margin-bottom: 10px;
-            color: #2c5e1a;
         }
         
-        .benefit p {
+        .benefit-card p {
             font-size: 0.9rem;
-            color: #666;
+            color: var(--text-light);
             margin: 0;
         }
         
-        .services-modern {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        .restaurant-cart-preview .cart-preview-content i {
+            color: var(--primary);
         }
         
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+        .restaurant-cart-preview.has-items .cart-preview-content {
+            color: var(--primary);
         }
         
-        .service-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+        .restaurant-product-card .product-category {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: var(--white);
         }
         
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        .restaurant-product-card .product-price {
+            font-size: 1.6rem;
         }
         
-        .service-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #4a8c2b 0%, #5ba832 100%);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 1.8rem;
+        .restaurant-product-card .price-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 2px;
         }
         
-        .service-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: #2c5e1a;
-        }
-        
-        .service-card p {
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        .info-note {
-            margin-top: 15px;
-            color: #666;
+        .restaurant-product-card .price-unit {
             font-size: 0.9rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            color: var(--text-light);
+            font-weight: normal;
         }
         
-        .info-note i {
-            color: #4a8c2b;
-            margin-right: 8px;
+        .restaurant-form-section {
+            background: var(--light-gray);
         }
         
-        .checkbox-group {
+        .order-actions {
             display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .order-actions .btn {
+            width: 100%;
+        }
+        
+        /* Styles pour le bon de commande PDF */
+        #orderSummary {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: white;
+        }
+        
+        .order-summary-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
             align-items: flex-start;
-            gap: 10px;
-            margin-top: 15px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 20px;
         }
         
-        .checkbox-group input[type="checkbox"] {
-            margin-top: 3px;
+        .order-logo h2 {
+            color: var(--primary-dark);
+            margin: 0;
         }
         
-        .checkbox-group label {
-            font-size: 0.9rem;
-            color: #666;
-            line-height: 1.4;
-            cursor: pointer;
+        .order-info h3 {
+            color: var(--primary-dark);
+            margin: 0 0 10px 0;
+            text-align: right;
         }
         
-        /* Styles pour les filtres restaurants */
-        .filter-btn-restaurant {
-            padding: 12px 24px;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 50px;
-            color: #666;
+        .order-details h4 {
+            color: var(--primary-dark);
+            margin: 20px 0 10px 0;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 5px;
+        }
+        
+        .restaurant-info {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: var(--radius-md);
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background: var(--primary-lighter);
+            color: var(--primary-dark);
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
+            padding: 12px 15px;
+            text-align: left;
         }
         
-        .filter-btn-restaurant:hover,
-        .filter-btn-restaurant.active {
-            background: linear-gradient(135deg, #4a8c2b 0%, #5ba832 100%);
-            border-color: transparent;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 140, 43, 0.3);
+        td {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .order-totals {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--medium-gray);
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+        
+        .grand-total {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--primary-dark);
+        }
+        
+        .order-notes {
+            margin-top: 30px;
+            padding: 15px;
+            background: var(--light-gray);
+            border-radius: var(--radius-md);
+            font-size: 0.9em;
+        }
+        
+        .order-signature {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+        }
+        
+        .signature-block {
+            width: 45%;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #000;
+            width: 100%;
+            margin: 40px 0 10px;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
             .benefits-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 20px;
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .promo-ticker {
-                font-size: 0.85rem;
-                padding: 10px 0;
-            }
-            
-            .hero-buttons {
+            .order-header {
                 flex-direction: column;
-                gap: 15px;
+                text-align: center;
             }
             
-            .hero-buttons .btn {
+            .order-info {
+                text-align: center;
+                margin-top: 20px;
+            }
+            
+            .order-signature {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .signature-block {
                 width: 100%;
-                max-width: 300px;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 8px 10px;
             }
         }
         
@@ -965,42 +1873,14 @@
                 grid-template-columns: 1fr;
             }
             
-            .filter-btn-restaurant {
-                padding: 10px 20px;
-                font-size: 0.8rem;
+            .order-actions {
+                flex-direction: column;
             }
             
-            .product-filters {
-                gap: 10px;
-                justify-content: center;
+            table {
+                display: block;
+                overflow-x: auto;
             }
-        }
-        
-        /* Animation pour les cartes */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .service-card {
-            animation: fadeIn 0.5s ease forwards;
-        }
-        
-        .service-card:nth-child(1) { animation-delay: 0.1s; }
-        .service-card:nth-child(2) { animation-delay: 0.2s; }
-        .service-card:nth-child(3) { animation-delay: 0.3s; }
-        .service-card:nth-child(4) { animation-delay: 0.4s; }
-        
-        /* Amélioration de l'accessibilité */
-        .restaurant-product-card:focus-within {
-            box-shadow: 0 0 0 3px rgba(74, 140, 43, 0.3);
-            outline: none;
         }
     </style>
 </body>
