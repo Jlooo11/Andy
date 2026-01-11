@@ -14,7 +14,8 @@ const products = [
         id: 1,
         name: "Tomahawk de bœuf",
         description: "Côte de bœuf avec l'os long, parfaite pour les grillades. Viande persillée et tendre, idéale pour les occasions spéciales.",
-        price: 20000/kg,
+        price: 20000, // Prix au kg
+        priceUnit: "kg", // Indique que le prix est au kg
         image: "https://laboucherie.be/cdn/shop/products/tomahawk-rubia-gallega-mature-la-boucherie-viande-en-ligne.jpg?v=1643725171",
         unit: "250g",
         category: "beef",
@@ -27,7 +28,8 @@ const products = [
         id: 2,
         name: "Entrecôte de bœuf",
         description: "Morceau persillé, idéal pour les grillades. Origine locale, élevage en plein air. Saveur intense et texture parfaite.",
-        price: 5000/250g,
+        price: 5000, // Prix pour 250g
+        priceUnit: "250g", // Indique que le prix est pour 250g
         image: "https://boutique.pacantal.fr/wp-content/uploads/2024/08/Entrecote-scaled.jpg",
         unit: "250g",
         category: "beef",
@@ -40,7 +42,8 @@ const products = [
         id: 3,
         name: "Filet de bœuf",
         description: "Le morceau le plus tendre, parfait pour les tournedos et béarnaise. Saveur délicate et texture fondante.",
-        price: 20000/kg,
+        price: 20000, // Prix au kg
+        priceUnit: "kg",
         image: "https://media.istockphoto.com/id/475924176/fr/photo/fruits-de-mer-de-prime-fra%C3%AEcheur-et-de-la-viande-steaks-de-faux-filet-row-pr%C3%AAt-%C3%A0-cuisiner.jpg?s=612x612&w=0&k=20&c=66UjKOXPq_OIJwh6KheK16uMDeBGxhvLJVi4JOlC7xU=",
         unit: "250g",
         category: "beef",
@@ -53,7 +56,8 @@ const products = [
         id: 4,
         name: "T-Bone",
         description: "Steak contenant à la fois le filet et le contre-filet. Parfait pour les amateurs de viande généreuse.",
-        price: 5000/250g,
+        price: 5000, // Prix pour 250g
+        priceUnit: "250g",
         image: "https://static.ticimax.cloud/43437/uploads/urunresimleri/buyuk/premium-t-bone-steak-f4212a.jpg",
         unit: "250g",
         category: "beef",
@@ -65,7 +69,8 @@ const products = [
         id: 5,
         name: "Ribs de bœuf",
         description: "Côtes levées de bœuf, idéales pour la cuisson lente et barbecue. Viande fondante et savoureuse.",
-        price: 5000/250g,
+        price: 5000, // Prix pour 250g
+        priceUnit: "250g",
         image: "https://meatbros.lu/site/71-home_default/st-louis-spare-ribs.jpg",
         unit: "250g",
         category: "beef",
@@ -77,7 +82,8 @@ const products = [
         id: 6,
         name: "Joue de bœuf",
         description: "Viande gélatineuse parfaite pour les mijotés et plats en sauce. Saveur riche et texture unique.",
-        price: 5000/250g,
+        price: 5000, // Prix pour 250g
+        priceUnit: "250g",
         image: "https://maisonduroti.com/cdn/shop/products/Joue-de-boeuf_c1560eb8-e139-46df-b489-95f8bad2a8b8_530x@2x.jpg?v=1642098059",
         unit: "250g",
         category: "beef",
@@ -89,7 +95,8 @@ const products = [
         id: 8,
         name: "Queue de bœuf",
         description: "Parfaite pour les ragoûts et soupes, riche en collagène. Texture fondante après cuisson lente.",
-        price: 20000/kg,
+        price: 20000, // Prix au kg
+        priceUnit: "kg",
         image: "https://dynfiles.comme-a-la-boucherie.com/original-catalogue-produit-11-21-2023---10-05-15---706.jpg",
         unit: "250g",
         category: "beef",
@@ -101,7 +108,8 @@ const products = [
         id: 9,
         name: "Cuisses de bœuf",
         description: "Morceaux savoureux pour les plats mijotés et braisés. Viande goûteuse et parfumée.",
-        price: 20000/kg,
+        price: 20000, // Prix au kg
+        priceUnit: "kg",
         image: "https://img.freepik.com/photos-premium/cuisse-boeuf-crue-planche-bois-marron_93675-109904.jpg",
         unit: "250g",
         category: "beef",
@@ -113,7 +121,8 @@ const products = [
         id: 10,
         name: "Épaules de bœuf",
         description: "Viande goûteuse, parfaite pour les pot-au-feu et daubes. Saveur intense et texture fondante.",
-        price: 20000/kg,
+        price: 20000, // Prix au kg
+        priceUnit: "kg",
         image: "https://monbeaubonboeuf.ca/cdn/shop/files/Marteau_de_thor_a0fcb2d0-63e3-4491-8a53-a837900ecba2.jpg?crop=center&height=3024&v=1723597252&width=3024",
         unit: "250g",
         category: "beef",
@@ -125,7 +134,8 @@ const products = [
         id: 11,
         name: "Saucisses de bœuf",
         description: "Saucisses artisanales 100% bœuf, parfumées aux herbes. Parfaites pour grillades et ragoûts.",
-        price: 5000/250g,
+        price: 5000, // Prix pour 250g
+        priceUnit: "250g",
         image: "https://www.boeuf-a-la-ferme.fr/wp-content/uploads/2020/07/saucisse-boeuf-herbes-blond-aquitaine-ferme-producteur-gaec-villeneuve-480x480.webp",
         unit: "250g",
         category: "beef",
@@ -137,7 +147,8 @@ const products = [
         id: 12,
         name: "Viande pour burger",
         description: "Haché spécial burger, 80% de maigre, 20% de gras pour un burger juteux et savoureux.",
-        price: 5000/250g,
+        price: 5000, // Prix pour 250g
+        priceUnit: "250g",
         image: "https://www.leseleveursdelacharentonne.fr/documents/1383_1.jpg",
         unit: "250g",
         category: "beef",
@@ -149,7 +160,8 @@ const products = [
         id: 13,
         name: "Viande hachée",
         description: "Haché de bœuf 15% de matière grasse, parfait pour les sauces, lasagnes et boulettes.",
-        price: 5000/250g,
+        price: 5000, // Prix pour 250g
+        priceUnit: "250g",
         image: "https://img-3.journaldesfemmes.fr/SFp-8xzyuMZZLC59bRuGHZvoohQ=/1500x/smart/a9e53b751f6a47748c6dd5b64c93a8af/ccmcms-jdf/35554472.jpg",
         unit: "250g",
         category: "beef",
@@ -161,7 +173,8 @@ const products = [
         id: 14,
         name: "Souris d'agneau",
         description: "Morceau d'épaule d'agneau, tendre et savoureux après cuisson lente. Parfum délicat.",
-        price: 5000250g,
+        price: 5000, // Prix pour 250g
+        priceUnit: "250g",
         image: "https://drive.fechter.fr/1-large_default/souris-d-agneau-450-gr.jpg",
         unit: "250g",
         category: "lamb",
@@ -174,19 +187,21 @@ const products = [
         id: 15,
         name: "Agneau entier",
         description: "Agneau entier prêt à rôtir, parfait pour les grandes occasions et réceptions.",
-        price: 25000,
+        price: 25000, // Prix fixe pour l'agneau entier
+        priceUnit: "pièce", // Prix à la pièce
         image: "https://www.happymeat.ch/wp-content/uploads/2013/10/Demi-agneau.jpg",
-        unit: "250g",
+        unit: "pièce",
         category: "lamb",
         tags: ["Entier", "Rôti", "Occasion"],
         stock: 5,
-        weight: 250
+        weight: 6250 // 6.25kg = 6250g
     },
     {
         id: 16,
         name: "Viande d'autruche",
         description: "Viande rouge maigre, riche en protéines et faible en cholestérol. Alternative santé savoureuse.",
-        price: 5000/250g,
+        price: 5000, // Prix pour 250g
+        priceUnit: "250g",
         image: "https://bretagne-autruches.com/wp-content/uploads/2024/03/bretagne-autruches-photo-cuisne-viande-autruche-non-cuite.jpg",
         unit: "250g",
         category: "ostrich",
@@ -233,14 +248,29 @@ class CartManager {
             this.cart.push({
                 id: productId,
                 name: product.name,
-                price: product.price,
+                price: this.getPriceForCart(product), // Utiliser le prix calculé pour le panier
                 image: product.image,
+                priceUnit: product.priceUnit,
                 quantity: quantity
             });
         }
 
         this.saveCart();
         return true;
+    }
+
+    // Nouvelle méthode pour calculer le prix pour le panier
+    getPriceForCart(product) {
+        // Si le prix est au kg, calculer le prix pour 250g
+        if (product.priceUnit === "kg") {
+            return product.price / 4; // 1kg = 1000g, 250g = 1/4 du prix
+        }
+        // Si le prix est à la pièce (agneau entier), utiliser le prix tel quel
+        if (product.priceUnit === "pièce") {
+            return product.price;
+        }
+        // Sinon (prix pour 250g), utiliser le prix tel quel
+        return product.price;
     }
 
     updateQuantity(productId, quantity) {
@@ -413,7 +443,7 @@ class UIManager {
                             <h3 class="product-name">${product.name}</h3>
                             <p class="product-description">${product.description}</p>
                             <div class="product-footer">
-                                <div class="product-price">${this.formatPrice(product.price)} ${CONFIG.currency}</div>
+                                <div class="product-price">${this.formatDisplayPrice(product)}</div>
                                 <div class="product-actions">
                                     <button class="add-to-cart ${inCart ? 'added' : ''}" 
                                             data-id="${product.id}"
@@ -432,6 +462,19 @@ class UIManager {
         
         // Attacher les événements aux nouveaux boutons
         this.attachProductEventListeners();
+    }
+
+    // Nouvelle méthode pour formater le prix d'affichage
+    formatDisplayPrice(product) {
+        const formattedPrice = this.formatPrice(product.price);
+        
+        if (product.priceUnit === "kg") {
+            return `${formattedPrice} ${CONFIG.currency} / kg`;
+        } else if (product.priceUnit === "pièce") {
+            return `${formattedPrice} ${CONFIG.currency} / pièce`;
+        } else {
+            return `${formattedPrice} ${CONFIG.currency} / 250g`;
+        }
     }
 
     attachProductEventListeners() {
@@ -511,6 +554,10 @@ class UIManager {
             const itemTotal = item.price * item.quantity;
             subtotal += itemTotal;
             
+            // Récupérer le produit original pour l'unité d'affichage
+            const originalProduct = products.find(p => p.id === item.id);
+            const displayPriceUnit = originalProduct?.priceUnit || "250g";
+            
             html += `
                 <div class="cart-item">
                     <div class="cart-item-info">
@@ -519,7 +566,7 @@ class UIManager {
                         </div>
                         <div class="cart-item-details">
                             <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-price">${this.formatPrice(item.price)} ${CONFIG.currency}</div>
+                            <div class="cart-item-price">${this.formatPrice(item.price)} ${CONFIG.currency} / ${displayPriceUnit === "kg" ? "250g" : displayPriceUnit}</div>
                         </div>
                     </div>
                     <div class="cart-item-actions">
