@@ -17,11 +17,21 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/logo Andy.png">
     
-    <!-- jsPDF pour génération PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
+    <!-- Promotion Banner -->
+    <div class="promotion-banner">
+        <div class="promotion-container">
+            <div class="promotion-content">
+                <i class="fas fa-star"></i>
+                <span class="promotion-text">👨‍🍳 ESPACE PRO : Devis personnalisés • Livraisons programmées • Tarifs dégressifs sur volume • Contact dédié 07 68 128 549</span>
+                <i class="fas fa-star"></i>
+            </div>
+        </div>
+    </div>
+
     <!-- Header identique au site principal -->
     <header class="header">
         <div class="container">
@@ -44,12 +54,12 @@
                 
                 <nav class="nav">
                     <ul class="nav-list">
-                        <li><a href="#home" class="nav-link active">Accueil</a></li>
-                        <li><a href="#products" class="nav-link">Nos Produits</a></li>
-                        <li><a href="#restaurants" class="nav-link">Restaurants</a></li>
-                        <li><a href="#process" class="nav-link">Commander</a></li>
-                        <li><a href="#about" class="nav-link">À propos</a></li>
-                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li><a href="index.html" class="nav-link">Accueil</a></li>
+                        <li><a href="index.html#products" class="nav-link">Nos Produits</a></li>
+                        <li><a href="restaurants.html" class="nav-link active">Restaurants</a></li>
+                        <li><a href="index.html#process" class="nav-link">Commander</a></li>
+                        <li><a href="index.html#about" class="nav-link">À propos</a></li>
+                        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
                     </ul>
                 </nav>
                 
@@ -73,17 +83,17 @@
                 </div>
                 
                 <h2 class="hero-title">Fournisseur des meilleurs restaurants</h2>
-                <p class="hero-subtitle">Viandes premium pour professionnels</p>
-                <p class="hero-description">Commandez en gros avec des prix préférentiels, une livraison dédiée et un accompagnement personnalisé pour votre établissement.</p>
+                <p class="hero-subtitle">Viandes premium pour professionnels - Devis personnalisés</p>
+                <p class="hero-description">Une livraison dédiée et un accompagnement personnalisé pour votre établissement.</p>
                 
                 <div class="hero-buttons">
                     <a href="#restaurant-products" class="btn btn-primary">
                         <i class="fas fa-book"></i>
                         Voir le catalogue pro
                     </a>
-                    <a href="#restaurant-process" class="btn btn-secondary">
-                        <i class="fas fa-play-circle"></i>
-                        Comment commander
+                    <a href="#restaurant-form" class="btn btn-secondary">
+                        <i class="fas fa-file-signature"></i>
+                        Demander un devis
                     </a>
                 </div>
             </div>
@@ -94,17 +104,16 @@
         </div>
     </section>
 
-    <!-- Products Section Restaurants (prix doublés) -->
+    <!-- Products Section Restaurants (sans prix) -->
     <section class="section products-section" id="restaurant-products">
         <div class="container">
             <div class="section-header">
-                <span class="section-badge">Tarifs Professionnels</span>
-                <h2 class="section-title">Notre catalogue pour restaurants</h2>
-                <p class="section-subtitle">Mêmes produits de qualité, tarifs adaptés aux professionnels de la restauration.</p>
+                <span class="section-badge">Catalogue Professionnel</span>
+                <h2 class="section-title">Nos produits pour restaurants</h2>
+                <p class="section-subtitle">Sélectionnez les produits dont vous avez besoin pour recevoir un devis personnalisé.</p>
             </div>
             
             <div class="professional-benefits">
-                <div class="benefits-grid">
                     <div class="benefit-card">
                         <i class="fas fa-calendar-alt"></i>
                         <h3>Livraison planifiée</h3>
@@ -131,7 +140,7 @@
             </div>
             
             <div class="products-grid" id="restaurantProductsGrid">
-                <!-- Produits chargés via JavaScript avec prix doublés -->
+                <!-- Produits chargés via JavaScript sans prix -->
             </div>
             
             <div class="cart-preview restaurant-cart-preview">
@@ -143,55 +152,6 @@
                     <i class="fas fa-file-invoice"></i>
                     Demander un devis
                 </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process Section Restaurants -->
-    <section class="section process-section" id="restaurant-process">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Comment ça marche</span>
-                <h2 class="section-title">Processus de commande professionnel</h2>
-                <p class="section-subtitle">Un accompagnement sur mesure pour votre établissement.</p>
-            </div>
-            
-            <div class="process-steps">
-                <div class="step-card">
-                    <div class="step-number">01</div>
-                    <div class="step-icon">
-                        <i class="fas fa-list-alt"></i>
-                    </div>
-                    <h3 class="step-title">Sélection produits</h3>
-                    <p class="step-description">Choisissez vos produits dans notre catalogue professionnel avec des tarifs dégressifs.</p>
-                </div>
-                
-                <div class="step-card">
-                    <div class="step-number">02</div>
-                    <div class="step-icon">
-                        <i class="fas fa-file-signature"></i>
-                    </div>
-                    <h3 class="step-title">Demande de devis</h3>
-                    <p class="step-description">Remplissez le formulaire professionnel pour obtenir un devis personnalisé.</p>
-                </div>
-                
-                <div class="step-card">
-                    <div class="step-number">03</div>
-                    <div class="step-icon">
-                        <i class="fas fa-handshake"></i>
-                    </div>
-                    <h3 class="step-title">Validation</h3>
-                    <p class="step-description">Notre équipe vous contacte pour finaliser les détails et valider la commande.</p>
-                </div>
-                
-                <div class="step-card">
-                    <div class="step-number">04</div>
-                    <div class="step-icon">
-                        <i class="fas fa-truck-loading"></i>
-                    </div>
-                    <h3 class="step-title">Livraison pro</h3>
-                    <p class="step-description">Livraison à votre restaurant selon le planning convenu, facture fournie.</p>
-                </div>
             </div>
         </div>
     </section>
@@ -213,10 +173,6 @@
                         <div class="contact-item">
                             <div class="contact-icon">
                                 <i class="fas fa-tags"></i>
-                            </div>
-                            <div class="contact-details">
-                                <strong>Tarifs dégressifs</strong>
-                                <span>Plus vous commandez, plus vous économisez</span>
                             </div>
                         </div>
                         
@@ -286,7 +242,7 @@
                                         <i class="fas fa-phone"></i>
                                         Téléphone *
                                     </label>
-                                    <input type="tel" id="restaurant-phone" required placeholder="01 01 104 747">
+                                    <input type="tel" id="restaurant-phone" required placeholder="07 68 128 549">
                                 </div>
                             </div>
                             
@@ -412,7 +368,7 @@
                     <h4 class="footer-title">Contact Pro</h4>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
-                        <a href="tel:+2250101104747">01 01 104 747</a>
+                        <a href="tel:+2250768128549">07 68 128 549</a>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
@@ -420,14 +376,11 @@
                     </div>
                     
                     <div class="footer-social">
-                        <a href="#" class="social-link facebook" aria-label="Facebook">
-                            <i class="fab fa-facebook-f"></i>
+                        <a href="#" class="social-link x" aria-label="X">
+                            <i class="fab fa-x-twitter"></i>
                         </a>
-                        <a href="#" class="social-link instagram" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link twitter" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
+                        <a href="#" class="social-link tiktok" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
                         </a>
                         <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
                             <i class="fab fa-whatsapp"></i>
@@ -449,6 +402,31 @@
         </div>
     </footer>
 
+    <!-- WhatsApp Chat -->
+    <div class="whatsapp-chat">
+        <div class="whatsapp-bubble" id="whatsappBubble">
+            <div class="whatsapp-bubble-header">
+                <i class="fab fa-whatsapp"></i>
+                <h4>Chat WhatsApp Pro</h4>
+            </div>
+            <div class="whatsapp-bubble-content">
+                Besoin d'un conseil personnalisé ou d'un devis rapide ? Discutez directement avec notre équipe commerciale.
+            </div>
+            <div class="whatsapp-bubble-actions">
+                <a href="https://wa.me/2250768128549?text=Bonjour,%20je%20souhaite%20obtenir%20un%20devis%20pour%20mon%20restaurant" 
+                   target="_blank" class="btn btn-primary" style="background: #25D366;">
+                    <i class="fab fa-whatsapp"></i> Ouvrir WhatsApp
+                </a>
+                <button class="btn btn-outline" id="closeWhatsappBubble">
+                    Plus tard
+                </button>
+            </div>
+        </div>
+        <button class="whatsapp-btn" id="whatsappBtn">
+            <i class="fab fa-whatsapp"></i>
+        </button>
+    </div>
+
     <!-- Cart Modal Restaurants -->
     <div class="modal cart-modal" id="restaurantCartModal">
         <div class="modal-content">
@@ -464,16 +442,16 @@
                 <div class="cart-summary">
                     <div class="cart-totals">
                         <div class="total-item">
-                            <span>Sous-total</span>
-                            <span id="restaurantCartSubtotal">0 FCFA</span>
+                            <span>Nombre de produits</span>
+                            <span id="restaurantCartCountDisplay">0</span>
                         </div>
                         <div class="total-item">
                             <span>Livraison</span>
                             <span>Sur devis</span>
                         </div>
                         <div class="total-item grand-total">
-                            <span>Total estimé</span>
-                            <span id="restaurantCartTotal">0 FCFA</span>
+                            <span>Devis personnalisé</span>
+                            <span>À calculer</span>
                         </div>
                     </div>
                     
@@ -499,97 +477,11 @@
                     <i class="fas fa-check"></i>
                 </div>
                 <h3>Devis demandé avec succès !</h3>
-                <p>Votre demande de devis a été enregistrée. Notre équipe commerciale vous contactera dans les 24h pour finaliser votre commande.</p>
-                
-                <div class="order-actions">
-                    <button class="btn btn-primary" id="downloadOrderBtn">
-                        <i class="fas fa-download"></i>
-                        Télécharger le bon de commande
-                    </button>
-                    <button class="btn btn-outline" id="printOrderBtn">
-                        <i class="fas fa-print"></i>
-                        Imprimer
-                    </button>
-                    <button class="btn btn-secondary" id="closeRestaurantSuccess">
-                        Fermer
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Order Summary PDF (caché) -->
-    <div id="orderSummary" style="display: none;">
-        <div class="order-summary-content">
-            <div class="order-header">
-                <div class="order-logo">
-                    <h2>Andy la Boucherie</h2>
-                    <p>Boucherie Premium</p>
-                </div>
-                <div class="order-info">
-                    <h3>Bon de Commande Professionnel</h3>
-                    <p id="orderNumberDisplay">N°: CMD-PRO-<span id="orderNumberValue"></span></p>
-                    <p id="orderDateDisplay">Date: <span id="orderDateValue"></span></p>
-                </div>
-            </div>
-            
-            <div class="order-details">
-                <div class="restaurant-info">
-                    <h4>Informations du restaurant</h4>
-                    <p id="restaurantInfoDisplay"></p>
-                </div>
-                
-                <div class="order-items">
-                    <h4>Détails de la commande</h4>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Produit</th>
-                                <th>Quantité</th>
-                                <th>Prix unitaire</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orderItemsBody">
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="order-totals">
-                    <div class="total-row">
-                        <span>Sous-total:</span>
-                        <span id="orderSubtotalDisplay">0 FCFA</span>
-                    </div>
-                    <div class="total-row">
-                        <span>Livraison:</span>
-                        <span>Sur devis</span>
-                    </div>
-                    <div class="total-row grand-total">
-                        <span>Total estimé:</span>
-                        <span id="orderTotalDisplay">0 FCFA</span>
-                    </div>
-                </div>
-                
-                <div class="order-notes">
-                    <h4>Notes importantes</h4>
-                    <p>• Ce document est une demande de devis, pas une facture</p>
-                    <p>• Les prix sont indicatifs et seront confirmés par notre équipe</p>
-                    <p>• Livraison selon planning à convenir</p>
-                    <p>• Paiement: facture à 30 jours pour les professionnels établis</p>
-                </div>
-                
-                <div class="order-signature">
-                    <div class="signature-block">
-                        <p>Pour le restaurant,</p>
-                        <div class="signature-line"></div>
-                        <p>Nom et signature</p>
-                    </div>
-                    <div class="signature-block">
-                        <p>Pour Andy la Boucherie,</p>
-                        <div class="signature-line"></div>
-                        <p>Andy, Gérant</p>
-                    </div>
-                </div>
+                <p>Votre demande de devis a été enregistrée et envoyée à notre équipe. Vous recevrez une réponse dans les 24h.</p>
+                <p><strong>Numéro de suivi:</strong> <span id="orderNumberDisplay">CMD-PRO-000001</span></p>
+                <button class="btn btn-primary" id="closeRestaurantSuccess">
+                    Fermer
+                </button>
             </div>
         </div>
     </div>
@@ -615,20 +507,19 @@
         <div class="loading-content">
             <div class="loading-spinner"></div>
             <h3>Traitement en cours</h3>
-            <p>Génération de votre bon de commande...</p>
+            <p>Envoi de votre demande de devis...</p>
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="script.js"></script>
     <script>
-        // ===== RESTAURANT PRODUCTS DATA (PRIX DOUBLÉS) =====
+        // ===== RESTAURANT PRODUCTS DATA (SANS PRIX) =====
         const restaurantProductsData = [
             {
                 id: 101,
                 name: "Tomahawk de bœuf",
                 description: "Côte de bœuf avec l'os long, parfaite pour les grillades. Viande persillée et tendre, idéale pour les restaurants gastronomiques.",
-                price: 15000, // Prix doublé
                 image: "https://laboucherie.be/cdn/shop/products/tomahawk-rubia-gallega-mature-la-boucherie-viande-en-ligne.jpg?v=1643725171",
                 unit: "250g",
                 category: "beef",
@@ -641,7 +532,6 @@
                 id: 102,
                 name: "Entrecôte de bœuf",
                 description: "Morceau persillé, idéal pour les grillades. Origine locale, élevage en plein air. Saveur intense et texture parfaite.",
-                price: 10000, // Prix doublé
                 image: "https://boutique.pacantal.fr/wp-content/uploads/2024/08/Entrecote-scaled.jpg",
                 unit: "250g",
                 category: "beef",
@@ -654,7 +544,6 @@
                 id: 103,
                 name: "Filet de bœuf",
                 description: "Le morceau le plus tendre, parfait pour les tournedos et béarnaise. Saveur délicate et texture fondante.",
-                price: 10000, // Prix doublé
                 image: "https://media.istockphoto.com/id/475924176/fr/photo/fruits-de-mer-de-prime-fra%C3%AEcheur-et-de-la-viande-steaks-de-faux-filet-row-pr%C3%AAt-%C3%A0-cuisiner.jpg?s=612x612&w=0&k=20&c=66UjKOXPq_OIJwh6KheK16uMDeBGxhvLJVi4JOlC7xU=",
                 unit: "250g",
                 category: "beef",
@@ -667,7 +556,6 @@
                 id: 104,
                 name: "T-Bone",
                 description: "Steak contenant à la fois le filet et le contre-filet. Parfait pour les amateurs de viande généreuse.",
-                price: 10000, // Prix doublé
                 image: "https://static.ticimax.cloud/43437/uploads/urunresimleri/buyuk/premium-t-bone-steak-f4212a.jpg",
                 unit: "250g",
                 category: "beef",
@@ -679,7 +567,6 @@
                 id: 105,
                 name: "Ribs de bœuf",
                 description: "Côtes levées de bœuf, idéales pour la cuisson lente et barbecue. Viande fondante et savoureuse.",
-                price: 10000, // Prix doublé
                 image: "https://meatbros.lu/site/71-home_default/st-louis-spare-ribs.jpg",
                 unit: "250g",
                 category: "beef",
@@ -691,7 +578,6 @@
                 id: 106,
                 name: "Joue de bœuf",
                 description: "Viande gélatineuse parfaite pour les mijotés et plats en sauce. Saveur riche et texture unique.",
-                price: 10000, // Prix doublé
                 image: "https://maisonduroti.com/cdn/shop/products/Joue-de-boeuf_c1560eb8-e139-46df-b489-95f8bad2a8b8_530x@2x.jpg?v=1642098059",
                 unit: "250g",
                 category: "beef",
@@ -703,7 +589,6 @@
                 id: 107,
                 name: "Patte de bœuf",
                 description: "Idéale pour préparer du bouillon riche et nourrissant. Base parfaite pour soupes et sauces.",
-                price: 10000, // Prix doublé
                 image: "https://epicerierina.ca/wp-content/uploads/2021/07/pied-de-boeuf.png",
                 unit: "250g",
                 category: "beef",
@@ -715,7 +600,6 @@
                 id: 108,
                 name: "Queue de bœuf",
                 description: "Parfaite pour les ragoûts et soupes, riche en collagène. Texture fondante après cuisson lente.",
-                price: 10000, // Prix doublé
                 image: "https://dynfiles.comme-a-la-boucherie.com/original-catalogue-produit-11-21-2023---10-05-15---706.jpg",
                 unit: "250g",
                 category: "beef",
@@ -727,7 +611,6 @@
                 id: 109,
                 name: "Cuisses de bœuf",
                 description: "Morceaux savoureux pour les plats mijotés et braisés. Viande goûteuse et parfumée.",
-                price: 10000, // Prix doublé
                 image: "https://img.freepik.com/photos-premium/cuisse-boeuf-crue-planche-bois-marron_93675-109904.jpg",
                 unit: "250g",
                 category: "beef",
@@ -739,7 +622,6 @@
                 id: 110,
                 name: "Épaules de bœuf",
                 description: "Viande goûteuse, parfaite pour les pot-au-feu et daubes. Saveur intense et texture fondante.",
-                price: 10000, // Prix doublé
                 image: "https://monbeaubonboeuf.ca/cdn/shop/files/Marteau_de_thor_a0fcb2d0-63e3-4491-8a53-a837900ecba2.jpg?crop=center&height=3024&v=1723597252&width=3024",
                 unit: "250g",
                 category: "beef",
@@ -751,7 +633,6 @@
                 id: 111,
                 name: "Saucisses de bœuf",
                 description: "Saucisses artisanales 100% bœuf, parfumées aux herbes. Parfaites pour grillades et ragoûts.",
-                price: 10000, // Prix doublé
                 image: "https://www.boeuf-a-la-ferme.fr/wp-content/uploads/2020/07/saucisse-boeuf-herbes-blond-aquitaine-ferme-producteur-gaec-villeneuve-480x480.webp",
                 unit: "250g",
                 category: "beef",
@@ -763,7 +644,6 @@
                 id: 112,
                 name: "Viande pour burger",
                 description: "Haché spécial burger, 80% de maigre, 20% de gras pour un burger juteux et savoureux.",
-                price: 10000, // Prix doublé
                 image: "https://www.leseleveursdelacharentonne.fr/documents/1383_1.jpg",
                 unit: "250g",
                 category: "beef",
@@ -775,7 +655,6 @@
                 id: 113,
                 name: "Viande hachée",
                 description: "Haché de bœuf 15% de matière grasse, parfait pour les sauces, lasagnes et boulettes.",
-                price: 10000, // Prix doublé
                 image: "https://img-3.journaldesfemmes.fr/SFp-8xzyuMZZLC59bRuGHZvoohQ=/1500x/smart/a9e53b751f6a47748c6dd5b64c93a8af/ccmcms-jdf/35554472.jpg",
                 unit: "250g",
                 category: "beef",
@@ -787,7 +666,6 @@
                 id: 114,
                 name: "Souris d'agneau",
                 description: "Morceau d'épaule d'agneau, tendre et savoureux après cuisson lente. Parfum délicat.",
-                price: 10000, // Prix doublé
                 image: "https://drive.fechter.fr/1-large_default/souris-d-agneau-450-gr.jpg",
                 unit: "250g",
                 category: "lamb",
@@ -800,7 +678,6 @@
                 id: 115,
                 name: "Agneau entier",
                 description: "Agneau entier prêt à rôtir, parfait pour les grandes occasions et réceptions.",
-                price: 10000, // Prix doublé
                 image: "https://www.happymeat.ch/wp-content/uploads/2013/10/Demi-agneau.jpg",
                 unit: "250g",
                 category: "lamb",
@@ -812,7 +689,6 @@
                 id: 116,
                 name: "Viande d'autruche",
                 description: "Viande rouge maigre, riche en protéines et faible en cholestérol. Alternative santé savoureuse.",
-                price: 10000, // Prix doublé
                 image: "https://bretagne-autruches.com/wp-content/uploads/2024/03/bretagne-autruches-photo-cuisne-viande-autruche-non-cuite.jpg",
                 unit: "250g",
                 category: "ostrich",
@@ -859,7 +735,6 @@
                     this.cart.push({
                         id: productId,
                         name: product.name,
-                        price: product.price,
                         image: product.image,
                         quantity: quantity,
                         unit: product.unit
@@ -893,12 +768,6 @@
                 this.saveCart();
             }
 
-            getCartTotal() {
-                return this.cart.reduce((total, item) => {
-                    return total + (item.price * item.quantity);
-                }, 0);
-            }
-
             getItemCount() {
                 return this.cart.reduce((total, item) => total + item.quantity, 0);
             }
@@ -922,7 +791,16 @@
                 this.renderProducts();
                 this.updateCartDisplay();
                 this.setCurrentYear();
-                this.setupMenuToggle();
+                this.setupWhatsAppChat();
+                this.initEmailJS();
+            }
+
+            initEmailJS() {
+                // Initialiser EmailJS avec la clé depuis le fichier principal
+                if (window.emailjs && window.CONFIG) {
+                    emailjs.init(window.CONFIG.emailjs.userID);
+                    console.log('📧 EmailJS initialisé pour restaurants');
+                }
             }
 
             cacheElements() {
@@ -940,15 +818,15 @@
                     restaurantContinueShoppingBtn: document.getElementById('restaurantContinueShopping'),
                     restaurantCheckoutBtn: document.getElementById('restaurantCheckoutBtn'),
                     restaurantCartItems: document.getElementById('restaurantCartItems'),
-                    restaurantCartSubtotal: document.getElementById('restaurantCartSubtotal'),
-                    restaurantCartTotal: document.getElementById('restaurantCartTotal'),
+                    restaurantCartCountDisplay: document.getElementById('restaurantCartCountDisplay'),
                     restaurantSuccessModal: document.getElementById('restaurantSuccessModal'),
-                    downloadOrderBtn: document.getElementById('downloadOrderBtn'),
-                    printOrderBtn: document.getElementById('printOrderBtn'),
                     closeRestaurantSuccessBtn: document.getElementById('closeRestaurantSuccess'),
                     restaurantOrderForm: document.getElementById('restaurantOrderForm'),
                     restaurantToast: document.getElementById('restaurantToast'),
-                    restaurantLoadingOverlay: document.getElementById('restaurantLoadingOverlay')
+                    restaurantLoadingOverlay: document.getElementById('restaurantLoadingOverlay'),
+                    whatsappBtn: document.getElementById('whatsappBtn'),
+                    whatsappBubble: document.getElementById('whatsappBubble'),
+                    closeWhatsappBubble: document.getElementById('closeWhatsappBubble')
                 };
             }
 
@@ -971,12 +849,14 @@
                 this.elements.restaurantCheckoutBtn?.addEventListener('click', (e) => this.handleCheckout(e));
                 
                 // Modal succès
-                this.elements.downloadOrderBtn?.addEventListener('click', () => this.downloadOrderPDF());
-                this.elements.printOrderBtn?.addEventListener('click', () => this.printOrder());
                 this.elements.closeRestaurantSuccessBtn?.addEventListener('click', () => this.closeSuccessModal());
                 
                 // Formulaire de commande
                 this.elements.restaurantOrderForm?.addEventListener('submit', (e) => this.handleOrderForm(e));
+                
+                // WhatsApp chat
+                this.elements.whatsappBtn?.addEventListener('click', () => this.toggleWhatsAppBubble());
+                this.elements.closeWhatsappBubble?.addEventListener('click', () => this.hideWhatsAppBubble());
                 
                 // Fermer les modales en cliquant à l'extérieur
                 document.addEventListener('click', (e) => this.handleOutsideClick(e));
@@ -985,17 +865,11 @@
                 document.addEventListener('keydown', (e) => this.handleKeyDown(e));
             }
 
-            setupMenuToggle() {
-                // Gérer le menu actif
-                const currentPage = window.location.pathname.split('/').pop();
-                if (currentPage === 'restaurants.html') {
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === 'restaurants.html') {
-                            link.classList.add('active');
-                        }
-                    });
-                }
+            setupWhatsAppChat() {
+                // Afficher automatiquement après 10 secondes
+                setTimeout(() => {
+                    this.showWhatsAppBubble();
+                }, 10000);
             }
 
             // ===== RENDU DES PRODUITS =====
@@ -1035,8 +909,7 @@
                                     <p class="product-description">${product.description}</p>
                                     <div class="product-footer">
                                         <div class="product-price">
-                                            <span class="price-label">Tarif pro:</span>
-                                            ${this.formatPrice(product.price)} FCFA
+                                            <span class="price-label">Tarif sur devis</span>
                                             <small class="price-unit">/${product.unit}</small>
                                         </div>
                                         <div class="product-actions">
@@ -1068,7 +941,6 @@
             // ===== GESTION DU PANIER =====
             updateCartDisplay() {
                 const itemCount = this.cartManager.getItemCount();
-                const total = this.cartManager.getCartTotal();
                 
                 // Mettre à jour le compteur
                 if (this.elements.restaurantCartCount) {
@@ -1079,7 +951,7 @@
                 // Mettre à jour l'aperçu du panier
                 if (this.elements.restaurantCartPreviewText) {
                     if (itemCount > 0) {
-                        this.elements.restaurantCartPreviewText.textContent = `${this.formatPrice(total)} FCFA (${itemCount} produit${itemCount > 1 ? 's' : ''})`;
+                        this.elements.restaurantCartPreviewText.textContent = `${itemCount} produit${itemCount > 1 ? 's' : ''} sélectionné${itemCount > 1 ? 's' : ''}`;
                         this.elements.restaurantCartPreviewText.parentElement.parentElement.classList.add('has-items');
                     } else {
                         this.elements.restaurantCartPreviewText.textContent = 'Votre sélection est vide';
@@ -1120,21 +992,17 @@
                         </div>
                     `;
                     
-                    if (this.elements.restaurantCartSubtotal) {
-                        this.elements.restaurantCartSubtotal.textContent = `0 FCFA`;
-                    }
-                    if (this.elements.restaurantCartTotal) {
-                        this.elements.restaurantCartTotal.textContent = `0 FCFA`;
+                    if (this.elements.restaurantCartCountDisplay) {
+                        this.elements.restaurantCartCountDisplay.textContent = `0`;
                     }
                     return;
                 }
                 
                 let html = '';
-                let subtotal = 0;
+                let totalItems = 0;
                 
                 cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    subtotal += itemTotal;
+                    totalItems += item.quantity;
                     
                     html += `
                         <div class="cart-item">
@@ -1144,7 +1012,7 @@
                                 </div>
                                 <div class="cart-item-details">
                                     <div class="cart-item-name">${item.name}</div>
-                                    <div class="cart-item-price">${this.formatPrice(item.price)} FCFA / ${item.unit}</div>
+                                    <div class="cart-item-price">Unités: ${item.unit}</div>
                                 </div>
                             </div>
                             <div class="cart-item-actions">
@@ -1164,11 +1032,8 @@
                 this.elements.restaurantCartItems.innerHTML = html;
                 
                 // Mettre à jour les totaux
-                if (this.elements.restaurantCartSubtotal) {
-                    this.elements.restaurantCartSubtotal.textContent = `${this.formatPrice(subtotal)} FCFA`;
-                }
-                if (this.elements.restaurantCartTotal) {
-                    this.elements.restaurantCartTotal.textContent = `${this.formatPrice(subtotal)} FCFA`;
+                if (this.elements.restaurantCartCountDisplay) {
+                    this.elements.restaurantCartCountDisplay.textContent = `${totalItems}`;
                 }
                 
                 // Attacher les événements
@@ -1296,7 +1161,7 @@
             async handleOrderForm(e) {
                 e.preventDefault();
                 
-                // Validation
+                // Validation du formulaire
                 const restaurantName = document.getElementById('restaurant-name').value.trim();
                 const contactName = document.getElementById('restaurant-contact').value.trim();
                 const email = document.getElementById('restaurant-email').value.trim();
@@ -1311,153 +1176,131 @@
                     return;
                 }
                 
-                // Afficher le loading
+                if (this.cartManager.cart.length === 0) {
+                    this.showToast('Veuillez sélectionner au moins un produit', 'Panier vide', 'error');
+                    return;
+                }
+                
                 this.showLoading();
                 
-                // Simuler un traitement
-                setTimeout(() => {
-                    this.hideLoading();
-                    
-                    // Créer l'objet commande
-                    const orderData = {
-                        restaurantName,
-                        contactName,
-                        email,
-                        phone,
-                        address,
-                        restaurantType,
-                        deliveryFrequency,
-                        specialNotes,
-                        items: this.cartManager.getCartItems(),
-                        subtotal: this.cartManager.getCartTotal(),
-                        orderNumber: 'CMD-PRO-' + Date.now().toString().slice(-6),
-                        orderDate: new Date().toLocaleDateString('fr-FR', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        })
-                    };
-                    
-                    // Sauvegarder la commande
+                // Créer l'objet commande
+                const orderData = {
+                    restaurantName,
+                    contactName,
+                    email,
+                    phone,
+                    address,
+                    restaurantType,
+                    deliveryFrequency,
+                    specialNotes,
+                    items: this.cartManager.getCartItems(),
+                    orderNumber: 'CMD-PRO-' + Date.now().toString().slice(-6),
+                    orderDate: new Date().toLocaleDateString('fr-FR')
+                };
+                
+                try {
+                    // Sauvegarder localement
                     localStorage.setItem('last_restaurant_order', JSON.stringify(orderData));
                     
-                    // Réinitialiser le formulaire
+                    // Envoyer à l'admin via EmailJS
+                    if (window.sendRestaurantQuoteEmail) {
+                        await window.sendRestaurantQuoteEmail(orderData);
+                    } else if (window.emailjs && window.CONFIG) {
+                        // Fallback: envoyer directement
+                        await this.sendRestaurantEmailDirect(orderData);
+                    }
+                    
+                    // Réinitialiser le formulaire et le panier
                     e.target.reset();
+                    this.cartManager.clearCart();
+                    this.updateCartDisplay();
+                    
+                    this.hideLoading();
                     
                     // Afficher le modal de succès
+                    document.getElementById('orderNumberDisplay').textContent = orderData.orderNumber;
                     this.showSuccessModal();
                     
-                    // Générer le bon de commande
-                    this.generateOrderPDF(orderData);
-                    
-                }, 2000);
-            }
-
-            // ===== GÉNÉRATION BON DE COMMANDE =====
-            async generateOrderPDF(orderData) {
-                try {
-                    // Mettre à jour l'affichage HTML
-                    document.getElementById('orderNumberValue').textContent = orderData.orderNumber;
-                    document.getElementById('orderDateValue').textContent = orderData.orderDate;
-                    
-                    document.getElementById('restaurantInfoDisplay').innerHTML = `
-                        <strong>${orderData.restaurantName}</strong><br>
-                        Contact: ${orderData.contactName}<br>
-                        Email: ${orderData.email}<br>
-                        Téléphone: ${orderData.phone}<br>
-                        Adresse: ${orderData.address}<br>
-                        Type: ${orderData.restaurantType}<br>
-                        Livraison: ${orderData.deliveryFrequency}
-                    `;
-                    
-                    // Remplir les produits
-                    const itemsBody = document.getElementById('orderItemsBody');
-                    itemsBody.innerHTML = '';
-                    
-                    orderData.items.forEach(item => {
-                        const total = item.price * item.quantity;
-                        itemsBody.innerHTML += `
-                            <tr>
-                                <td>${item.name}</td>
-                                <td>${item.quantity}</td>
-                                <td>${this.formatPrice(item.price)} FCFA</td>
-                                <td>${this.formatPrice(total)} FCFA</td>
-                            </tr>
-                        `;
-                    });
-                    
-                    document.getElementById('orderSubtotalDisplay').textContent = `${this.formatPrice(orderData.subtotal)} FCFA`;
-                    document.getElementById('orderTotalDisplay').textContent = `${this.formatPrice(orderData.subtotal)} FCFA`;
+                    this.showToast('Demande de devis envoyée avec succès !', 'Succès');
                     
                 } catch (error) {
-                    console.error('Erreur lors de la génération du PDF:', error);
+                    this.hideLoading();
+                    this.showToast('Erreur lors de l\'envoi de la demande', 'Erreur', 'error');
+                    console.error('Erreur complète:', error);
                 }
             }
 
-            downloadOrderPDF() {
-                this.showLoading();
+            async sendRestaurantEmailDirect(orderData) {
+                if (!window.emailjs || !window.CONFIG) return;
                 
-                setTimeout(() => {
-                    const orderSummary = document.getElementById('orderSummary');
+                const templateParams = {
+                    to_email: 'alaboutiqueboucherie@gmail.com',
+                    to_name: 'Andy la Boucherie',
+                    from_name: orderData.contactName || 'Restaurant',
+                    from_email: orderData.email || 'restaurant@andy.com',
+                    subject: `Demande de devis - ${orderData.restaurantName}`,
                     
-                    html2canvas(orderSummary).then(canvas => {
-                        const imgData = canvas.toDataURL('image/png');
-                        
-                        // Utiliser jsPDF
-                        const { jsPDF } = window.jspdf;
-                        const pdf = new jsPDF('p', 'mm', 'a4');
-                        
-                        const imgWidth = 190;
-                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                        
-                        pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-                        pdf.save(`bon-commande-${Date.now().toString().slice(-6)}.pdf`);
-                        
-                        this.hideLoading();
-                        this.showToast('Bon de commande téléchargé', 'Succès');
-                    });
-                }, 1000);
+                    restaurant_name: orderData.restaurantName,
+                    contact_name: orderData.contactName,
+                    contact_email: orderData.email,
+                    contact_phone: orderData.phone,
+                    restaurant_address: orderData.address,
+                    
+                    restaurant_type: this.getRestaurantTypeText(orderData.restaurantType),
+                    delivery_frequency: this.getDeliveryFrequencyText(orderData.deliveryFrequency),
+                    
+                    special_notes: orderData.specialNotes || 'Aucune note',
+                    
+                    order_items: orderData.items.map(item => 
+                        `• ${item.name} x${item.quantity} (${item.unit || 'unité'})`
+                    ).join('\n'),
+                    
+                    order_date: new Date().toLocaleDateString('fr-FR'),
+                    
+                    reply_to: orderData.email || 'alaboutiqueboucherie@gmail.com'
+                };
+                
+                return await emailjs.send(
+                    window.CONFIG.emailjs.serviceID,
+                    window.CONFIG.emailjs.templateID,
+                    templateParams
+                );
             }
 
-            printOrder() {
-                const orderSummary = document.getElementById('orderSummary');
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Bon de Commande - Andy la Boucherie</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; margin: 20px; }
-                            .order-header { text-align: center; margin-bottom: 30px; }
-                            .order-details { margin-top: 30px; }
-                            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                            th { background-color: #f2f2f2; }
-                            .order-totals { margin-top: 20px; }
-                            .total-row { display: flex; justify-content: space-between; margin: 5px 0; }
-                            .grand-total { font-weight: bold; font-size: 1.2em; border-top: 2px solid #000; padding-top: 10px; }
-                            .order-notes { margin-top: 30px; font-size: 0.9em; color: #666; }
-                            .order-signature { display: flex; justify-content: space-between; margin-top: 50px; }
-                            .signature-block { width: 45%; }
-                            .signature-line { border-top: 1px solid #000; width: 100%; margin: 40px 0 10px; }
-                            @media print {
-                                body { margin: 0; }
-                                button { display: none; }
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${orderSummary.innerHTML}
-                    </body>
-                    </html>
-                `);
-                printWindow.document.close();
-                printWindow.focus();
-                printWindow.print();
-                printWindow.close();
+            getRestaurantTypeText(type) {
+                const types = {
+                    'restaurant': 'Restaurant',
+                    'hotel': 'Hôtel/Résidence',
+                    'catering': 'Traiteur',
+                    'canteen': 'Cantine d\'entreprise',
+                    'events': 'Événementiel',
+                    'other': 'Autre'
+                };
+                return types[type] || 'Autre';
+            }
+
+            getDeliveryFrequencyText(frequency) {
+                const frequencies = {
+                    'daily': 'Quotidienne',
+                    'weekly': 'Hebdomadaire',
+                    'biweekly': 'Bi-hebdomadaire',
+                    'monthly': 'Mensuelle',
+                    'occasional': 'Occasionnelle'
+                };
+                return frequencies[frequency] || 'Non spécifié';
+            }
+
+            // ===== WHATSAPP CHAT =====
+            toggleWhatsAppBubble() {
+                this.elements.whatsappBubble.classList.toggle('show');
+            }
+
+            showWhatsAppBubble() {
+                this.elements.whatsappBubble.classList.add('show');
+            }
+
+            hideWhatsAppBubble() {
+                this.elements.whatsappBubble.classList.remove('show');
             }
 
             // ===== MODALES =====
@@ -1578,6 +1421,13 @@
                     e.target === this.elements.restaurantSuccessModal) {
                     this.closeSuccessModal();
                 }
+                
+                // Fermer WhatsApp bubble en cliquant à l'extérieur
+                if (this.elements.whatsappBubble?.classList.contains('show') && 
+                    !e.target.closest('#whatsappBubble') && 
+                    !e.target.closest('#whatsappBtn')) {
+                    this.hideWhatsAppBubble();
+                }
             }
 
             handleKeyDown(e) {
@@ -1591,6 +1441,9 @@
                     }
                     if (this.elements.nav?.classList.contains('active')) {
                         this.toggleMobileMenu();
+                    }
+                    if (this.elements.whatsappBubble?.classList.contains('show')) {
+                        this.hideWhatsAppBubble();
                     }
                 }
             }
@@ -1629,254 +1482,5 @@
             window.restaurantUIManager = restaurantUIManager;
         });
     </script>
-
-    <style>
-        /* Styles spécifiques restaurants */
-        .professional-benefits {
-            margin: 40px 0;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .benefit-card {
-            background: var(--white);
-            padding: 25px;
-            border-radius: var(--radius-lg);
-            text-align: center;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition-normal);
-            border: 2px solid var(--primary-lighter);
-        }
-        
-        .benefit-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-light);
-        }
-        
-        .benefit-card i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        
-        .benefit-card h3 {
-            font-size: 1.2rem;
-            color: var(--primary-dark);
-            margin-bottom: 10px;
-        }
-        
-        .benefit-card p {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin: 0;
-        }
-        
-        .restaurant-cart-preview .cart-preview-content i {
-            color: var(--primary);
-        }
-        
-        .restaurant-cart-preview.has-items .cart-preview-content {
-            color: var(--primary);
-        }
-        
-        .restaurant-product-card .product-category {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            color: var(--white);
-        }
-        
-        .restaurant-product-card .product-price {
-            font-size: 1.6rem;
-        }
-        
-        .restaurant-product-card .price-label {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--text-light);
-            margin-bottom: 2px;
-        }
-        
-        .restaurant-product-card .price-unit {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            font-weight: normal;
-        }
-        
-        .restaurant-form-section {
-            background: var(--light-gray);
-        }
-        
-        .order-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .order-actions .btn {
-            width: 100%;
-        }
-        
-        /* Styles pour le bon de commande PDF */
-        #orderSummary {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background: white;
-        }
-        
-        .order-summary-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 20px;
-        }
-        
-        .order-logo h2 {
-            color: var(--primary-dark);
-            margin: 0;
-        }
-        
-        .order-info h3 {
-            color: var(--primary-dark);
-            margin: 0 0 10px 0;
-            text-align: right;
-        }
-        
-        .order-details h4 {
-            color: var(--primary-dark);
-            margin: 20px 0 10px 0;
-            border-bottom: 1px solid var(--medium-gray);
-            padding-bottom: 5px;
-        }
-        
-        .restaurant-info {
-            background: var(--light-gray);
-            padding: 15px;
-            border-radius: var(--radius-md);
-            margin-bottom: 30px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        
-        th {
-            background: var(--primary-lighter);
-            color: var(--primary-dark);
-            font-weight: 600;
-            padding: 12px 15px;
-            text-align: left;
-        }
-        
-        td {
-            padding: 10px 15px;
-            border-bottom: 1px solid var(--medium-gray);
-        }
-        
-        .order-totals {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid var(--medium-gray);
-        }
-        
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0;
-        }
-        
-        .grand-total {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: var(--primary-dark);
-        }
-        
-        .order-notes {
-            margin-top: 30px;
-            padding: 15px;
-            background: var(--light-gray);
-            border-radius: var(--radius-md);
-            font-size: 0.9em;
-        }
-        
-        .order-signature {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 60px;
-        }
-        
-        .signature-block {
-            width: 45%;
-        }
-        
-        .signature-line {
-            border-top: 1px solid #000;
-            width: 100%;
-            margin: 40px 0 10px;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .benefits-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .order-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .order-info {
-                text-align: center;
-                margin-top: 20px;
-            }
-            
-            .order-signature {
-                flex-direction: column;
-                gap: 40px;
-            }
-            
-            .signature-block {
-                width: 100%;
-            }
-            
-            table {
-                font-size: 0.9em;
-            }
-            
-            th, td {
-                padding: 8px 10px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .order-actions {
-                flex-direction: column;
-            }
-            
-            table {
-                display: block;
-                overflow-x: auto;
-            }
-        }
-    </style>
 </body>
 </html>

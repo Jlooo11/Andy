@@ -5,7 +5,16 @@ const CONFIG = {
     deliveryFee: 0,
     taxRate: 0,
     minOrderValue: 0,
-    imagePlaceholder: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="400" height="300" fill="%23f0f0f0"/><text x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-family="Arial" font-size="16">Image non disponible</text></svg>'
+    imagePlaceholder: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="400" height="300" fill="%23f0f0f0"/><text x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-family="Arial" font-size="16">Image non disponible</text></svg>',
+    paymentLink: 'https://pay.jeko.africa/pl/3775132a-b0c2-4dfd-85ec-4f7d5d49d1ce',
+    whatsappNumber: '2250768128549',
+    
+    // EmailJS Configuration
+    emailjs: {
+        serviceID: 'service_xoza1k6',
+        templateID: 'template_to7qggt',
+        userID: '13uhnx4ywp64w0KDy'
+    }
 };
 
 // ===== DONNÉES DES PRODUITS =====
@@ -14,8 +23,8 @@ const products = [
         id: 1,
         name: "Tomahawk de bœuf",
         description: "Côte de bœuf avec l'os long, parfaite pour les grillades. Viande persillée et tendre, idéale pour les occasions spéciales.",
-        price: 20000, // Prix au kg
-        priceUnit: "kg", // Indique que le prix est au kg
+        price: 20000,
+        priceUnit: "kg",
         image: "https://laboucherie.be/cdn/shop/products/tomahawk-rubia-gallega-mature-la-boucherie-viande-en-ligne.jpg?v=1643725171",
         unit: "250g",
         category: "beef",
@@ -28,8 +37,8 @@ const products = [
         id: 2,
         name: "Entrecôte de bœuf",
         description: "Morceau persillé, idéal pour les grillades. Origine locale, élevage en plein air. Saveur intense et texture parfaite.",
-        price: 5000, // Prix pour 250g
-        priceUnit: "250g", // Indique que le prix est pour 250g
+        price: 5000,
+        priceUnit: "250g",
         image: "https://boutique.pacantal.fr/wp-content/uploads/2024/08/Entrecote-scaled.jpg",
         unit: "250g",
         category: "beef",
@@ -42,7 +51,7 @@ const products = [
         id: 3,
         name: "Filet de bœuf",
         description: "Le morceau le plus tendre, parfait pour les tournedos et béarnaise. Saveur délicate et texture fondante.",
-        price: 20000, // Prix au kg
+        price: 20000,
         priceUnit: "kg",
         image: "https://media.istockphoto.com/id/475924176/fr/photo/fruits-de-mer-de-prime-fra%C3%AEcheur-et-de-la-viande-steaks-de-faux-filet-row-pr%C3%AAt-%C3%A0-cuisiner.jpg?s=612x612&w=0&k=20&c=66UjKOXPq_OIJwh6KheK16uMDeBGxhvLJVi4JOlC7xU=",
         unit: "250g",
@@ -56,7 +65,7 @@ const products = [
         id: 4,
         name: "T-Bone",
         description: "Steak contenant à la fois le filet et le contre-filet. Parfait pour les amateurs de viande généreuse.",
-        price: 5000, // Prix pour 250g
+        price: 5000,
         priceUnit: "250g",
         image: "https://static.ticimax.cloud/43437/uploads/urunresimleri/buyuk/premium-t-bone-steak-f4212a.jpg",
         unit: "250g",
@@ -69,7 +78,7 @@ const products = [
         id: 5,
         name: "Ribs de bœuf",
         description: "Côtes levées de bœuf, idéales pour la cuisson lente et barbecue. Viande fondante et savoureuse.",
-        price: 5000, // Prix pour 250g
+        price: 5000,
         priceUnit: "250g",
         image: "https://meatbros.lu/site/71-home_default/st-louis-spare-ribs.jpg",
         unit: "250g",
@@ -82,7 +91,7 @@ const products = [
         id: 6,
         name: "Joue de bœuf",
         description: "Viande gélatineuse parfaite pour les mijotés et plats en sauce. Saveur riche et texture unique.",
-        price: 5000, // Prix pour 250g
+        price: 5000,
         priceUnit: "250g",
         image: "https://maisonduroti.com/cdn/shop/products/Joue-de-boeuf_c1560eb8-e139-46df-b489-95f8bad2a8b8_530x@2x.jpg?v=1642098059",
         unit: "250g",
@@ -95,7 +104,7 @@ const products = [
         id: 8,
         name: "Queue de bœuf",
         description: "Parfaite pour les ragoûts et soupes, riche en collagène. Texture fondante après cuisson lente.",
-        price: 20000, // Prix au kg
+        price: 20000,
         priceUnit: "kg",
         image: "https://dynfiles.comme-a-la-boucherie.com/original-catalogue-produit-11-21-2023---10-05-15---706.jpg",
         unit: "250g",
@@ -108,7 +117,7 @@ const products = [
         id: 9,
         name: "Cuisses de bœuf",
         description: "Morceaux savoureux pour les plats mijotés et braisés. Viande goûteuse et parfumée.",
-        price: 20000, // Prix au kg
+        price: 20000,
         priceUnit: "kg",
         image: "https://img.freepik.com/photos-premium/cuisse-boeuf-crue-planche-bois-marron_93675-109904.jpg",
         unit: "250g",
@@ -121,7 +130,7 @@ const products = [
         id: 10,
         name: "Épaules de bœuf",
         description: "Viande goûteuse, parfaite pour les pot-au-feu et daubes. Saveur intense et texture fondante.",
-        price: 20000, // Prix au kg
+        price: 20000,
         priceUnit: "kg",
         image: "https://monbeaubonboeuf.ca/cdn/shop/files/Marteau_de_thor_a0fcb2d0-63e3-4491-8a53-a837900ecba2.jpg?crop=center&height=3024&v=1723597252&width=3024",
         unit: "250g",
@@ -134,7 +143,7 @@ const products = [
         id: 11,
         name: "Saucisses de bœuf",
         description: "Saucisses artisanales 100% bœuf, parfumées aux herbes. Parfaites pour grillades et ragoûts.",
-        price: 5000, // Prix pour 250g
+        price: 5000,
         priceUnit: "250g",
         image: "https://www.boeuf-a-la-ferme.fr/wp-content/uploads/2020/07/saucisse-boeuf-herbes-blond-aquitaine-ferme-producteur-gaec-villeneuve-480x480.webp",
         unit: "250g",
@@ -147,7 +156,7 @@ const products = [
         id: 12,
         name: "Viande pour burger",
         description: "Haché spécial burger, 80% de maigre, 20% de gras pour un burger juteux et savoureux.",
-        price: 5000, // Prix pour 250g
+        price: 5000,
         priceUnit: "250g",
         image: "https://www.leseleveursdelacharentonne.fr/documents/1383_1.jpg",
         unit: "250g",
@@ -160,7 +169,7 @@ const products = [
         id: 13,
         name: "Viande hachée",
         description: "Haché de bœuf 15% de matière grasse, parfait pour les sauces, lasagnes et boulettes.",
-        price: 5000, // Prix pour 250g
+        price: 5000,
         priceUnit: "250g",
         image: "https://img-3.journaldesfemmes.fr/SFp-8xzyuMZZLC59bRuGHZvoohQ=/1500x/smart/a9e53b751f6a47748c6dd5b64c93a8af/ccmcms-jdf/35554472.jpg",
         unit: "250g",
@@ -173,7 +182,7 @@ const products = [
         id: 14,
         name: "Souris d'agneau",
         description: "Morceau d'épaule d'agneau, tendre et savoureux après cuisson lente. Parfum délicat.",
-        price: 5000, // Prix pour 250g
+        price: 5000,
         priceUnit: "250g",
         image: "https://drive.fechter.fr/1-large_default/souris-d-agneau-450-gr.jpg",
         unit: "250g",
@@ -187,20 +196,20 @@ const products = [
         id: 15,
         name: "Agneau entier",
         description: "Agneau entier prêt à rôtir, parfait pour les grandes occasions et réceptions.",
-        price: 25000, // Prix fixe pour l'agneau entier
-        priceUnit: "pièce", // Prix à la pièce
+        price: 25000,
+        priceUnit: "pièce",
         image: "https://www.happymeat.ch/wp-content/uploads/2013/10/Demi-agneau.jpg",
         unit: "pièce",
         category: "lamb",
         tags: ["Entier", "Rôti", "Occasion"],
         stock: 5,
-        weight: 6250 // 6.25kg = 6250g
+        weight: 6250
     },
     {
         id: 16,
         name: "Viande d'autruche",
         description: "Viande rouge maigre, riche en protéines et faible en cholestérol. Alternative santé savoureuse.",
-        price: 5000, // Prix pour 250g
+        price: 5000,
         priceUnit: "250g",
         image: "https://bretagne-autruches.com/wp-content/uploads/2024/03/bretagne-autruches-photo-cuisne-viande-autruche-non-cuite.jpg",
         unit: "250g",
@@ -248,7 +257,7 @@ class CartManager {
             this.cart.push({
                 id: productId,
                 name: product.name,
-                price: this.getPriceForCart(product), // Utiliser le prix calculé pour le panier
+                price: this.getPriceForCart(product),
                 image: product.image,
                 priceUnit: product.priceUnit,
                 quantity: quantity
@@ -259,17 +268,13 @@ class CartManager {
         return true;
     }
 
-    // Nouvelle méthode pour calculer le prix pour le panier
     getPriceForCart(product) {
-        // Si le prix est au kg, calculer le prix pour 250g
         if (product.priceUnit === "kg") {
-            return product.price / 4; // 1kg = 1000g, 250g = 1/4 du prix
+            return product.price / 4;
         }
-        // Si le prix est à la pièce (agneau entier), utiliser le prix tel quel
         if (product.priceUnit === "pièce") {
             return product.price;
         }
-        // Sinon (prix pour 250g), utiliser le prix tel quel
         return product.price;
     }
 
@@ -321,6 +326,18 @@ class UIManager {
         this.updateCartDisplay();
         this.setCurrentYear();
         this.setupAnimations();
+        this.initPromotionBanner();
+        this.initEmailJS();
+    }
+
+    initEmailJS() {
+        // Initialiser EmailJS
+        if (window.emailjs) {
+            emailjs.init(CONFIG.emailjs.userID);
+            console.log('📧 EmailJS initialisé avec la clé:', CONFIG.emailjs.userID);
+        } else {
+            console.warn('⚠️ EmailJS non chargé');
+        }
     }
 
     cacheElements() {
@@ -349,41 +366,52 @@ class UIManager {
     }
 
     setupEventListeners() {
-        // Menu mobile
         this.elements.mobileMenuBtn?.addEventListener('click', () => this.toggleMobileMenu());
         
-        // Filtres produits
         this.elements.filterBtns?.forEach(btn => {
             btn.addEventListener('click', (e) => this.handleFilterClick(e));
         });
         
-        // Panier
         this.elements.cartBtn?.addEventListener('click', () => this.openCartModal());
         this.elements.viewCartBtn?.addEventListener('click', () => this.openCartModal());
         
-        // Modal panier
         this.elements.closeModalBtn?.addEventListener('click', () => this.closeCartModal());
         this.elements.continueShoppingBtn?.addEventListener('click', () => this.closeCartModal());
         this.elements.checkoutBtn?.addEventListener('click', (e) => this.handleCheckout(e));
         
-        // Modal succès
         this.elements.closeSuccessBtn?.addEventListener('click', () => this.closeSuccessModal());
         
-        // Formulaire contact
         this.elements.contactForm?.addEventListener('submit', (e) => this.handleContactForm(e));
         
-        // Fermer les modales en cliquant à l'extérieur
         document.addEventListener('click', (e) => this.handleOutsideClick(e));
-        
-        // Gestion des touches clavier
         document.addEventListener('keydown', (e) => this.handleKeyDown(e));
-        
-        // Scroll header
         window.addEventListener('scroll', () => this.handleScroll());
     }
 
+    initPromotionBanner() {
+        // Rotation automatique des promotions
+        const promotions = [
+            "🥩 Nouveau ! Découvrez notre viande d'autruche premium",
+            "📦 Commandez avant 14h, livraison le jour même !",
+            "👨‍🍳 Recette de la semaine : Tomahawk grillé aux herbes"
+        ];
+        
+        let currentIndex = 0;
+        const promotionText = document.querySelector('.promotion-text');
+        
+        if (promotionText) {
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % promotions.length;
+                promotionText.style.opacity = '0';
+                setTimeout(() => {
+                    promotionText.textContent = promotions[currentIndex];
+                    promotionText.style.opacity = '1';
+                }, 500);
+            }, 5000);
+        }
+    }
+
     setupAnimations() {
-        // Animation des cartes produits
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -401,13 +429,11 @@ class UIManager {
             });
         }, observerOptions);
 
-        // Observer les cartes produits
         document.querySelectorAll('.product-card').forEach(card => {
             observer.observe(card);
         });
     }
 
-    // ===== RENDU DES PRODUITS =====
     renderProducts(filter = 'all') {
         if (!this.elements.productsGrid) return;
         
@@ -459,12 +485,9 @@ class UIManager {
         }
         
         this.elements.productsGrid.innerHTML = html;
-        
-        // Attacher les événements aux nouveaux boutons
         this.attachProductEventListeners();
     }
 
-    // Nouvelle méthode pour formater le prix d'affichage
     formatDisplayPrice(product) {
         const formattedPrice = this.formatPrice(product.price);
         
@@ -483,18 +506,15 @@ class UIManager {
         });
     }
 
-    // ===== GESTION DU PANIER =====
     updateCartDisplay() {
         const itemCount = this.cartManager.getItemCount();
         const total = this.cartManager.getCartTotal();
         
-        // Mettre à jour le compteur
         if (this.elements.cartCount) {
             this.elements.cartCount.textContent = itemCount;
             this.elements.cartCount.style.display = itemCount > 0 ? 'flex' : 'none';
         }
         
-        // Mettre à jour l'aperçu du panier
         if (this.elements.cartPreviewText) {
             if (itemCount > 0) {
                 this.elements.cartPreviewText.textContent = `${this.formatPrice(total)} ${CONFIG.currency}`;
@@ -505,7 +525,6 @@ class UIManager {
             }
         }
         
-        // Mettre à jour les boutons des produits
         this.updateProductButtons();
     }
 
@@ -554,7 +573,6 @@ class UIManager {
             const itemTotal = item.price * item.quantity;
             subtotal += itemTotal;
             
-            // Récupérer le produit original pour l'unité d'affichage
             const originalProduct = products.find(p => p.id === item.id);
             const displayPriceUnit = originalProduct?.priceUnit || "250g";
             
@@ -585,7 +603,6 @@ class UIManager {
         
         this.elements.cartItems.innerHTML = html;
         
-        // Mettre à jour les totaux
         const total = subtotal + CONFIG.deliveryFee;
         
         if (this.elements.cartSubtotal) {
@@ -595,37 +612,30 @@ class UIManager {
             this.elements.cartTotal.textContent = `${this.formatPrice(total)} ${CONFIG.currency}`;
         }
         
-        // Attacher les événements
         this.attachCartEventListeners();
     }
 
     attachCartEventListeners() {
-        // Incrémenter/décrémenter
         document.querySelectorAll('.quantity-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.handleQuantityChange(e));
         });
         
-        // Changer la quantité via l'input
         document.querySelectorAll('.quantity').forEach(input => {
             input.addEventListener('change', (e) => this.handleQuantityInput(e));
         });
         
-        // Retirer du panier
         document.querySelectorAll('.remove-item').forEach(btn => {
             btn.addEventListener('click', (e) => this.handleRemoveItem(e));
         });
     }
 
-    // ===== GESTION DES ÉVÉNEMENTS =====
     handleFilterClick(e) {
         const button = e.currentTarget;
         const filter = button.dataset.filter;
         
-        // Mettre à jour les boutons actifs
         this.elements.filterBtns?.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
         
-        // Appliquer le filtre
         this.renderProducts(filter);
     }
 
@@ -633,22 +643,17 @@ class UIManager {
         const button = e.currentTarget;
         const productId = parseInt(button.dataset.id);
         
-        // Animation
         button.classList.add('adding');
         setTimeout(() => button.classList.remove('adding'), 300);
         
-        // Ajouter au panier
         const success = this.cartManager.addToCart(productId, 1);
         
         if (success) {
-            // Mettre à jour l'affichage
             this.updateCartDisplay();
             
-            // Afficher la notification
             const product = products.find(p => p.id === productId);
             this.showToast(`${product.name} ajouté au panier`, 'Succès');
             
-            // Animation de confirmation
             button.classList.add('added');
             setTimeout(() => {
                 button.classList.remove('added');
@@ -661,16 +666,19 @@ class UIManager {
         const button = e.currentTarget;
         const productId = parseInt(button.dataset.id);
         const isIncrement = button.classList.contains('increment');
+        const isDecrement = button.classList.contains('decrement');
         
         const item = this.cartManager.cart.find(item => item.id === productId);
         if (!item) return;
         
-        const newQuantity = isIncrement ? item.quantity + 1 : item.quantity - 1;
-        
-        if (newQuantity < 1) {
-            this.cartManager.removeFromCart(productId);
-        } else {
-            this.cartManager.updateQuantity(productId, newQuantity);
+        if (isIncrement) {
+            this.cartManager.updateQuantity(productId, item.quantity + 1);
+        } else if (isDecrement) {
+            if (item.quantity > 1) {
+                this.cartManager.updateQuantity(productId, item.quantity - 1);
+            } else {
+                this.cartManager.removeFromCart(productId);
+            }
         }
         
         this.updateCartDisplay();
@@ -682,7 +690,12 @@ class UIManager {
         const productId = parseInt(input.dataset.id);
         const quantity = parseInt(input.value) || 1;
         
-        this.cartManager.updateQuantity(productId, quantity);
+        if (quantity < 1) {
+            this.cartManager.removeFromCart(productId);
+        } else {
+            this.cartManager.updateQuantity(productId, quantity);
+        }
+        
         this.updateCartDisplay();
         this.renderCartItems();
     }
@@ -705,41 +718,98 @@ class UIManager {
             return;
         }
         
-        this.showLoading();
+        this.saveOrderBeforePayment();
         
-        // Simulation de traitement
-        setTimeout(() => {
-            this.hideLoading();
-            this.closeCartModal();
-            this.showSuccessModal();
-            this.cartManager.clearCart();
-            this.updateCartDisplay();
-            this.renderCartItems();
-        }, 1500);
+        // Rediriger vers le lien de paiement Jeko
+        window.location.href = CONFIG.paymentLink;
     }
 
-    handleContactForm(e) {
+    saveOrderBeforePayment() {
+        const order = {
+            items: this.cartManager.cart,
+            total: this.cartManager.getCartTotal(),
+            date: new Date().toISOString(),
+            status: 'pending_payment',
+            orderNumber: 'CMD-' + Date.now().toString().slice(-6)
+        };
+        
+        localStorage.setItem('last_order', JSON.stringify(order));
+        this.cartManager.clearCart();
+        this.updateCartDisplay();
+    }
+
+    async handleContactForm(e) {
         e.preventDefault();
+        
+        const name = document.getElementById('contact-name').value.trim();
+        const email = document.getElementById('contact-email').value.trim();
+        const subject = document.getElementById('contact-subject').value;
+        const message = document.getElementById('contact-message').value.trim();
+        
+        if (!name || !email || !subject || !message) {
+            this.showToast('Veuillez remplir tous les champs', 'Formulaire incomplet', 'error');
+            return;
+        }
         
         this.showLoading();
         
-        // Simulation d'envoi
-        setTimeout(() => {
-            this.hideLoading();
-            this.showToast('Message envoyé avec succès !', 'Succès');
+        try {
+            // Préparer les données pour EmailJS
+            const templateParams = {
+                to_email: 'alaboutiqueboucherie@gmail.com',
+                to_name: 'Andy la Boucherie',
+                from_name: name,
+                from_email: email,
+                subject: `Contact site web: ${subject}`,
+                message: message,
+                contact_subject: this.getSubjectText(subject),
+                contact_date: new Date().toLocaleDateString('fr-FR'),
+                reply_to: email
+            };
+            
+            // Envoyer l'email via EmailJS
+            if (window.emailjs) {
+                await emailjs.send(
+                    CONFIG.emailjs.serviceID,
+                    CONFIG.emailjs.templateID,
+                    templateParams
+                );
+                
+                this.showToast('Message envoyé avec succès !', 'Succès');
+            } else {
+                console.log('Simulation d\'envoi d\'email');
+                this.showToast('Message envoyé avec succès !', 'Succès');
+            }
+            
+            // Réinitialiser le formulaire
             e.target.reset();
-        }, 1500);
+            
+        } catch (error) {
+            console.error('Erreur lors de l\'envoi du message:', error);
+            this.showToast('Erreur lors de l\'envoi du message', 'Erreur', 'error');
+        } finally {
+            this.hideLoading();
+        }
+    }
+
+    getSubjectText(subjectValue) {
+        const subjects = {
+            'commande': 'Question sur une commande',
+            'produit': 'Information produit',
+            'livraison': 'Livraison',
+            'partenariat': 'Partenariat',
+            'autre': 'Autre'
+        };
+        return subjects[subjectValue] || 'Autre';
     }
 
     handleOutsideClick(e) {
-        // Fermer le menu mobile en cliquant à l'extérieur
         if (this.elements.nav?.classList.contains('active') && 
             !e.target.closest('.nav') && 
             !e.target.closest('.mobile-menu-btn')) {
             this.toggleMobileMenu(false);
         }
         
-        // Fermer les modales en cliquant à l'extérieur
         if (this.elements.cartModal?.classList.contains('show') && 
             e.target === this.elements.cartModal) {
             this.closeCartModal();
@@ -752,7 +822,6 @@ class UIManager {
     }
 
     handleKeyDown(e) {
-        // Fermer avec Escape
         if (e.key === 'Escape') {
             if (this.elements.cartModal?.classList.contains('show')) {
                 this.closeCartModal();
@@ -775,7 +844,6 @@ class UIManager {
         }
     }
 
-    // ===== MODALES =====
     openCartModal() {
         this.renderCartItems();
         this.elements.cartModal.classList.add('show');
@@ -797,7 +865,6 @@ class UIManager {
         document.body.style.overflow = 'auto';
     }
 
-    // ===== UTILITAIRES =====
     toggleMobileMenu(force) {
         if (force !== undefined) {
             this.elements.nav.classList.toggle('active', force);
@@ -836,7 +903,6 @@ class UIManager {
         const toastTitle = toast.querySelector('.toast-title');
         const toastMessage = toast.querySelector('.toast-message');
         
-        // Définir l'icône selon le type
         switch(type) {
             case 'error':
                 icon.className = 'fas fa-exclamation-circle';
@@ -854,15 +920,12 @@ class UIManager {
         toastTitle.textContent = title;
         toastMessage.textContent = message;
         
-        // Afficher le toast
         toast.classList.add('show');
         
-        // Masquer automatiquement après 5 secondes
         setTimeout(() => {
             toast.classList.remove('show');
         }, 5000);
         
-        // Fermeture manuelle
         const closeBtn = toast.querySelector('.toast-close');
         closeBtn.onclick = () => {
             toast.classList.remove('show');
@@ -878,25 +941,260 @@ class UIManager {
     }
 }
 
+// ===== FONCTIONS EMAILJS =====
+async function sendCustomerOrderEmail(orderData) {
+    try {
+        if (!window.emailjs) {
+            console.warn('EmailJS non disponible');
+            return null;
+        }
+        
+        const templateParams = {
+            to_email: 'alaboutiqueboucherie@gmail.com',
+            to_name: 'Andy la Boucherie',
+            from_name: orderData.customerName || 'Client',
+            from_email: orderData.customerEmail || 'client@andy.com',
+            subject: `Nouvelle commande - ${orderData.orderNumber}`,
+            
+            order_number: orderData.orderNumber,
+            customer_name: orderData.customerName || 'Non spécifié',
+            customer_email: orderData.customerEmail || 'Non spécifié',
+            customer_phone: orderData.customerPhone || 'Non spécifié',
+            customer_address: orderData.customerAddress || 'Non spécifié',
+            
+            order_date: new Date(orderData.date).toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }),
+            
+            order_items: orderData.items.map(item => 
+                `• ${item.name} x${item.quantity} - ${item.price} FCFA/unité (Total: ${item.price * item.quantity} FCFA)`
+            ).join('\n'),
+            
+            subtotal: orderData.subtotal ? new Intl.NumberFormat('fr-FR').format(orderData.subtotal) : '0',
+            delivery_fee: orderData.deliveryFee ? new Intl.NumberFormat('fr-FR').format(orderData.deliveryFee) : '0',
+            total: orderData.total ? new Intl.NumberFormat('fr-FR').format(orderData.total) : '0',
+            notes: orderData.notes || 'Aucune note supplémentaire',
+            
+            reply_to: orderData.customerEmail || 'alaboutiqueboucherie@gmail.com'
+        };
+        
+        console.log('📧 Envoi d\'email de commande:', templateParams);
+        
+        const response = await emailjs.send(
+            CONFIG.emailjs.serviceID,
+            CONFIG.emailjs.templateID,
+            templateParams
+        );
+        
+        console.log('✅ Email de commande envoyé avec succès:', response);
+        return response;
+        
+    } catch (error) {
+        console.error('❌ Erreur lors de l\'envoi de l\'email de commande:', error);
+        throw error;
+    }
+}
+
+async function sendRestaurantQuoteEmail(orderData) {
+    try {
+        if (!window.emailjs) {
+            console.warn('EmailJS non disponible');
+            return null;
+        }
+        
+        const templateParams = {
+            to_email: 'alaboutiqueboucherie@gmail.com',
+            to_name: 'Andy la Boucherie',
+            from_name: orderData.contactName || 'Restaurant',
+            from_email: orderData.email || 'restaurant@andy.com',
+            subject: `Demande de devis - ${orderData.restaurantName}`,
+            
+            restaurant_name: orderData.restaurantName,
+            contact_name: orderData.contactName,
+            contact_email: orderData.email,
+            contact_phone: orderData.phone,
+            restaurant_address: orderData.address,
+            
+            restaurant_type: this.getRestaurantTypeText(orderData.restaurantType) || 'Non spécifié',
+            delivery_frequency: this.getDeliveryFrequencyText(orderData.deliveryFrequency) || 'Non spécifié',
+            
+            special_notes: orderData.specialNotes || 'Aucune note',
+            
+            order_items: orderData.items.map(item => 
+                `• ${item.name} x${item.quantity} (${item.unit || 'unité'})`
+            ).join('\n'),
+            
+            order_date: new Date().toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }),
+            
+            reply_to: orderData.email || 'alaboutiqueboucherie@gmail.com'
+        };
+        
+        console.log('📧 Envoi d\'email restaurant:', templateParams);
+        
+        const response = await emailjs.send(
+            CONFIG.emailjs.serviceID,
+            CONFIG.emailjs.templateID,
+            templateParams
+        );
+        
+        console.log('✅ Email restaurant envoyé avec succès:', response);
+        return response;
+        
+    } catch (error) {
+        console.error('❌ Erreur lors de l\'envoi de l\'email restaurant:', error);
+        throw error;
+    }
+}
+
+// Fonctions utilitaires pour les textes
+function getRestaurantTypeText(type) {
+    const types = {
+        'restaurant': 'Restaurant',
+        'hotel': 'Hôtel/Résidence',
+        'catering': 'Traiteur',
+        'canteen': 'Cantine d\'entreprise',
+        'events': 'Événementiel',
+        'other': 'Autre'
+    };
+    return types[type] || 'Autre';
+}
+
+function getDeliveryFrequencyText(frequency) {
+    const frequencies = {
+        'daily': 'Quotidienne',
+        'weekly': 'Hebdomadaire',
+        'biweekly': 'Bi-hebdomadaire',
+        'monthly': 'Mensuelle',
+        'occasional': 'Occasionnelle'
+    };
+    return frequencies[frequency] || 'Non spécifié';
+}
+
+// ===== FONCTIONS ADMIN =====
+async function submitOrderToAdmin(orderData) {
+    console.log('📤 Envoi de la commande à l\'admin...');
+    
+    try {
+        let orders = JSON.parse(localStorage.getItem('andy_orders') || '[]');
+        
+        const newOrder = {
+            id: 'CMD-' + Date.now().toString().slice(-6),
+            client: {
+                name: orderData.name || 'Client',
+                email: orderData.email || '',
+                phone: orderData.phone || '',
+                address: orderData.address || ''
+            },
+            items: orderData.items || [],
+            total: orderData.total || 0,
+            status: 'pending',
+            date: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        
+        orders.push(newOrder);
+        localStorage.setItem('andy_orders', JSON.stringify(orders));
+        
+        addAdminActivity(`Nouvelle commande #${newOrder.id} de ${newOrder.client.name}`);
+        
+        // Envoyer l'email via EmailJS
+        await sendCustomerOrderEmail(newOrder);
+        
+        console.log('✅ Commande sauvegardée pour l\'admin:', newOrder);
+        return newOrder;
+        
+    } catch (error) {
+        console.error('❌ Erreur lors de la sauvegarde:', error);
+        throw error;
+    }
+}
+
+function addAdminActivity(message) {
+    try {
+        let activities = JSON.parse(localStorage.getItem('andy_admin_activities') || '[]');
+        activities.unshift({
+            title: message,
+            type: 'order',
+            timestamp: new Date().toISOString(),
+            read: false
+        });
+        
+        if (activities.length > 100) {
+            activities = activities.slice(0, 100);
+        }
+        
+        localStorage.setItem('andy_admin_activities', JSON.stringify(activities));
+        console.log('📝 Activité ajoutée pour l\'admin:', message);
+    } catch (error) {
+        console.error('Erreur lors de l\'ajout d\'activité:', error);
+    }
+}
+
+async function submitRestaurantOrderToAdmin(orderData) {
+    console.log('📤 Envoi de la commande restaurant à l\'admin...');
+    
+    try {
+        let restaurantOrders = JSON.parse(localStorage.getItem('andy_restaurant_orders') || '[]');
+        
+        const newOrder = {
+            id: 'CMD-PRO-' + Date.now().toString().slice(-6),
+            restaurantName: orderData.restaurantName,
+            contactName: orderData.contactName,
+            email: orderData.email,
+            phone: orderData.phone,
+            address: orderData.address,
+            restaurantType: orderData.restaurantType,
+            deliveryFrequency: orderData.deliveryFrequency,
+            specialNotes: orderData.specialNotes,
+            items: orderData.items || [],
+            total: orderData.total || 0,
+            status: 'quote_request',
+            date: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        
+        restaurantOrders.push(newOrder);
+        localStorage.setItem('andy_restaurant_orders', JSON.stringify(restaurantOrders));
+        
+        addAdminActivity(`Nouvelle demande de devis #${newOrder.id} de ${newOrder.restaurantName}`);
+        
+        // Envoyer l'email via EmailJS
+        await sendRestaurantQuoteEmail(newOrder);
+        
+        console.log('✅ Commande restaurant sauvegardée:', newOrder);
+        return newOrder;
+        
+    } catch (error) {
+        console.error('❌ Erreur lors de la sauvegarde:', error);
+        throw error;
+    }
+}
+
 // ===== INITIALISATION =====
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🥩 Andy la Boucherie - Site initialisé');
     
-    // Initialiser le gestionnaire d'UI
     const uiManager = new UIManager();
     
-    // Smooth scroll pour les liens d'ancrage (seulement ceux qui pointent vers des ancres sur la même page)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             if (href === '#' || href === '#!') return;
             
-            // Vérifier que l'ancre existe sur la page
             const target = document.querySelector(href);
             if (target) {
                 e.preventDefault();
                 
-                // Fermer le menu mobile si ouvert
                 if (uiManager.elements.nav?.classList.contains('active')) {
                     uiManager.toggleMobileMenu(false);
                 }
@@ -906,10 +1204,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
             }
-            // Si l'ancre n'existe pas, laisser le comportement par défaut (navigation normale)
         });
     });
     
-    // Exposer pour le débogage
+    // Exposer les fonctions globalement
     window.uiManager = uiManager;
+    window.submitOrderToAdmin = submitOrderToAdmin;
+    window.submitRestaurantOrderToAdmin = submitRestaurantOrderToAdmin;
+    window.addAdminActivity = addAdminActivity;
+    window.sendCustomerOrderEmail = sendCustomerOrderEmail;
+    window.sendRestaurantQuoteEmail = sendRestaurantQuoteEmail;
+    window.getRestaurantTypeText = getRestaurantTypeText;
+    window.getDeliveryFrequencyText = getDeliveryFrequencyText;
 });
+
+// ===== TEST EMAILJS =====
+function testEmailJS() {
+    if (!window.emailjs) {
+        console.error('EmailJS non chargé');
+        return;
+    }
+    
+    emailjs.init(CONFIG.emailjs.userID);
+    
+    const testParams = {
+        to_email: 'alaboutiqueboucherie@gmail.com',
+        to_name: 'Andy la Boucherie',
+        subject: 'Test EmailJS - Andy la Boucherie',
+        message: 'Ceci est un test de configuration EmailJS',
+        from_name: 'Test système',
+        from_email: 'test@andy.com',
+        contact_date: new Date().toLocaleDateString('fr-FR')
+    };
+    
+    emailjs.send(CONFIG.emailjs.serviceID, CONFIG.emailjs.templateID, testParams)
+        .then(response => console.log('✅ Test EmailJS réussi:', response))
+        .catch(error => console.error('❌ Test EmailJS échoué:', error));
+}
