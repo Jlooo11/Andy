@@ -395,20 +395,6 @@ class UIManager {
             "📦 Commandez avant 14h, livraison le jour même !",
             "👨‍🍳 Recette de la semaine : Tomahawk grillé aux herbes"
         ];
-        
-        let currentIndex = 0;
-        const promotionText = document.querySelector('.promotion-text');
-        
-        if (promotionText) {
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % promotions.length;
-                promotionText.style.opacity = '0';
-                setTimeout(() => {
-                    promotionText.textContent = promotions[currentIndex];
-                    promotionText.style.opacity = '1';
-                }, 500);
-            }, 5000);
-        }
     }
 
     setupAnimations() {
