@@ -1,0 +1,30 @@
+# Déploiement Render — https://render.com
+# 1. Créez un compte Render
+# 2. New > Blueprint > connectez ce dépôt GitHub
+# 3. Ajoutez les variables d'environnement dans le dashboard (voir .env.example)
+
+services:
+  - type: web
+    name: andy-la-boucherie
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: BUSINESS_EMAIL
+        value: alaboutiqueboucherie@gmail.com
+      - key: WHATSAPP_NUMBER
+        value: "2250798567514"
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SITE_URL
+        sync: false

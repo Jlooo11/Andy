@@ -17,8 +17,6 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/logo Andy.png">
     
-    <!-- EmailJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
     <!-- Promotion Banner -->
@@ -26,7 +24,7 @@
         <div class="promotion-container">
             <div class="promotion-content">
                 <i class="fas fa-star"></i>
-                <span class="promotion-text">👨‍🍳 ESPACE PRO : Devis personnalisés • Livraisons programmées • Tarifs dégressifs sur volume • Contact dédié 07 68 128 549</span>
+                <span class="promotion-text">👨‍🍳 ESPACE PRO : Devis personnalisés • Livraisons programmées • Tarifs dégressifs sur volume • Contact dédié 07 98 567 514</span>
                 <i class="fas fa-star"></i>
             </div>
         </div>
@@ -75,6 +73,8 @@
 
     <!-- Hero Section Restaurants -->
     <section class="hero" id="restaurant-hero">
+        <div class="hero-decor hero-decor-1" aria-hidden="true"></div>
+        <div class="hero-decor hero-decor-2" aria-hidden="true"></div>
         <div class="container">
             <div class="hero-content">
                 <div class="hero-badge">
@@ -130,7 +130,6 @@
                         <p>Factures détaillées avec TVA et numéro de commande</p>
                     </div>
                 </div>
-            </div>
             
             <div class="category-filters">
                 <button class="filter-btn active" data-filter="all">Tous les produits</button>
@@ -174,6 +173,10 @@
                             <div class="contact-icon">
                                 <i class="fas fa-tags"></i>
                             </div>
+                            <div class="contact-details">
+                                <strong>Tarifs dégressifs</strong>
+                                <span>Remises sur volume pour les professionnels</span>
+                            </div>
                         </div>
                         
                         <div class="contact-item">
@@ -203,6 +206,36 @@
                             <div class="contact-details">
                                 <strong>Facturation pro</strong>
                                 <span>Factures détaillées avec toutes les mentions légales</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <strong>Téléphone</strong>
+                                <a href="tel:+2250798567514">07 98 567 514</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-details">
+                                <strong>WhatsApp</strong>
+                                <a href="https://wa.me/2250798567514" class="whatsapp-chat-link" target="_blank" rel="noopener">07 98 567 514</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <strong>Email</strong>
+                                <a href="mailto:alaboutiqueboucherie@gmail.com">alaboutiqueboucherie@gmail.com</a>
                             </div>
                         </div>
                     </div>
@@ -242,7 +275,7 @@
                                         <i class="fas fa-phone"></i>
                                         Téléphone *
                                     </label>
-                                    <input type="tel" id="restaurant-phone" required placeholder="07 68 128 549">
+                                    <input type="tel" id="restaurant-phone" required placeholder="07 98 567 514">
                                 </div>
                             </div>
                             
@@ -368,7 +401,7 @@
                     <h4 class="footer-title">Contact Pro</h4>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
-                        <a href="tel:+2250768128549">07 68 128 549</a>
+                        <a href="tel:+2250798567514">07 98 567 514</a>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
@@ -382,7 +415,7 @@
                         <a href="#" class="social-link tiktok" aria-label="TikTok">
                             <i class="fab fa-tiktok"></i>
                         </a>
-                        <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
+                        <a href="https://wa.me/2250798567514" class="social-link whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener">
                             <i class="fab fa-whatsapp"></i>
                         </a>
                     </div>
@@ -410,11 +443,12 @@
                 <h4>Chat WhatsApp Pro</h4>
             </div>
             <div class="whatsapp-bubble-content">
-                Besoin d'un conseil personnalisé ou d'un devis rapide ? Discutez directement avec notre équipe commerciale.
+                Besoin d'un conseil personnalisé ou d'un devis rapide ?<br>
+                Contactez-nous au <strong>07 98 567 514</strong>
             </div>
             <div class="whatsapp-bubble-actions">
-                <a href="https://wa.me/2250768128549?text=Bonjour,%20je%20souhaite%20obtenir%20un%20devis%20pour%20mon%20restaurant" 
-                   target="_blank" class="btn btn-primary" style="background: #25D366;">
+                <a href="https://wa.me/2250798567514?text=Bonjour,%20je%20souhaite%20obtenir%20un%20devis%20pour%20mon%20restaurant" 
+                   target="_blank" rel="noopener" class="btn btn-primary whatsapp-chat-link" style="background: #25D366;">
                     <i class="fab fa-whatsapp"></i> Ouvrir WhatsApp
                 </a>
                 <button class="btn btn-outline" id="closeWhatsappBubble">
@@ -791,16 +825,6 @@
                 this.renderProducts();
                 this.updateCartDisplay();
                 this.setCurrentYear();
-                this.setupWhatsAppChat();
-                this.initEmailJS();
-            }
-
-            initEmailJS() {
-                // Initialiser EmailJS avec la clé depuis le fichier principal
-                if (window.emailjs && window.CONFIG) {
-                    emailjs.init(window.CONFIG.emailjs.userID);
-                    console.log('📧 EmailJS initialisé pour restaurants');
-                }
             }
 
             cacheElements() {
@@ -854,22 +878,11 @@
                 // Formulaire de commande
                 this.elements.restaurantOrderForm?.addEventListener('submit', (e) => this.handleOrderForm(e));
                 
-                // WhatsApp chat
-                this.elements.whatsappBtn?.addEventListener('click', () => this.toggleWhatsAppBubble());
-                this.elements.closeWhatsappBubble?.addEventListener('click', () => this.hideWhatsAppBubble());
-                
                 // Fermer les modales en cliquant à l'extérieur
                 document.addEventListener('click', (e) => this.handleOutsideClick(e));
                 
                 // Gestion des touches clavier
                 document.addEventListener('keydown', (e) => this.handleKeyDown(e));
-            }
-
-            setupWhatsAppChat() {
-                // Afficher automatiquement après 10 secondes
-                setTimeout(() => {
-                    this.showWhatsAppBubble();
-                }, 10000);
             }
 
             // ===== RENDU DES PRODUITS =====
@@ -1202,12 +1215,11 @@
                     // Sauvegarder localement
                     localStorage.setItem('last_restaurant_order', JSON.stringify(orderData));
                     
-                    // Envoyer à l'admin via EmailJS
-                    if (window.sendRestaurantQuoteEmail) {
-                        await window.sendRestaurantQuoteEmail(orderData);
-                    } else if (window.emailjs && window.CONFIG) {
-                        // Fallback: envoyer directement
-                        await this.sendRestaurantEmailDirect(orderData);
+                    // Envoyer par WhatsApp + email
+                    if (window.notifyRestaurantOrder) {
+                        await window.notifyRestaurantOrder(orderData);
+                    } else if (window.submitRestaurantOrderToAdmin) {
+                        await window.submitRestaurantOrderToAdmin(orderData);
                     }
                     
                     // Réinitialiser le formulaire et le panier
@@ -1228,43 +1240,6 @@
                     this.showToast('Erreur lors de l\'envoi de la demande', 'Erreur', 'error');
                     console.error('Erreur complète:', error);
                 }
-            }
-
-            async sendRestaurantEmailDirect(orderData) {
-                if (!window.emailjs || !window.CONFIG) return;
-                
-                const templateParams = {
-                    to_email: 'alaboutiqueboucherie@gmail.com',
-                    to_name: 'Andy la Boucherie',
-                    from_name: orderData.contactName || 'Restaurant',
-                    from_email: orderData.email || 'restaurant@andy.com',
-                    subject: `Demande de devis - ${orderData.restaurantName}`,
-                    
-                    restaurant_name: orderData.restaurantName,
-                    contact_name: orderData.contactName,
-                    contact_email: orderData.email,
-                    contact_phone: orderData.phone,
-                    restaurant_address: orderData.address,
-                    
-                    restaurant_type: this.getRestaurantTypeText(orderData.restaurantType),
-                    delivery_frequency: this.getDeliveryFrequencyText(orderData.deliveryFrequency),
-                    
-                    special_notes: orderData.specialNotes || 'Aucune note',
-                    
-                    order_items: orderData.items.map(item => 
-                        `• ${item.name} x${item.quantity} (${item.unit || 'unité'})`
-                    ).join('\n'),
-                    
-                    order_date: new Date().toLocaleDateString('fr-FR'),
-                    
-                    reply_to: orderData.email || 'alaboutiqueboucherie@gmail.com'
-                };
-                
-                return await emailjs.send(
-                    window.CONFIG.emailjs.serviceID,
-                    window.CONFIG.emailjs.templateID,
-                    templateParams
-                );
             }
 
             getRestaurantTypeText(type) {
@@ -1290,19 +1265,6 @@
                 return frequencies[frequency] || 'Non spécifié';
             }
 
-            // ===== WHATSAPP CHAT =====
-            toggleWhatsAppBubble() {
-                this.elements.whatsappBubble.classList.toggle('show');
-            }
-
-            showWhatsAppBubble() {
-                this.elements.whatsappBubble.classList.add('show');
-            }
-
-            hideWhatsAppBubble() {
-                this.elements.whatsappBubble.classList.remove('show');
-            }
-
             // ===== MODALES =====
             openCartModal() {
                 this.renderCartItems();
@@ -1326,9 +1288,14 @@
             }
 
             // ===== UTILITAIRES =====
-            toggleMobileMenu() {
-                this.elements.nav.classList.toggle('active');
-                this.elements.mobileMenuBtn.classList.toggle('active');
+            toggleMobileMenu(force) {
+                if (force !== undefined) {
+                    this.elements.nav.classList.toggle('active', force);
+                    this.elements.mobileMenuBtn.classList.toggle('active', force);
+                } else {
+                    this.elements.nav.classList.toggle('active');
+                    this.elements.mobileMenuBtn.classList.toggle('active');
+                }
                 document.body.style.overflow = this.elements.nav.classList.contains('active') ? 'hidden' : 'auto';
             }
 
@@ -1408,7 +1375,7 @@
                 if (this.elements.nav?.classList.contains('active') && 
                     !e.target.closest('.nav') && 
                     !e.target.closest('.mobile-menu-btn')) {
-                    this.toggleMobileMenu();
+                    this.toggleMobileMenu(false);
                 }
                 
                 // Fermer les modales en cliquant à l'extérieur
@@ -1422,12 +1389,6 @@
                     this.closeSuccessModal();
                 }
                 
-                // Fermer WhatsApp bubble en cliquant à l'extérieur
-                if (this.elements.whatsappBubble?.classList.contains('show') && 
-                    !e.target.closest('#whatsappBubble') && 
-                    !e.target.closest('#whatsappBtn')) {
-                    this.hideWhatsAppBubble();
-                }
             }
 
             handleKeyDown(e) {
@@ -1440,10 +1401,7 @@
                         this.closeSuccessModal();
                     }
                     if (this.elements.nav?.classList.contains('active')) {
-                        this.toggleMobileMenu();
-                    }
-                    if (this.elements.whatsappBubble?.classList.contains('show')) {
-                        this.hideWhatsAppBubble();
+                        this.toggleMobileMenu(false);
                     }
                 }
             }
@@ -1460,16 +1418,16 @@
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
-                    if (href === '#') return;
-                    
-                    e.preventDefault();
+                    if (href === '#' || href === '#!') return;
+
                     const target = document.querySelector(href);
                     if (target) {
-                        // Fermer le menu mobile si ouvert
+                        e.preventDefault();
+
                         if (restaurantUIManager.elements.nav?.classList.contains('active')) {
-                            restaurantUIManager.toggleMobileMenu();
+                            restaurantUIManager.toggleMobileMenu(false);
                         }
-                        
+
                         window.scrollTo({
                             top: target.offsetTop - 100,
                             behavior: 'smooth'

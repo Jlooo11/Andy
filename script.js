@@ -7,14 +7,8 @@ const CONFIG = {
     minOrderValue: 0,
     imagePlaceholder: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="400" height="300" fill="%23f0f0f0"/><text x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-family="Arial" font-size="16">Image non disponible</text></svg>',
     paymentLink: 'https://pay.jeko.africa/pl/3775132a-b0c2-4dfd-85ec-4f7d5d49d1ce',
-    whatsappNumber: '2250768128549',
-    
-    // EmailJS Configuration
-    emailjs: {
-        serviceID: 'service_xoza1k6',
-        templateID: 'template_to7qggt',
-        userID: '13uhnx4ywp64w0KDy'
-    }
+    whatsappNumber: '2250798567514',
+    businessEmail: 'alaboutiqueboucherie@gmail.com'
 };
 
 // ===== DONNÉES DES PRODUITS =====
@@ -327,17 +321,6 @@ class UIManager {
         this.setCurrentYear();
         this.setupAnimations();
         this.initPromotionBanner();
-        this.initEmailJS();
-    }
-
-    initEmailJS() {
-        // Initialiser EmailJS
-        if (window.emailjs) {
-            emailjs.init(CONFIG.emailjs.userID);
-            console.log('📧 EmailJS initialisé avec la clé:', CONFIG.emailjs.userID);
-        } else {
-            console.warn('⚠️ EmailJS non chargé');
-        }
     }
 
     cacheElements() {
@@ -696,7 +679,7 @@ class UIManager {
         this.showToast('Produit retiré du panier', 'Panier mis à jour');
     }
 
-    handleCheckout(e) {
+    async handleCheckout(e) {
         e.preventDefault();
         
         if (this.cartManager.cart.length === 0) {
@@ -704,24 +687,30 @@ class UIManager {
             return;
         }
         
-        this.saveOrderBeforePayment();
-        
-        // Rediriger vers le lien de paiement Jeko
-        window.location.href = CONFIG.paymentLink;
-    }
-
-    saveOrderBeforePayment() {
         const order = {
-            items: this.cartManager.cart,
+            items: [...this.cartManager.cart],
             total: this.cartManager.getCartTotal(),
             date: new Date().toISOString(),
             status: 'pending_payment',
             orderNumber: 'CMD-' + Date.now().toString().slice(-6)
         };
         
-        localStorage.setItem('last_order', JSON.stringify(order));
-        this.cartManager.clearCart();
-        this.updateCartDisplay();
+        this.showLoading();
+        
+        try {
+            await notifyClientOrder(order);
+            localStorage.setItem('last_order', JSON.stringify(order));
+            this.cartManager.clearCart();
+            this.updateCartDisplay();
+            this.closeCartModal();
+            this.showToast('Commande envoyée. Finalisez le paiement.', 'Succès');
+            window.location.href = CONFIG.paymentLink;
+        } catch (error) {
+            console.error('Erreur commande:', error);
+            this.showToast('Erreur lors de l\'envoi. Réessayez ou contactez-nous sur WhatsApp.', 'Erreur', 'error');
+        } finally {
+            this.hideLoading();
+        }
     }
 
     async handleContactForm(e) {
@@ -740,34 +729,15 @@ class UIManager {
         this.showLoading();
         
         try {
-            // Préparer les données pour EmailJS
-            const templateParams = {
-                to_email: 'alaboutiqueboucherie@gmail.com',
-                to_name: 'Andy la Boucherie',
-                from_name: name,
-                from_email: email,
-                subject: `Contact site web: ${subject}`,
-                message: message,
-                contact_subject: this.getSubjectText(subject),
-                contact_date: new Date().toLocaleDateString('fr-FR'),
-                reply_to: email
-            };
+            await notifyContact({
+                name,
+                email,
+                subject,
+                subjectText: this.getSubjectText(subject),
+                message
+            });
             
-            // Envoyer l'email via EmailJS
-            if (window.emailjs) {
-                await emailjs.send(
-                    CONFIG.emailjs.serviceID,
-                    CONFIG.emailjs.templateID,
-                    templateParams
-                );
-                
-                this.showToast('Message envoyé avec succès !', 'Succès');
-            } else {
-                console.log('Simulation d\'envoi d\'email');
-                this.showToast('Message envoyé avec succès !', 'Succès');
-            }
-            
-            // Réinitialiser le formulaire
+            this.showToast('Message envoyé avec succès !', 'Succès');
             e.target.reset();
             
         } catch (error) {
@@ -823,6 +793,7 @@ class UIManager {
 
     handleScroll() {
         const header = document.querySelector('.header');
+        if (!header) return;
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
         } else {
@@ -885,6 +856,7 @@ class UIManager {
 
     showToast(message, title = 'Notification', type = 'success') {
         const toast = this.elements.toast;
+        if (!toast) return;
         const icon = toast.querySelector('.toast-icon i');
         const toastTitle = toast.querySelector('.toast-title');
         const toastMessage = toast.querySelector('.toast-message');
@@ -919,127 +891,114 @@ class UIManager {
     }
 
     showLoading() {
-        this.elements.loadingOverlay.classList.add('show');
+        if (this.elements.loadingOverlay) {
+            this.elements.loadingOverlay.classList.add('show');
+        }
     }
 
     hideLoading() {
-        this.elements.loadingOverlay.classList.remove('show');
+        if (this.elements.loadingOverlay) {
+            this.elements.loadingOverlay.classList.remove('show');
+        }
     }
 }
 
-// ===== FONCTIONS EMAILJS =====
-async function sendCustomerOrderEmail(orderData) {
+// ===== NOTIFICATIONS WHATSAPP + EMAIL =====
+function formatPriceGlobal(price) {
+    return new Intl.NumberFormat('fr-FR').format(price);
+}
+
+function openWhatsApp(message) {
+    const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+}
+
+async function sendToApi(endpoint, data) {
     try {
-        if (!window.emailjs) {
-            console.warn('EmailJS non disponible');
-            return null;
-        }
-        
-        const templateParams = {
-            to_email: 'alaboutiqueboucherie@gmail.com',
-            to_name: 'Andy la Boucherie',
-            from_name: orderData.customerName || 'Client',
-            from_email: orderData.customerEmail || 'client@andy.com',
-            subject: `Nouvelle commande - ${orderData.orderNumber}`,
-            
-            order_number: orderData.orderNumber,
-            customer_name: orderData.customerName || 'Non spécifié',
-            customer_email: orderData.customerEmail || 'Non spécifié',
-            customer_phone: orderData.customerPhone || 'Non spécifié',
-            customer_address: orderData.customerAddress || 'Non spécifié',
-            
-            order_date: new Date(orderData.date).toLocaleDateString('fr-FR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            }),
-            
-            order_items: orderData.items.map(item => 
-                `• ${item.name} x${item.quantity} - ${item.price} FCFA/unité (Total: ${item.price * item.quantity} FCFA)`
-            ).join('\n'),
-            
-            subtotal: orderData.subtotal ? new Intl.NumberFormat('fr-FR').format(orderData.subtotal) : '0',
-            delivery_fee: orderData.deliveryFee ? new Intl.NumberFormat('fr-FR').format(orderData.deliveryFee) : '0',
-            total: orderData.total ? new Intl.NumberFormat('fr-FR').format(orderData.total) : '0',
-            notes: orderData.notes || 'Aucune note supplémentaire',
-            
-            reply_to: orderData.customerEmail || 'alaboutiqueboucherie@gmail.com'
-        };
-        
-        console.log('📧 Envoi d\'email de commande:', templateParams);
-        
-        const response = await emailjs.send(
-            CONFIG.emailjs.serviceID,
-            CONFIG.emailjs.templateID,
-            templateParams
-        );
-        
-        console.log('✅ Email de commande envoyé avec succès:', response);
-        return response;
-        
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return await response.json();
     } catch (error) {
-        console.error('❌ Erreur lors de l\'envoi de l\'email de commande:', error);
-        throw error;
+        console.warn('Serveur API indisponible:', error);
+        return { success: false, offline: true };
     }
 }
 
-async function sendRestaurantQuoteEmail(orderData) {
-    try {
-        if (!window.emailjs) {
-            console.warn('EmailJS non disponible');
-            return null;
-        }
-        
-        const templateParams = {
-            to_email: 'alaboutiqueboucherie@gmail.com',
-            to_name: 'Andy la Boucherie',
-            from_name: orderData.contactName || 'Restaurant',
-            from_email: orderData.email || 'restaurant@andy.com',
-            subject: `Demande de devis - ${orderData.restaurantName}`,
-            
-            restaurant_name: orderData.restaurantName,
-            contact_name: orderData.contactName,
-            contact_email: orderData.email,
-            contact_phone: orderData.phone,
-            restaurant_address: orderData.address,
-            
-            restaurant_type: this.getRestaurantTypeText(orderData.restaurantType) || 'Non spécifié',
-            delivery_frequency: this.getDeliveryFrequencyText(orderData.deliveryFrequency) || 'Non spécifié',
-            
-            special_notes: orderData.specialNotes || 'Aucune note',
-            
-            order_items: orderData.items.map(item => 
-                `• ${item.name} x${item.quantity} (${item.unit || 'unité'})`
-            ).join('\n'),
-            
-            order_date: new Date().toLocaleDateString('fr-FR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            }),
-            
-            reply_to: orderData.email || 'alaboutiqueboucherie@gmail.com'
-        };
-        
-        console.log('📧 Envoi d\'email restaurant:', templateParams);
-        
-        const response = await emailjs.send(
-            CONFIG.emailjs.serviceID,
-            CONFIG.emailjs.templateID,
-            templateParams
-        );
-        
-        console.log('✅ Email restaurant envoyé avec succès:', response);
-        return response;
-        
-    } catch (error) {
-        console.error('❌ Erreur lors de l\'envoi de l\'email restaurant:', error);
-        throw error;
+function buildClientOrderMessage(order) {
+    const itemsList = order.items.map(item =>
+        `• ${item.name} x${item.quantity} — ${formatPriceGlobal(item.price * item.quantity)} FCFA`
+    ).join('\n');
+    
+    return `🥩 *NOUVELLE COMMANDE CLIENT*\n` +
+        `N° ${order.orderNumber}\n` +
+        `Date : ${new Date(order.date).toLocaleString('fr-FR')}\n\n` +
+        `*Articles :*\n${itemsList}\n\n` +
+        `*Total : ${formatPriceGlobal(order.total)} FCFA*\n` +
+        (order.customerName ? `Client : ${order.customerName}\n` : '') +
+        (order.customerPhone ? `Tél : ${order.customerPhone}\n` : '') +
+        (order.customerEmail ? `Email : ${order.customerEmail}\n` : '') +
+        (order.customerAddress ? `Adresse : ${order.customerAddress}\n` : '') +
+        (order.notes ? `Notes : ${order.notes}` : '');
+}
+
+function buildRestaurantOrderMessage(order) {
+    const itemsList = order.items.map(item =>
+        `• ${item.name} x${item.quantity} (${item.unit || 'unité'})`
+    ).join('\n');
+    
+    return `🍽️ *DEMANDE DE DEVIS RESTAURANT*\n` +
+        `N° ${order.orderNumber}\n` +
+        `Date : ${order.orderDate || new Date().toLocaleString('fr-FR')}\n\n` +
+        `*Établissement :* ${order.restaurantName}\n` +
+        `*Contact :* ${order.contactName}\n` +
+        `*Tél :* ${order.phone}\n` +
+        `*Email :* ${order.email}\n` +
+        `*Adresse :* ${order.address}\n` +
+        `*Type :* ${getRestaurantTypeText(order.restaurantType)}\n` +
+        `*Livraison :* ${getDeliveryFrequencyText(order.deliveryFrequency)}\n\n` +
+        `*Produits demandés :*\n${itemsList}\n\n` +
+        (order.specialNotes ? `*Notes :* ${order.specialNotes}` : '');
+}
+
+function buildContactMessage(data) {
+    return `📩 *MESSAGE CONTACT SITE*\n` +
+        `De : ${data.name}\n` +
+        `Email : ${data.email}\n` +
+        `Sujet : ${data.subjectText}\n\n` +
+        `${data.message}`;
+}
+
+async function notifyClientOrder(order) {
+    const message = buildClientOrderMessage(order);
+    openWhatsApp(message);
+    const result = await sendToApi('/api/order', { ...order, type: 'client' });
+    if (!result.success && !result.offline) {
+        throw new Error(result.error || 'Échec envoi email');
     }
+    return result;
+}
+
+async function notifyRestaurantOrder(order) {
+    const message = buildRestaurantOrderMessage(order);
+    openWhatsApp(message);
+    const result = await sendToApi('/api/restaurant-order', { ...order, type: 'restaurant' });
+    if (!result.success && !result.offline) {
+        throw new Error(result.error || 'Échec envoi email');
+    }
+    return result;
+}
+
+async function notifyContact(data) {
+    const message = buildContactMessage(data);
+    openWhatsApp(message);
+    const result = await sendToApi('/api/contact', data);
+    if (!result.success && !result.offline) {
+        throw new Error(result.error || 'Échec envoi email');
+    }
+    return result;
 }
 
 // Fonctions utilitaires pour les textes
@@ -1093,8 +1052,16 @@ async function submitOrderToAdmin(orderData) {
         
         addAdminActivity(`Nouvelle commande #${newOrder.id} de ${newOrder.client.name}`);
         
-        // Envoyer l'email via EmailJS
-        await sendCustomerOrderEmail(newOrder);
+        await notifyClientOrder({
+            orderNumber: newOrder.id,
+            date: newOrder.date,
+            customerName: newOrder.client.name,
+            customerEmail: newOrder.client.email,
+            customerPhone: newOrder.client.phone,
+            customerAddress: newOrder.client.address,
+            items: newOrder.items,
+            total: newOrder.total
+        });
         
         console.log('✅ Commande sauvegardée pour l\'admin:', newOrder);
         return newOrder;
@@ -1154,8 +1121,19 @@ async function submitRestaurantOrderToAdmin(orderData) {
         
         addAdminActivity(`Nouvelle demande de devis #${newOrder.id} de ${newOrder.restaurantName}`);
         
-        // Envoyer l'email via EmailJS
-        await sendRestaurantQuoteEmail(newOrder);
+        await notifyRestaurantOrder({
+            orderNumber: newOrder.id,
+            orderDate: new Date(newOrder.date).toLocaleString('fr-FR'),
+            restaurantName: newOrder.restaurantName,
+            contactName: newOrder.contactName,
+            email: newOrder.email,
+            phone: newOrder.phone,
+            address: newOrder.address,
+            restaurantType: newOrder.restaurantType,
+            deliveryFrequency: newOrder.deliveryFrequency,
+            specialNotes: newOrder.specialNotes,
+            items: newOrder.items
+        });
         
         console.log('✅ Commande restaurant sauvegardée:', newOrder);
         return newOrder;
@@ -1167,24 +1145,85 @@ async function submitRestaurantOrderToAdmin(orderData) {
 }
 
 // ===== INITIALISATION =====
+window.CONFIG = CONFIG;
+
+function initWhatsAppWidget(defaultMessage) {
+    const message = defaultMessage || 'Bonjour, je souhaite des informations.';
+    const waBase = `https://wa.me/${CONFIG.whatsappNumber}`;
+
+    document.querySelectorAll('.whatsapp-chat-link').forEach(link => {
+        const customText = link.dataset.whatsappText || message;
+        link.href = `${waBase}?text=${encodeURIComponent(customText)}`;
+        if (link.textContent.trim().match(/^\d/) || link.textContent.includes('07')) {
+            link.textContent = '07 98 567 514';
+        }
+    });
+
+    document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
+        if (!link.classList.contains('whatsapp-chat-link')) {
+            const text = link.dataset.whatsappText || (link.href.includes('text=') ? '' : message);
+            link.href = text ? `${waBase}?text=${encodeURIComponent(text)}` : waBase;
+        }
+    });
+
+    const bubble = document.getElementById('whatsappBubble');
+    const btn = document.getElementById('whatsappBtn');
+    const closeBtn = document.getElementById('closeWhatsappBubble');
+
+    if (!bubble || !btn) return;
+
+    btn.addEventListener('click', () => bubble.classList.toggle('show'));
+    closeBtn?.addEventListener('click', () => bubble.classList.remove('show'));
+
+    document.addEventListener('click', (e) => {
+        if (bubble.classList.contains('show') &&
+            !e.target.closest('#whatsappBubble') &&
+            !e.target.closest('#whatsappBtn')) {
+            bubble.classList.remove('show');
+        }
+    });
+
+    setTimeout(() => bubble.classList.add('show'), 10000);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🥩 Andy la Boucherie - Site initialisé');
-    
+
+    initWhatsAppWidget(
+        document.getElementById('restaurantOrderForm')
+            ? 'Bonjour, je souhaite obtenir un devis pour mon restaurant'
+            : 'Bonjour, je souhaite des informations sur vos produits'
+    );
+
+    // Exposer les fonctions globalement (utilisées aussi par restaurants.html)
+    window.submitOrderToAdmin = submitOrderToAdmin;
+    window.submitRestaurantOrderToAdmin = submitRestaurantOrderToAdmin;
+    window.addAdminActivity = addAdminActivity;
+    window.notifyClientOrder = notifyClientOrder;
+    window.notifyRestaurantOrder = notifyRestaurantOrder;
+    window.notifyContact = notifyContact;
+    window.openWhatsApp = openWhatsApp;
+    window.getRestaurantTypeText = getRestaurantTypeText;
+    window.getDeliveryFrequencyText = getDeliveryFrequencyText;
+
+    // Initialiser l'UI principale uniquement sur la page d'accueil
+    if (!document.getElementById('contactForm')) return;
+
     const uiManager = new UIManager();
-    
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             if (href === '#' || href === '#!') return;
-            
+
             const target = document.querySelector(href);
             if (target) {
                 e.preventDefault();
-                
+
                 if (uiManager.elements.nav?.classList.contains('active')) {
                     uiManager.toggleMobileMenu(false);
                 }
-                
+
                 window.scrollTo({
                     top: target.offsetTop - 100,
                     behavior: 'smooth'
@@ -1192,38 +1231,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
-    // Exposer les fonctions globalement
-    window.uiManager = uiManager;
-    window.submitOrderToAdmin = submitOrderToAdmin;
-    window.submitRestaurantOrderToAdmin = submitRestaurantOrderToAdmin;
-    window.addAdminActivity = addAdminActivity;
-    window.sendCustomerOrderEmail = sendCustomerOrderEmail;
-    window.sendRestaurantQuoteEmail = sendRestaurantQuoteEmail;
-    window.getRestaurantTypeText = getRestaurantTypeText;
-    window.getDeliveryFrequencyText = getDeliveryFrequencyText;
-});
 
-// ===== TEST EMAILJS =====
-function testEmailJS() {
-    if (!window.emailjs) {
-        console.error('EmailJS non chargé');
-        return;
-    }
-    
-    emailjs.init(CONFIG.emailjs.userID);
-    
-    const testParams = {
-        to_email: 'alaboutiqueboucherie@gmail.com',
-        to_name: 'Andy la Boucherie',
-        subject: 'Test EmailJS - Andy la Boucherie',
-        message: 'Ceci est un test de configuration EmailJS',
-        from_name: 'Test système',
-        from_email: 'test@andy.com',
-        contact_date: new Date().toLocaleDateString('fr-FR')
-    };
-    
-    emailjs.send(CONFIG.emailjs.serviceID, CONFIG.emailjs.templateID, testParams)
-        .then(response => console.log('✅ Test EmailJS réussi:', response))
-        .catch(error => console.error('❌ Test EmailJS échoué:', error));
-}
+    // Filtres catégorie depuis le footer
+    document.querySelectorAll('a[data-filter]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const filter = this.dataset.filter;
+            const productsSection = document.getElementById('products');
+            if (!filter || !productsSection) return;
+
+            e.preventDefault();
+            uiManager.elements.filterBtns?.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+            uiManager.renderProducts(filter);
+
+            window.scrollTo({
+                top: productsSection.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    window.uiManager = uiManager;
+});
