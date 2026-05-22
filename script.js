@@ -6,9 +6,22 @@ const CONFIG = {
     taxRate: 0,
     minOrderValue: 0,
     imagePlaceholder: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="400" height="300" fill="%23f0f0f0"/><text x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-family="Arial" font-size="16">Image non disponible</text></svg>',
-    paymentLink: 'https://pay.jeko.africa/pl/3775132a-b0c2-4dfd-85ec-4f7d5d49d1ce',
+    paymentLink: 'https://pay.wave.com/m/M_ci_JE4YzbpopmAW/c/ci/',
+    returnUrl: window.location.origin,
     whatsappNumber: '2250798567514',
-    businessEmail: 'alaboutiqueboucherie@gmail.com'
+    businessEmail: 'alaboutiqueboucherie@gmail.com',
+    
+    // ===== CONFIGURATION EMAILJS =====
+    // 1. Créer un compte gratuit sur https://www.emailjs.com/
+    // 2. Remplacer YOUR_PUBLIC_KEY par votre clé publique EmailJS
+    // 3. Créer 3 templates EmailJS avec les IDs ci-dessous
+    emailjs: {
+        publicKey: 'EMAILJS_PUBLIC_KEY=13uhnx4ywp64w0KDy',
+        serviceId: 'EMAILJS_SERVICE_ID=service_xoza1k6',
+        orderTemplateId: 'EMAILJS_ORDER_TEMPLATE=template_jtmxw1q',
+        restaurantOrderTemplateId: 'EMAILJS_RESTAURANT_TEMPLATE=template_s06wn2h',
+        contactTemplateId: 'EMAILJS_CONTACT_TEMPLATE=template_contact'
+    }
 };
 
 // ===== DONNÉES DES PRODUITS =====
@@ -404,8 +417,12 @@ class UIManager {
     }
 
     renderProducts(filter = 'all') {
-        if (!this.elements.productsGrid) return;
+        if (!this.elements.productsGrid) {
+            console.error('❌ Erreur : élément .products-grid non trouvé');
+            return;
+        }
         
+        console.log('🛍️ Affichage des produits, filtre:', filter);
         this.currentFilter = filter;
         const filteredProducts = filter === 'all' 
             ? products 
@@ -704,7 +721,10 @@ class UIManager {
             this.updateCartDisplay();
             this.closeCartModal();
             this.showToast('Commande envoyée. Finalisez le paiement.', 'Succès');
-            window.location.href = CONFIG.paymentLink;
+            
+            // Redirection vers Wave avec paramètre de retour
+            const paymentUrl = CONFIG.paymentLink + '?return_url=' + encodeURIComponent(CONFIG.returnUrl);
+            window.location.href = paymentUrl;
         } catch (error) {
             console.error('Erreur commande:', error);
             this.showToast('Erreur lors de l\'envoi. Réessayez ou contactez-nous sur WhatsApp.', 'Erreur', 'error');
@@ -914,17 +934,81 @@ function openWhatsApp(message) {
 }
 
 async function sendToApi(endpoint, data) {
-    try {
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        return await response.json();
-    } catch (error) {
-        console.warn('Serveur API indisponible:', error);
-        return { success: false, offline: true };
+    // Vérifier si EmailJS est correctement configuré ET disponible
+    if (!CONFIG.emailjs.publicKey || CONFIG.emailjs.publicKey === 'YOUR_PUBLIC_KEY') {
+        console.warn('EmailJS non configuré. Veuillez ajouter votre clé publique dans CONFIG.emailjs.publicKey');
+        return { success: false, offline: true, message: 'Service email non disponible' };
     }
+    
+    if (typeof emailjs === 'undefined') {
+        console.warn('EmailJS non chargé. Impossible d\'envoyer les emails.');
+        return { success: false, offline: true, message: 'EmailJS indisponible' };
+    }
+
+    try {
+        let templateId = CONFIG.emailjs.orderTemplateId;
+        let templateParams = {};
+
+        // Déterminer le template et les paramètres en fonction du endpoint
+        if (endpoint === '/api/order') {
+            templateId = CONFIG.emailjs.orderTemplateId;
+            templateParams = {
+                to_email: CONFIG.businessEmail,
+                order_number: data.orderNumber,
+                customer_name: data.customerName || 'Client',
+                customer_email: data.customerEmail || 'Non fourni',
+                customer_phone: data.customerPhone || 'Non fourni',
+                items_list: formatItemsForEmail(data.items),
+                total: formatPriceGlobal(data.total),
+                delivery_date: data.deliveryDate || 'À déterminer',
+                notes: data.notes || 'Aucune note',
+                order_date: new Date(data.date).toLocaleString('fr-FR'),
+                payment_status: 'En attente'
+            };
+        } else if (endpoint === '/api/restaurant-order') {
+            templateId = CONFIG.emailjs.restaurantOrderTemplateId;
+            templateParams = {
+                to_email: CONFIG.businessEmail,
+                restaurant_name: data.restaurantName || 'Restaurant',
+                contact_name: data.contactName || 'Contact',
+                contact_email: data.contactEmail || 'Non fourni',
+                contact_phone: data.contactPhone || 'Non fourni',
+                restaurant_type: data.restaurantType || 'Non spécifié',
+                items_list: formatItemsForEmail(data.items),
+                total: formatPriceGlobal(data.total),
+                frequency: data.frequency || 'À déterminer',
+                notes: data.notes || 'Aucune note'
+            };
+        } else if (endpoint === '/api/contact') {
+            templateId = CONFIG.emailjs.contactTemplateId;
+            templateParams = {
+                to_email: CONFIG.businessEmail,
+                from_name: data.name,
+                from_email: data.email,
+                subject: data.subject,
+                message: data.message
+            };
+        }
+
+        // Envoyer l'email via EmailJS
+        const response = await emailjs.send(
+            CONFIG.emailjs.serviceId,
+            templateId,
+            templateParams
+        );
+
+        console.log('Email envoyé avec succès:', response);
+        return { success: true, messageId: response.status };
+    } catch (error) {
+        console.error('Erreur EmailJS:', error);
+        return { success: false, offline: true, error: error.message };
+    }
+}
+
+function formatItemsForEmail(items) {
+    return items.map(item =>
+        `• ${item.name} x${item.quantity} — ${formatPriceGlobal(item.price * item.quantity)} FCFA`
+    ).join('\n');
 }
 
 function buildClientOrderMessage(order) {
@@ -972,8 +1056,6 @@ function buildContactMessage(data) {
 }
 
 async function notifyClientOrder(order) {
-    const message = buildClientOrderMessage(order);
-    openWhatsApp(message);
     const result = await sendToApi('/api/order', { ...order, type: 'client' });
     if (!result.success && !result.offline) {
         throw new Error(result.error || 'Échec envoi email');
@@ -982,8 +1064,6 @@ async function notifyClientOrder(order) {
 }
 
 async function notifyRestaurantOrder(order) {
-    const message = buildRestaurantOrderMessage(order);
-    openWhatsApp(message);
     const result = await sendToApi('/api/restaurant-order', { ...order, type: 'restaurant' });
     if (!result.success && !result.offline) {
         throw new Error(result.error || 'Échec envoi email');
@@ -992,8 +1072,6 @@ async function notifyRestaurantOrder(order) {
 }
 
 async function notifyContact(data) {
-    const message = buildContactMessage(data);
-    openWhatsApp(message);
     const result = await sendToApi('/api/contact', data);
     if (!result.success && !result.offline) {
         throw new Error(result.error || 'Échec envoi email');
@@ -1188,6 +1266,16 @@ function initWhatsAppWidget(defaultMessage) {
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🥩 Andy la Boucherie - Site initialisé');
+
+    // Initialiser EmailJS
+    if (typeof emailjs !== 'undefined' && CONFIG.emailjs.publicKey && CONFIG.emailjs.publicKey !== 'YOUR_PUBLIC_KEY') {
+        emailjs.init(CONFIG.emailjs.publicKey);
+        console.log('✅ EmailJS initialisé');
+    } else if (typeof emailjs === 'undefined') {
+        console.warn('⚠️ EmailJS non disponible (CDN indisponible ou bloqué).');
+    } else {
+        console.warn('⚠️ EmailJS non configuré. Les emails ne seront pas envoyés.');
+    }
 
     initWhatsAppWidget(
         document.getElementById('restaurantOrderForm')
