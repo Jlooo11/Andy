@@ -1,0 +1,20 @@
+{
+  "name": "andy-la-boucherie",
+  "version": "1.0.0",
+  "description": "Site e-commerce Andy la Boucherie",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.5",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2",
+    "nodemailer": "^6.10.1"
+  }
+}
