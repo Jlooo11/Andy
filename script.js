@@ -10,7 +10,7 @@ const CONFIG = {
     returnUrl: window.location.origin,
     whatsappNumber: '2250798567514',
     businessEmail: 'alaboutiqueboucherie@gmail.com',
-    apiBaseUrl: '/api' // Utilisé pour appeler le serveur Nodemailer
+    apiBaseUrl: 'https://andy-la-boucherie.onrender.com' 
 };
 
 // ===== DONNÉES DES PRODUITS =====
@@ -374,7 +374,6 @@ class UIManager {
     }
 
     initPromotionBanner() {
-        // Rotation automatique des promotions
         const promotions = [
             "🥩 Nouveau ! Découvrez notre viande d'autruche premium",
             "📦 Commandez avant 14h, livraison le jour même !",
@@ -952,7 +951,8 @@ async function sendOrderToAPI(order) {
     console.log('📤 Envoi de la commande via API Nodemailer...');
     
     try {
-        const response = await fetch('/api/order', {
+        // Utilisation de l'URL absolue CONFIG.apiBaseUrl
+        const response = await fetch(`${CONFIG.apiBaseUrl}/order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -998,7 +998,8 @@ async function sendRestaurantOrderToAPI(orderData) {
     console.log('📤 Envoi de la demande restaurant via API Nodemailer...');
     
     try {
-        const response = await fetch('/api/restaurant-order', {
+        // Utilisation de l'URL absolue CONFIG.apiBaseUrl
+        const response = await fetch(`${CONFIG.apiBaseUrl}/restaurant-order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1043,7 +1044,8 @@ async function sendContactToAPI(data) {
     console.log('📤 Envoi du message de contact via API Nodemailer...');
     
     try {
-        const response = await fetch('/api/contact', {
+        // Utilisation de l'URL absolue CONFIG.apiBaseUrl
+        const response = await fetch(`${CONFIG.apiBaseUrl}/contact`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
