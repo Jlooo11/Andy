@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Andy la Boucherie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        /* ===== ADMIN DASHBOARD STYLES ===== */
+        .admin-login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1A472A, #2E7D32);
+            padding: 20px;
+        }
+
+        .admin-login-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 24px 56px rgba(0,0,0,0.3);
+            max-width: 420px;
+            width: 100%;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .admin-login-card .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 30px;
+            text-decoration: none;
+        }
+
+        .admin-login-card .logo-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: #fff;
+            padding: 8px;
+        }
+
+        .admin-login-card .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .admin-login-card .logo-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #1A472A;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .admin-login-card .logo-subtitle {
+            font-size: 0.85rem;
+            color: #2E7D32;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .admin-login-title {
+            text-align: center;
+            color: #1A472A;
+            margin-bottom: 24px;
+            font-size: 1.3rem;
+        }
+
+        .admin-login-title i {
+            color: #2E7D32;
+            margin-right: 10px;
+        }
+
+        .admin-login-error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .admin-login-error.show {
+            display: block;
+        }
+
+        .admin-login-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .admin-login-form label {
+            font-weight: 600;
+            color: #1A472A;
+            margin-bottom: 6px;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .admin-login-form label i {
+            margin-right: 8px;
+            color: #2E7D32;
+        }
+
+        .admin-login-form input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E2E8E4;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .admin-login-form input:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 4px rgba(46,125,50,0.12);
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(46,125,50,0.3);
+        }
+
+        /* Dashboard Layout */
+        .admin-dashboard {
+            display: none;
+            min-height: 100vh;
+            background: #F5F7F6;
+        }
+
+        .admin-dashboard.show {
+            display: flex;
+        }
+
+        .admin-sidebar {
+            width: 280px;
+            background: #1A472A;
+            color: #fff;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .admin-sidebar .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 30px;
+            text-decoration: none;
+        }
+
+        .admin-sidebar .logo-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.15);
+            padding: 6px;
+        }
+
+        .admin-sidebar .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .admin-sidebar .logo-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #fff;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .admin-sidebar .logo-subtitle {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.7);
+            margin: 0;
+        }
+
+        .admin-sidebar-user {
+            padding: 16px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .admin-sidebar-user .avatar {
+            width: 56px;
+            height: 56px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .admin-sidebar-user .name {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .admin-sidebar-user .role {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .admin-nav {
+            flex: 1;
+        }
+
+        .admin-nav-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .admin-nav-link:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .admin-nav-link.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+
+        .admin-nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .admin-nav-link .badge {
+            margin-left: auto;
+            background: #ff4757;
+            color: #fff;
+            padding: 1px 10px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .admin-logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .admin-logout-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .admin-main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 24px;
+        }
+
+        .admin-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .admin-header-bar h1 {
+            margin: 0;
+            color: #1A472A;
+            font-size: 1.6rem;
+        }
+
+        .admin-header-bar .date {
+            color: #5C6560;
+            font-weight: 500;
+        }
+
+        .admin-sidebar-toggle {
+            display: none;
+            background: #2E7D32;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .admin-stat-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid #E2E8E4;
+            transition: all 0.3s ease;
+        }
+
+        .admin-stat-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .admin-stat-card .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2E7D32;
+            margin-bottom: 4px;
+        }
+
+        .admin-stat-card .stat-label {
+            font-size: 0.85rem;
+            color: #5C6560;
+            font-weight: 500;
+        }
+
+        .admin-stat-card .stat-icon {
+            float: right;
+            font-size: 2rem;
+            color: #E8F5E9;
+        }
+
+        .admin-section {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid #E2E8E4;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .admin-section-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #E2E8E4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .admin-section-header h2 {
+            margin: 0;
+            font-size: 1.15rem;
+            color: #1A472A;
+        }
+
+        .admin-section-header h2 i {
+            margin-right: 10px;
+            color: #2E7D32;
+        }
+
+        .admin-section-header .filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .admin-section-header .filters select,
+        .admin-section-header .filters input {
+            padding: 8px 14px;
+            border: 1px solid #E2E8E4;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: #fff;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .admin-section-header .filters select:focus,
+        .admin-section-header .filters input:focus {
+            border-color: #2E7D32;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46,125,50,0.1);
+        }
+
+        .admin-table-wrapper {
+            overflow-x: auto;
+            padding: 16px;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .admin-table thead {
+            background: #F5F7F6;
+        }
+
+        .admin-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #1A472A;
+            border-bottom: 2px solid #E2E8E4;
+            white-space: nowrap;
+        }
+
+        .admin-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #E2E8E4;
+            vertical-align: middle;
+        }
+
+        .admin-table tr:hover td {
+            background: #F5F7F6;
+        }
+
+        .admin-table .status {
+            padding: 3px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending { background: #fff3e0; color: #e65100; }
+        .status-processing { background: #e3f2fd; color: #0d47a1; }
+        .status-completed { background: #e8f5e9; color: #1b5e20; }
+        .status-cancelled { background: #ffebee; color: #b71c1c; }
+
+        .admin-table .order-items span {
+            display: inline-block;
+            background: #E2E8E4;
+            padding: 2px 10px;
+            border-radius: 6px;
+            margin: 2px;
+            font-size: 0.8rem;
+        }
+
+        .admin-table .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .admin-table .actions button {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-view {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+        .btn-view:hover { background: #2E7D32; color: #fff; }
+
+        .btn-complete {
+            background: #e8f5e9;
+            color: #1b5e20;
+        }
+        .btn-complete:hover { background: #1b5e20; color: #fff; }
+
+        .btn-cancel {
+            background: #ffebee;
+            color: #b71c1c;
+        }
+        .btn-cancel:hover { background: #b71c1c; color: #fff; }
+
+        .btn-delete {
+            background: #ffebee;
+            color: #b71c1c;
+        }
+        .btn-delete:hover { background: #b71c1c; color: #fff; }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: #5C6560;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #E2E8E4;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            color: #1A472A;
+            margin-bottom: 8px;
+        }
+
+        .order-detail-modal .modal-content {
+            max-width: 600px;
+        }
+
+        .order-detail-modal .order-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .order-detail-modal .order-info .label {
+            font-weight: 600;
+            color: #5C6560;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .order-detail-modal .order-info .value {
+            font-weight: 500;
+            color: #1A1A1A;
+        }
+
+        .order-detail-modal .order-items-list .item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #E2E8E4;
+        }
+
+        .order-detail-modal .order-items-list .item:last-child {
+            border-bottom: none;
+        }
+
+        .order-detail-modal .order-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2E7D32;
+            text-align: right;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px solid #2E7D32;
+        }
+
+        .admin-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+        }
+
+        .admin-overlay.show { display: block; }
+
+        .loading-spinner-small {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 992px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            .admin-sidebar.open {
+                transform: translateX(0);
+            }
+            .admin-main {
+                margin-left: 0;
+            }
+            .admin-sidebar-toggle {
+                display: block;
+            }
+            .admin-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+            .admin-section-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .admin-section-header .filters {
+                flex-direction: column;
+            }
+            .admin-table td,
+            .admin-table th {
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+            .admin-login-card {
+                padding: 24px;
+            }
+            .order-detail-modal .order-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== LOGIN PAGE ===== -->
+    <div id="loginPage" class="admin-login-container">
+        <div class="admin-login-card">
+            <a href="#" class="logo" style="pointer-events: none;">
+                <div class="logo-image">
+                    <img src="img/logo Andy.png" alt="Andy la Boucherie">
+                </div>
+                <div>
+                    <div class="logo-title">Andy</div>
+                    <div class="logo-subtitle">Administration</div>
+                </div>
+            </a>
+            
+            <h3 class="admin-login-title">
+                <i class="fas fa-lock"></i>
+                Accès sécurisé
+            </h3>
+            
+            <div id="loginError" class="admin-login-error">
+                <i class="fas fa-exclamation-circle"></i>
+                Identifiant ou mot de passe incorrect
+            </div>
+            
+            <form id="loginForm" class="admin-login-form">
+                <div class="form-group">
+                    <label for="adminUsername"><i class="fas fa-user"></i> Identifiant</label>
+                    <input type="text" id="adminUsername" placeholder="admin" value="admin" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword"><i class="fas fa-key"></i> Mot de passe</label>
+                    <input type="password" id="adminPassword" placeholder="Votre mot de passe" required>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Se connecter
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== DASHBOARD ===== -->
+    <div id="dashboard" class="admin-dashboard">
+        <div id="adminOverlay" class="admin-overlay"></div>
+
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <a href="#" class="logo" style="pointer-events: none;">
+                <div class="logo-image">
+                    <img src="img/logo Andy.png" alt="Andy la Boucherie">
+                </div>
+                <div>
+                    <div class="logo-title">Andy</div>
+                    <div class="logo-subtitle">Admin</div>
+                </div>
+            </a>
+            
+            <div class="admin-sidebar-user">
+                <div class="avatar"><i class="fas fa-user-shield"></i></div>
+                <div class="name" id="adminUserName">Administrateur</div>
+                <div class="role">Super Admin</div>
+            </div>
+            
+            <nav class="admin-nav">
+                <ul class="admin-nav-list">
+                    <li>
+                        <a href="#" class="admin-nav-link active" data-tab="orders">
+                            <i class="fas fa-shopping-bag"></i>
+                            Commandes
+                            <span class="badge" id="ordersBadge">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="admin-nav-link" data-tab="restaurant">
+                            <i class="fas fa-utensils"></i>
+                            Restaurants
+                            <span class="badge" id="restaurantBadge">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="admin-nav-link" data-tab="messages">
+                            <i class="fas fa-envelope"></i>
+                            Messages
+                            <span class="badge" id="messagesBadge">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <button class="admin-logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                Déconnexion
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header-bar">
+                <div>
+                    <button class="admin-sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Commandes</h1>
+                </div>
+                <span class="date" id="currentDate"></span>
+            </div>
+
+            <div class="admin-stats" id="statsContainer">
+                <div class="admin-stat-card">
+                    <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <div class="stat-number" id="totalOrders">0</div>
+                    <div class="stat-label">Commandes totales</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-number" id="pendingOrders">0</div>
+                    <div class="stat-label">En attente</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-number" id="completedOrders">0</div>
+                    <div class="stat-label">Terminées</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon"><i class="fas fa-utensils"></i></div>
+                    <div class="stat-number" id="totalRestaurant">0</div>
+                    <div class="stat-label">Demandes pro</div>
+                </div>
+            </div>
+
+            <!-- Orders -->
+            <div class="admin-section" id="ordersSection">
+                <div class="admin-section-header">
+                    <h2><i class="fas fa-list"></i> Liste des commandes</h2>
+                    <div class="filters">
+                        <select id="statusFilter">
+                            <option value="all">Tous les statuts</option>
+                            <option value="pending">En attente</option>
+                            <option value="processing">En préparation</option>
+                            <option value="completed">Terminée</option>
+                            <option value="cancelled">Annulée</option>
+                        </select>
+                        <input type="text" id="searchOrders" placeholder="🔍 Rechercher...">
+                    </div>
+                </div>
+                <div class="admin-table-wrapper">
+                    <div id="ordersTableContainer"></div>
+                </div>
+            </div>
+
+            <!-- Restaurant -->
+            <div class="admin-section" id="restaurantSection" style="display:none;">
+                <div class="admin-section-header">
+                    <h2><i class="fas fa-utensils"></i> Demandes Restaurants</h2>
+                    <input type="text" id="searchRestaurant" placeholder="🔍 Rechercher..." style="padding:8px 14px;border:1px solid #E2E8E4;border-radius:8px;font-size:0.9rem;">
+                </div>
+                <div class="admin-table-wrapper">
+                    <div id="restaurantTableContainer"></div>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="admin-section" id="messagesSection" style="display:none;">
+                <div class="admin-section-header">
+                    <h2><i class="fas fa-envelope"></i> Messages</h2>
+                </div>
+                <div class="admin-table-wrapper">
+                    <div id="messagesTableContainer"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== ORDER DETAIL MODAL ===== -->
+    <div class="modal order-detail-modal" id="orderDetailModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background:linear-gradient(135deg,#1A472A,#2E7D32);color:#fff;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <div class="modal-title" style="display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-receipt"></i>
+                    <h3 style="margin:0;color:#fff;">Détail de la commande</h3>
+                </div>
+                <button class="close-modal" id="closeOrderDetail" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.5rem;cursor:pointer;">&times;</button>
+            </div>
+            <div class="modal-body" id="orderDetailContent" style="padding:24px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // ADMIN DASHBOARD - SCRIPT COMPLET
+        // ============================================================
+
+        const API_BASE = (window.location.protocol === 'http:' || window.location.protocol === 'https:')
+            ? window.location.origin
+            : '';
+
+        function getLocalStorageData(key) {
+            try {
+                return JSON.parse(localStorage.getItem(key) || '[]');
+            } catch {
+                return [];
+            }
+        }
+
+        function buildLocalOrderStats() {
+            const orders = getLocalStorageData('andy_local_orders');
+            const restaurantOrders = getLocalStorageData('andy_local_restaurant_orders');
+            const contacts = getLocalStorageData('andy_local_contacts');
+            return {
+                totalOrders: orders.length,
+                pendingOrders: orders.length,
+                completedOrders: 0,
+                totalRestaurant: restaurantOrders.length,
+                unreadMessages: contacts.length
+            };
+        }
+
+        async function adminLogin(username, password) {
+            if (!API_BASE) {
+                if (username === 'admin' && password === 'admin') {
+                    return { success: true, user: { id: 1, username: 'admin' } };
+                }
+                return { success: false, error: 'Identifiant ou mot de passe incorrect' };
+            }
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('Erreur login:', error);
+                return { success: false, error: 'Erreur réseau' };
+            }
+        }
+
+        // ===== API HELPERS =====
+        async function fetchOrders() {
+            if (!API_BASE) {
+                return { success: true, data: getLocalStorageData('andy_local_orders') };
+            }
+            try {
+                const res = await fetch(`${API_BASE}/api/orders`);
+                if (!res.ok) throw new Error('Erreur API orders');
+                return await res.json();
+            } catch (error) {
+                console.warn('fetchOrders fallback local:', error);
+                return { success: true, data: getLocalStorageData('andy_local_orders') };
+            }
+        }
+
+        async function fetchRestaurantOrders() {
+            if (!API_BASE) {
+                return { success: true, data: getLocalStorageData('andy_local_restaurant_orders') };
+            }
+            try {
+                const res = await fetch(`${API_BASE}/api/restaurant-orders`);
+                if (!res.ok) throw new Error('Erreur API restaurant orders');
+                return await res.json();
+            } catch (error) {
+                console.warn('fetchRestaurantOrders fallback local:', error);
+                return { success: true, data: getLocalStorageData('andy_local_restaurant_orders') };
+            }
+        }
+
+        async function fetchMessages() {
+            if (!API_BASE) {
+                return { success: true, data: getLocalStorageData('andy_local_contacts') };
+            }
+            try {
+                const res = await fetch(`${API_BASE}/api/messages`);
+                if (!res.ok) throw new Error('Erreur API messages');
+                return await res.json();
+            } catch (error) {
+                console.warn('fetchMessages fallback local:', error);
+                return { success: true, data: getLocalStorageData('andy_local_contacts') };
+            }
+        }
+
+        async function fetchStats() {
+            if (!API_BASE) {
+                return { success: true, data: buildLocalOrderStats() };
+            }
+            try {
+                const res = await fetch(`${API_BASE}/api/stats`);
+                if (!res.ok) throw new Error('Erreur API stats');
+                return await res.json();
+            } catch (error) {
+                console.warn('fetchStats fallback local:', error);
+                return { success: true, data: buildLocalOrderStats() };
+            }
+        }
+
+        async function updateOrderStatus(id, status) {
+            const res = await fetch(`${API_BASE}/api/orders/${id}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+            return res.json();
+        }
+
+        async function markMessageRead(id) {
+            const res = await fetch(`${API_BASE}/api/messages/${id}/read`, {
+                method: 'PUT'
+            });
+            return res.json();
+        }
+
+        // ============================================================
+        // UI MANAGER
+        // ============================================================
+
+        class AdminUI {
+            constructor() {
+                this.currentTab = 'orders';
+                this.orders = [];
+                this.restaurantOrders = [];
+                this.messages = [];
+                this.isLoading = false;
+                this.init();
+            }
+
+            init() {
+                this.cacheElements();
+                this.setupEventListeners();
+                this.setCurrentDate();
+                this.checkAuth();
+            }
+
+            cacheElements() {
+                this.elements = {
+                    loginPage: document.getElementById('loginPage'),
+                    dashboard: document.getElementById('dashboard'),
+                    loginForm: document.getElementById('loginForm'),
+                    loginError: document.getElementById('loginError'),
+                    adminUsername: document.getElementById('adminUsername'),
+                    adminPassword: document.getElementById('adminPassword'),
+                    sidebar: document.getElementById('adminSidebar'),
+                    sidebarToggle: document.getElementById('sidebarToggle'),
+                    overlay: document.getElementById('adminOverlay'),
+                    logoutBtn: document.getElementById('logoutBtn'),
+                    navLinks: document.querySelectorAll('.admin-nav-link'),
+                    totalOrders: document.getElementById('totalOrders'),
+                    pendingOrders: document.getElementById('pendingOrders'),
+                    completedOrders: document.getElementById('completedOrders'),
+                    totalRestaurant: document.getElementById('totalRestaurant'),
+                    ordersBadge: document.getElementById('ordersBadge'),
+                    restaurantBadge: document.getElementById('restaurantBadge'),
+                    messagesBadge: document.getElementById('messagesBadge'),
+                    ordersSection: document.getElementById('ordersSection'),
+                    restaurantSection: document.getElementById('restaurantSection'),
+                    messagesSection: document.getElementById('messagesSection'),
+                    pageTitle: document.getElementById('pageTitle'),
+                    ordersTableContainer: document.getElementById('ordersTableContainer'),
+                    restaurantTableContainer: document.getElementById('restaurantTableContainer'),
+                    messagesTableContainer: document.getElementById('messagesTableContainer'),
+                    statusFilter: document.getElementById('statusFilter'),
+                    searchOrders: document.getElementById('searchOrders'),
+                    searchRestaurant: document.getElementById('searchRestaurant'),
+                    orderDetailModal: document.getElementById('orderDetailModal'),
+                    orderDetailContent: document.getElementById('orderDetailContent'),
+                    closeOrderDetail: document.getElementById('closeOrderDetail'),
+                };
+            }
+
+            setupEventListeners() {
+                this.elements.loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+                this.elements.logoutBtn.addEventListener('click', () => this.handleLogout());
+                this.elements.sidebarToggle.addEventListener('click', () => this.toggleSidebar());
+                this.elements.overlay.addEventListener('click', () => this.toggleSidebar(false));
+
+                this.elements.navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.switchTab(link.dataset.tab);
+                    });
+                });
+
+                this.elements.statusFilter.addEventListener('change', () => this.renderOrders());
+                this.elements.searchOrders.addEventListener('input', () => this.renderOrders());
+                this.elements.searchRestaurant.addEventListener('input', () => this.renderRestaurantOrders());
+
+                this.elements.closeOrderDetail.addEventListener('click', () => this.closeOrderDetailModal());
+                document.addEventListener('click', (e) => {
+                    if (e.target === this.elements.orderDetailModal) this.closeOrderDetailModal();
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') this.closeOrderDetailModal();
+                });
+            }
+
+            // ===== AUTH =====
+            async handleLogin(e) {
+                e.preventDefault();
+                const username = this.elements.adminUsername.value.trim();
+                const password = this.elements.adminPassword.value.trim();
+
+                if (!username || !password) {
+                    this.showLoginError('Veuillez remplir tous les champs');
+                    return;
+                }
+
+                this.setLoading(true);
+                const result = await adminLogin(username, password);
+                this.setLoading(false);
+
+                if (result.success) {
+                    this.elements.loginError.classList.remove('show');
+                    localStorage.setItem('andy_admin_logged_in', 'true');
+                    localStorage.setItem('andy_admin_user', JSON.stringify(result.user));
+                    this.showDashboard();
+                } else {
+                    this.showLoginError(result.error || 'Identifiant ou mot de passe incorrect');
+                    this.elements.adminPassword.value = '';
+                    this.elements.adminPassword.focus();
+                }
+            }
+
+            showLoginError(message) {
+                this.elements.loginError.textContent = '⚠️ ' + message;
+                this.elements.loginError.classList.add('show');
+            }
+
+            setLoading(loading) {
+                const btn = this.elements.loginForm.querySelector('button[type="submit"]');
+                if (loading) {
+                    btn.innerHTML = '<span class="loading-spinner-small"></span> Connexion...';
+                    btn.disabled = true;
+                } else {
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Se connecter';
+                    btn.disabled = false;
+                }
+            }
+
+            handleLogout() {
+                localStorage.removeItem('andy_admin_logged_in');
+                localStorage.removeItem('andy_admin_user');
+                this.showLogin();
+            }
+
+            checkAuth() {
+                if (localStorage.getItem('andy_admin_logged_in') === 'true') {
+                    const user = JSON.parse(localStorage.getItem('andy_admin_user') || '{}');
+                    if (user.username) {
+                        document.getElementById('adminUserName').textContent = user.username;
+                    }
+                    this.showDashboard();
+                } else {
+                    this.showLogin();
+                }
+            }
+
+            showLogin() {
+                this.elements.loginPage.style.display = 'flex';
+                this.elements.dashboard.classList.remove('show');
+            }
+
+            async showDashboard() {
+                this.elements.loginPage.style.display = 'none';
+                this.elements.dashboard.classList.add('show');
+                await this.loadData();
+                this.render();
+                this.switchTab('orders');
+            }
+
+            // ===== SIDEBAR =====
+            toggleSidebar(force) {
+                const isOpen = this.elements.sidebar.classList.contains('open');
+                const newState = force !== undefined ? force : !isOpen;
+                this.elements.sidebar.classList.toggle('open', newState);
+                this.elements.overlay.classList.toggle('show', newState);
+                document.body.style.overflow = newState ? 'hidden' : 'auto';
+            }
+
+            // ===== TABS =====
+            switchTab(tab) {
+                this.currentTab = tab;
+                this.elements.navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.tab === tab);
+                });
+
+                this.elements.ordersSection.style.display = tab === 'orders' ? 'block' : 'none';
+                this.elements.restaurantSection.style.display = tab === 'restaurant' ? 'block' : 'none';
+                this.elements.messagesSection.style.display = tab === 'messages' ? 'block' : 'none';
+
+                const titles = {
+                    orders: 'Commandes',
+                    restaurant: 'Demandes Restaurants',
+                    messages: 'Messages'
+                };
+                this.elements.pageTitle.textContent = titles[tab] || 'Commandes';
+
+                if (window.innerWidth <= 992) this.toggleSidebar(false);
+
+                if (tab === 'orders') this.renderOrders();
+                if (tab === 'restaurant') this.renderRestaurantOrders();
+                if (tab === 'messages') this.renderMessages();
+            }
+
+            // ===== DATA =====
+            async loadData() {
+                try {
+                    const [ordersRes, restaurantRes, messagesRes, statsRes] = await Promise.all([
+                        fetchOrders(),
+                        fetchRestaurantOrders(),
+                        fetchMessages(),
+                        fetchStats()
+                    ]);
+
+                    if (ordersRes.success) this.orders = ordersRes.data || [];
+                    if (restaurantRes.success) this.restaurantOrders = restaurantRes.data || [];
+                    if (messagesRes.success) this.messages = messagesRes.data || [];
+                    if (statsRes.success) this.stats = statsRes.data;
+
+                } catch (error) {
+                    console.error('Erreur chargement données:', error);
+                }
+            }
+
+            // ===== RENDER =====
+            render() {
+                this.updateStats();
+                this.renderOrders();
+                this.renderRestaurantOrders();
+                this.renderMessages();
+            }
+
+            updateStats() {
+                const s = this.stats || { totalOrders: 0, pendingOrders: 0, completedOrders: 0, totalRestaurant: 0, unreadMessages: 0 };
+                this.elements.totalOrders.textContent = s.totalOrders || 0;
+                this.elements.pendingOrders.textContent = s.pendingOrders || 0;
+                this.elements.completedOrders.textContent = s.completedOrders || 0;
+                this.elements.totalRestaurant.textContent = s.totalRestaurant || 0;
+                this.elements.ordersBadge.textContent = s.pendingOrders || 0;
+                this.elements.restaurantBadge.textContent = s.totalRestaurant || 0;
+                this.elements.messagesBadge.textContent = s.unreadMessages || 0;
+
+                this.elements.ordersBadge.style.display = (s.pendingOrders || 0) > 0 ? 'inline' : 'none';
+                this.elements.restaurantBadge.style.display = (s.totalRestaurant || 0) > 0 ? 'inline' : 'none';
+                this.elements.messagesBadge.style.display = (s.unreadMessages || 0) > 0 ? 'inline' : 'none';
+            }
+
+            // --- Orders ---
+            renderOrders() {
+                const statusFilter = this.elements.statusFilter.value;
+                const searchTerm = this.elements.searchOrders.value.toLowerCase();
+
+                let filtered = this.orders;
+                if (statusFilter !== 'all') {
+                    filtered = filtered.filter(o => o.status === statusFilter);
+                }
+                if (searchTerm) {
+                    filtered = filtered.filter(o =>
+                        (o.id || '').toLowerCase().includes(searchTerm) ||
+                        (o.customer_name || '').toLowerCase().includes(searchTerm) ||
+                        (o.customer_phone || '').includes(searchTerm)
+                    );
+                }
+
+                if (filtered.length === 0) {
+                    this.elements.ordersTableContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h3>Aucune commande</h3>
+                            <p>Les commandes apparaîtront ici dès qu'elles seront passées.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = `
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>N° commande</th>
+                                <th>Client</th>
+                                <th>Téléphone</th>
+                                <th>Articles</th>
+                                <th>Total</th>
+                                <th>Statut</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                filtered.forEach(order => {
+                    const items = this.parseItems(order.items);
+                    const total = items.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0) || order.total || 0;
+                    const statusClass = this.getStatusClass(order.status);
+
+                    html += `
+                        <tr>
+                            <td><strong>${order.id || 'N/A'}</strong></td>
+                            <td>${order.customer_name || 'N/A'}</td>
+                            <td>${order.customer_phone || 'N/A'}</td>
+                            <td class="order-items">
+                                ${items.slice(0, 3).map(item => 
+                                    `<span>${item.name || 'Produit'} x${item.quantity || 1}</span>`
+                                ).join('')}
+                                ${items.length > 3 ? `<span>+${items.length - 3}</span>` : ''}
+                            </td>
+                            <td><strong>${total.toLocaleString()} FCFA</strong></td>
+                            <td><span class="status ${statusClass}">${this.getStatusLabel(order.status)}</span></td>
+                            <td>${this.formatDate(order.created_at || order.createdAt)}</td>
+                            <td class="actions">
+                                <button class="btn-view" data-id="${order.id}"><i class="fas fa-eye"></i></button>
+                                ${order.status === 'pending' ? `
+                                    <button class="btn-complete" data-id="${order.id}" data-action="complete"><i class="fas fa-check"></i></button>
+                                ` : ''}
+                                ${order.status === 'pending' || order.status === 'processing' ? `
+                                    <button class="btn-cancel" data-id="${order.id}" data-action="cancel"><i class="fas fa-times"></i></button>
+                                ` : ''}
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+                this.elements.ordersTableContainer.innerHTML = html;
+
+                // Events
+                this.elements.ordersTableContainer.querySelectorAll('.btn-view').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const order = this.orders.find(o => o.id === btn.dataset.id);
+                        if (order) this.showOrderDetail(order);
+                    });
+                });
+
+                this.elements.ordersTableContainer.querySelectorAll('[data-action="complete"]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        if (confirm('Marquer cette commande comme terminée ?')) {
+                            await updateOrderStatus(btn.dataset.id, 'completed');
+                            await this.loadData();
+                            this.render();
+                        }
+                    });
+                });
+
+                this.elements.ordersTableContainer.querySelectorAll('[data-action="cancel"]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        if (confirm('Annuler cette commande ?')) {
+                            await updateOrderStatus(btn.dataset.id, 'cancelled');
+                            await this.loadData();
+                            this.render();
+                        }
+                    });
+                });
+            }
+
+            // --- Restaurant ---
+            renderRestaurantOrders() {
+                const searchTerm = this.elements.searchRestaurant.value.toLowerCase();
+
+                let filtered = this.restaurantOrders;
+                if (searchTerm) {
+                    filtered = filtered.filter(o =>
+                        (o.id || '').toLowerCase().includes(searchTerm) ||
+                        (o.restaurant_name || '').toLowerCase().includes(searchTerm) ||
+                        (o.contact_name || '').toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                if (filtered.length === 0) {
+                    this.elements.restaurantTableContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-utensils"></i>
+                            <h3>Aucune demande restaurant</h3>
+                            <p>Les demandes professionnelles apparaîtront ici.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = `
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>N° demande</th>
+                                <th>Restaurant</th>
+                                <th>Contact</th>
+                                <th>Téléphone</th>
+                                <th>Produits</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                filtered.forEach(order => {
+                    const items = this.parseItems(order.items);
+
+                    html += `
+                        <tr>
+                            <td><strong>${order.id || 'N/A'}</strong></td>
+                            <td>${order.restaurant_name || 'N/A'}</td>
+                            <td>${order.contact_name || 'N/A'}</td>
+                            <td>${order.phone || 'N/A'}</td>
+                            <td class="order-items">
+                                ${items.slice(0, 3).map(item => 
+                                    `<span>${item.name || 'Produit'} x${item.quantity || 1}</span>`
+                                ).join('')}
+                                ${items.length > 3 ? `<span>+${items.length - 3}</span>` : ''}
+                            </td>
+                            <td>${this.formatDate(order.created_at || order.createdAt)}</td>
+                            <td class="actions">
+                                <button class="btn-view" data-id="${order.id}"><i class="fas fa-eye"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+                this.elements.restaurantTableContainer.innerHTML = html;
+
+                this.elements.restaurantTableContainer.querySelectorAll('.btn-view').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const order = this.restaurantOrders.find(o => o.id === btn.dataset.id);
+                        if (order) this.showOrderDetail(order);
+                    });
+                });
+            }
+
+            // --- Messages ---
+            renderMessages() {
+                const messages = this.messages;
+
+                if (messages.length === 0) {
+                    this.elements.messagesTableContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-envelope-open"></i>
+                            <h3>Aucun message</h3>
+                            <p>Les messages de contact apparaîtront ici.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = `
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Sujet</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                messages.forEach(msg => {
+                    html += `
+                        <tr style="${!msg.read ? 'background:#E8F5E9;' : ''}">
+                            <td><strong>${msg.id || 'N/A'}</strong></td>
+                            <td>${msg.name || 'N/A'}</td>
+                            <td>${msg.email || 'N/A'}</td>
+                            <td>${msg.subject_text || msg.subject || 'N/A'}</td>
+                            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${msg.message || ''}</td>
+                            <td>${this.formatDate(msg.created_at || msg.createdAt)}</td>
+                            <td class="actions">
+                                ${!msg.read ? `
+                                    <button class="btn-view" data-id="${msg.id}" data-action="mark-read">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                ` : ''}
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+                this.elements.messagesTableContainer.innerHTML = html;
+
+                this.elements.messagesTableContainer.querySelectorAll('[data-action="mark-read"]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        await markMessageRead(btn.dataset.id);
+                        await this.loadData();
+                        this.render();
+                    });
+                });
+            }
+
+            // ===== ORDER DETAIL =====
+            showOrderDetail(order) {
+                const isRestaurant = !!order.restaurant_name;
+
+                let html = '';
+
+                if (isRestaurant) {
+                    const items = this.parseItems(order.items);
+                    html = `
+                        <div class="order-info">
+                            <div><div class="label">N° demande</div><div class="value">${order.id || 'N/A'}</div></div>
+                            <div><div class="label">Date</div><div class="value">${this.formatDate(order.created_at || order.createdAt)}</div></div>
+                            <div><div class="label">Restaurant</div><div class="value">${order.restaurant_name || 'N/A'}</div></div>
+                            <div><div class="label">Contact</div><div class="value">${order.contact_name || 'N/A'}</div></div>
+                            <div><div class="label">Téléphone</div><div class="value">${order.phone || 'N/A'}</div></div>
+                            <div><div class="label">Email</div><div class="value">${order.email || 'N/A'}</div></div>
+                            <div><div class="label">Adresse</div><div class="value">${order.address || 'N/A'}</div></div>
+                            <div><div class="label">Type d'établissement</div><div class="value">${order.restaurant_type || 'N/A'}</div></div>
+                            <div><div class="label">Fréquence livraison</div><div class="value">${order.delivery_frequency || 'N/A'}</div></div>
+                        </div>
+                        ${order.special_notes ? `
+                            <div style="margin-bottom:16px;">
+                                <div class="label">Notes spéciales</div>
+                                <div style="background:#F5F7F6;padding:12px;border-radius:8px;">${order.special_notes}</div>
+                            </div>
+                        ` : ''}
+                        <h4 style="margin-top:16px;">Produits demandés</h4>
+                        <div class="order-items-list">
+                            ${items.map(item => `
+                                <div class="item">
+                                    <span>${item.name || 'Produit'}</span>
+                                    <span>${item.quantity || 1} × ${item.unit || 'unité'}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    const items = this.parseItems(order.items);
+                    const total = items.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0) || order.total || 0;
+
+                    html = `
+                        <div class="order-info">
+                            <div><div class="label">N° commande</div><div class="value">${order.id || 'N/A'}</div></div>
+                            <div><div class="label">Date</div><div class="value">${this.formatDate(order.created_at || order.createdAt)}</div></div>
+                            <div><div class="label">Client</div><div class="value">${order.customer_name || 'N/A'}</div></div>
+                            <div><div class="label">Téléphone</div><div class="value">${order.customer_phone || 'N/A'}</div></div>
+                            <div><div class="label">Email</div><div class="value">${order.customer_email || 'N/A'}</div></div>
+                            <div><div class="label">Adresse</div><div class="value">${order.customer_address || 'N/A'}</div></div>
+                            <div><div class="label">Statut</div><div class="value"><span class="status ${this.getStatusClass(order.status)}">${this.getStatusLabel(order.status)}</span></div></div>
+                            <div><div class="label">Paiement</div><div class="value">${order.payment_method || 'N/A'}</div></div>
+                        </div>
+                        ${order.notes ? `
+                            <div style="margin-bottom:16px;">
+                                <div class="label">Notes</div>
+                                <div style="background:#F5F7F6;padding:12px;border-radius:8px;">${order.notes}</div>
+                            </div>
+                        ` : ''}
+                        <h4 style="margin-top:16px;">Articles commandés</h4>
+                        <div class="order-items-list">
+                            ${items.map(item => `
+                                <div class="item">
+                                    <span>${item.name || 'Produit'}</span>
+                                    <span>${item.quantity || 1} × ${(item.price || 0).toLocaleString()} FCFA</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="order-total">Total : ${total.toLocaleString()} FCFA</div>
+                    `;
+                }
+
+                this.elements.orderDetailContent.innerHTML = html;
+                this.elements.orderDetailModal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeOrderDetailModal() {
+                this.elements.orderDetailModal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+
+            // ===== UTILITAIRES =====
+            parseItems(items) {
+                if (!items) return [];
+                if (Array.isArray(items)) return items;
+                try { return JSON.parse(items); } catch { return []; }
+            }
+
+            getStatusClass(status) {
+                const map = {
+                    'pending': 'status-pending',
+                    'processing': 'status-processing',
+                    'completed': 'status-completed',
+                    'cancelled': 'status-cancelled'
+                };
+                return map[status] || 'status-pending';
+            }
+
+            getStatusLabel(status) {
+                const map = {
+                    'pending': 'En attente',
+                    'processing': 'En préparation',
+                    'completed': 'Terminée',
+                    'cancelled': 'Annulée'
+                };
+                return map[status] || status;
+            }
+
+            formatDate(dateString) {
+                if (!dateString) return 'N/A';
+                try {
+                    const date = new Date(dateString);
+                    return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+                } catch {
+                    return dateString;
+                }
+            }
+
+            setCurrentDate() {
+                const now = new Date();
+                document.getElementById('currentDate').textContent =
+                    now.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            }
+        }
+
+        // ============================================================
+        // REMPLACEMENT DES FONCTIONS D'ENVOI (script.js les utilisera)
+        // ============================================================
+
+        // Ces fonctions sont appelées depuis script.js
+        // Elles envoient les données au backend qui les stocke en base
+
+        async function sendOrderToAPI(order) {
+            try {
+                const response = await fetch('/api/order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(order)
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('Erreur envoi commande:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        async function sendRestaurantOrderToAPI(orderData) {
+            try {
+                const response = await fetch('/api/restaurant-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('Erreur envoi demande restaurant:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        async function sendContactToAPI(data) {
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('Erreur envoi message:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // Exposer les fonctions
+        window.sendOrderToAPI = sendOrderToAPI;
+        window.sendRestaurantOrderToAPI = sendRestaurantOrderToAPI;
+        window.sendContactToAPI = sendContactToAPI;
+
+        // ============================================================
+        // INITIALISATION
+        // ============================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔐 Dashboard Admin - Initialisation...');
+            const adminUI = new AdminUI();
+            window.adminUI = adminUI;
+            console.log('✅ Dashboard Admin initialisé');
+        });
+    </script>
+
+</body>
+</html>

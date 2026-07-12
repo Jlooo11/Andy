@@ -478,6 +478,7 @@
                 <div class="footer-bottom-content">
                     <p>&copy; <span id="currentYear">2025</span> Andy la Boucherie. Tous droits réservés.</p>
                     <div class="footer-bottom-links">
+                        <a href="admin.html" class="footer-admin-link"><i class="fas fa-user-shield"></i> Administration</a>
                         <a href="#">Mentions légales</a>
                         <a href="#">Politique de confidentialité</a>
                         <a href="#">CGV</a>
@@ -622,5 +623,14 @@
 
     <!-- Scripts -->
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.protocol === 'file:') {
+                document.querySelectorAll('.footer-admin-link').forEach(link => {
+                    link.href = 'http://localhost:3000/admin';
+                });
+            }
+        });
+    </script>
 </body>
 </html>

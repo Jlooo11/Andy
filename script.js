@@ -725,10 +725,9 @@ class UIManager {
         this.showLoading();
         
         try {
-            // Envoyer la commande via l'API Nodemailer
-            const result = await sendOrderToAPI(order);
+            const result = await sendOrderRequest(order);
             
-            if (result.success) {
+            if (result?.success) {
                 localStorage.setItem('last_order', JSON.stringify(order));
                 this.cartManager.clearCart();
                 this.updateCartDisplay();
@@ -736,7 +735,9 @@ class UIManager {
                 this.showToast('Commande envoyée avec succès !', 'Succès');
                 
                 // Rediriger vers le paiement Wave
-                const paymentUrl = CONFIG.paymentLink + '?return_url=' + encodeURIComponent(CONFIG.returnUrl);
+                const paymentUrl = window.location.protocol.startsWith('http')
+                    ? `${CONFIG.paymentLink}?return_url=${encodeURIComponent(CONFIG.returnUrl)}`
+                    : CONFIG.paymentLink;
                 window.location.href = paymentUrl;
             } else {
                 this.showToast('Erreur lors de l\'envoi. Réessayez.', 'Erreur', 'error');
@@ -765,7 +766,7 @@ class UIManager {
         this.showLoading();
         
         try {
-            const result = await sendContactToAPI({
+            const result = await sendContactRequest({
                 name,
                 email,
                 subject,
@@ -773,7 +774,7 @@ class UIManager {
                 message
             });
             
-            if (result.success) {
+            if (result?.success) {
                 this.showToast('Message envoyé avec succès !', 'Succès');
                 e.target.reset();
             } else {
@@ -942,134 +943,107 @@ class UIManager {
     }
 }
 
-// ===== API CLIENT POUR NODEMAILER =====
-
-/**
- * Envoyer une commande via l'API Nodemailer
- */
-async function sendOrderToAPI(order) {
-    console.log('📤 Envoi de la commande via API Nodemailer...');
-    
+// ===== SERVICES DE MESSAGERIE (GLOBAUX) =====
+// Les envois utilisent les fonctions globales quand elles sont disponibles, sinon un fallback local.
+function getLocalData(key) {
     try {
-        // Utilisation de l'URL absolue CONFIG.apiBaseUrl
-        const response = await fetch(`${CONFIG.apiBaseUrl}/order`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                orderNumber: order.orderNumber,
-                date: order.date,
-                customerName: order.customerName,
-                customerEmail: order.customerEmail,
-                customerPhone: order.customerPhone,
-                customerAddress: order.customerAddress || '',
-                items: order.items.map(item => ({
-                    name: item.name,
-                    quantity: item.quantity,
-                    price: item.price,
-                    unit: item.priceUnit || '250g'
-                })),
-                total: order.total,
-                deliveryMethod: order.deliveryMethod || 'Retrait en boutique',
-                paymentMethod: order.paymentMethod || 'Wave',
-                notes: order.notes || ''
-            })
-        });
-
-        const result = await response.json();
-        
-        if (result.success) {
-            console.log('✅ Commande envoyée avec succès');
-            return result;
-        } else {
-            throw new Error(result.error || 'Erreur inconnue');
-        }
-    } catch (error) {
-        console.error('❌ Erreur envoi commande:', error);
-        throw error;
+        return JSON.parse(localStorage.getItem(key) || '[]');
+    } catch {
+        return [];
     }
 }
 
-/**
- * Envoyer une demande restaurant via l'API Nodemailer
- */
-async function sendRestaurantOrderToAPI(orderData) {
-    console.log('📤 Envoi de la demande restaurant via API Nodemailer...');
-    
+function saveLocalData(key, value) {
+    const data = getLocalData(key);
+    data.unshift(value);
+    localStorage.setItem(key, JSON.stringify(data));
+    return { success: true, savedLocally: true };
+}
+
+function saveLocalOrder(order) {
+    return saveLocalData('andy_local_orders', order);
+}
+
+function saveLocalRestaurantOrder(orderData) {
+    return saveLocalData('andy_local_restaurant_orders', orderData);
+}
+
+function saveLocalContact(data) {
+    return saveLocalData('andy_local_contacts', data);
+}
+
+async function sendOrderRequest(order) {
+    if (typeof window.sendOrderToAPI === 'function') {
+        return window.sendOrderToAPI(order);
+    }
+
     try {
-        // Utilisation de l'URL absolue CONFIG.apiBaseUrl
-        const response = await fetch(`${CONFIG.apiBaseUrl}/restaurant-order`, {
+        const response = await fetch('/api/order', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                orderNumber: orderData.orderNumber || 'N/A',
-                orderDate: orderData.orderDate || new Date().toLocaleString('fr-FR'),
-                restaurantName: orderData.restaurantName,
-                contactName: orderData.contactName,
-                email: orderData.email,
-                phone: orderData.phone,
-                address: orderData.address || '',
-                restaurantType: orderData.restaurantType || 'Non spécifié',
-                deliveryFrequency: orderData.deliveryFrequency || 'Non spécifiée',
-                specialNotes: orderData.specialNotes || '',
-                items: orderData.items.map(item => ({
-                    name: item.name,
-                    quantity: item.quantity,
-                    unit: item.unit || '250g'
-                }))
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(order)
         });
 
         const result = await response.json();
-        
-        if (result.success) {
-            console.log('✅ Demande restaurant envoyée avec succès');
+        if (response.ok && result.success) {
             return result;
-        } else {
-            throw new Error(result.error || 'Erreur inconnue');
         }
+
+        console.warn('API order non disponible, sauvegarde locale', result);
+        return saveLocalOrder(order);
     } catch (error) {
-        console.error('❌ Erreur envoi demande restaurant:', error);
-        throw error;
+        console.warn('Service API indisponible, sauvegarde locale', error);
+        return saveLocalOrder(order);
     }
 }
 
-/**
- * Envoyer un message de contact via l'API Nodemailer
- */
-async function sendContactToAPI(data) {
-    console.log('📤 Envoi du message de contact via API Nodemailer...');
-    
+async function sendContactRequest(data) {
+    if (typeof window.sendContactToAPI === 'function') {
+        return window.sendContactToAPI(data);
+    }
+
     try {
-        // Utilisation de l'URL absolue CONFIG.apiBaseUrl
-        const response = await fetch(`${CONFIG.apiBaseUrl}/contact`, {
+        const response = await fetch('/api/contact', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: data.name,
-                email: data.email,
-                subject: data.subject,
-                subjectText: data.subjectText,
-                message: data.message
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
         });
 
         const result = await response.json();
-        
-        if (result.success) {
-            console.log('✅ Message contact envoyé avec succès');
+        if (response.ok && result.success) {
             return result;
-        } else {
-            throw new Error(result.error || 'Erreur inconnue');
         }
+
+        console.warn('API contact non disponible, sauvegarde locale', result);
+        return saveLocalContact(data);
     } catch (error) {
-        console.error('❌ Erreur envoi contact:', error);
-        throw error;
+        console.warn('Service API indisponible, sauvegarde locale', error);
+        return saveLocalContact(data);
+    }
+}
+
+async function sendRestaurantOrderRequest(orderData) {
+    if (typeof window.sendRestaurantOrderToAPI === 'function') {
+        return window.sendRestaurantOrderToAPI(orderData);
+    }
+
+    try {
+        const response = await fetch('/api/restaurant-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+            return result;
+        }
+
+        console.warn('API restaurant order non disponible, sauvegarde locale', result);
+        return saveLocalRestaurantOrder(orderData);
+    } catch (error) {
+        console.warn('Service API indisponible, sauvegarde locale', error);
+        return saveLocalRestaurantOrder(orderData);
     }
 }
 
@@ -1196,15 +1170,15 @@ document.addEventListener('DOMContentLoaded', function() {
             : 'Bonjour, je souhaite des informations sur vos produits'
     );
 
-    // Exposer les fonctions globalement
-    window.sendOrderToAPI = sendOrderToAPI;
-    window.sendRestaurantOrderToAPI = sendRestaurantOrderToAPI;
-    window.sendContactToAPI = sendContactToAPI;
+    // Exposer les utilitaires UI globalement
     window.openWhatsApp = openWhatsApp;
     window.getRestaurantTypeText = getRestaurantTypeText;
     window.getDeliveryFrequencyText = getDeliveryFrequencyText;
     window.addAdminActivity = addAdminActivity;
     window.formatPriceGlobal = formatPriceGlobal;
+    window.sendOrderRequest = sendOrderRequest;
+    window.sendContactRequest = sendContactRequest;
+    window.sendRestaurantOrderRequest = sendRestaurantOrderRequest;
 
     // Initialiser l'UI principale uniquement sur la page d'accueil
     if (!document.getElementById('contactForm')) {

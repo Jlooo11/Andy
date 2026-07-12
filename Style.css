@@ -1375,6 +1375,18 @@ textarea.form-control {
     color: var(--white);
 }
 
+.footer-admin-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--primary-light) !important;
+    font-weight: 600;
+}
+
+.footer-admin-link:hover {
+    color: var(--white) !important;
+}
+
 /* ===== MODALS ===== */
 .modal {
     display: none;

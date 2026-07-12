@@ -1,18 +1,16 @@
-// server.js
-require('dotenv').config();
-const path = require('path');
+// server.js - avec base de données SQLite
 const express = require('express');
-const bodyParser = require('body-parser');
-const nodemailer = require('nodemailer');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const path = require('path');
+const sqlite3 = require('sqlite3').verbose();
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
-const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || 3000;
-const BUSINESS_EMAIL = process.env.BUSINESS_EMAIL || 'alaboutiqueboucherie@gmail.com';
 const ROOT = __dirname;
 
-// CORS
+// Middleware
 app.use(cors());
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
@@ -20,370 +18,370 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 // Fichiers statiques
 app.use(express.static(ROOT));
 
-// ===================== CONFIGURATION NODEMAILER =====================
+// ===== BASE DE DONNÉES SQLITE =====
+const DB_PATH = process.env.DB_PATH || path.join(ROOT, 'andy_data.db');
+const db = new sqlite3.Database(DB_PATH);
 
-function createTransporter() {
-    // Vérifier les credentials
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-        console.error('❌ SMTP_USER ou SMTP_PASS non définis dans .env');
-        return null;
-    }
+// Initialisation des tables
+db.serialize(() => {
+    // Table des commandes clients
+    db.run(`
+        CREATE TABLE IF NOT EXISTS orders (
+            id TEXT PRIMARY KEY,
+            order_number TEXT,
+            customer_name TEXT,
+            customer_phone TEXT,
+            customer_email TEXT,
+            customer_address TEXT,
+            items TEXT,
+            total REAL,
+            status TEXT DEFAULT 'pending',
+            payment_method TEXT,
+            delivery_method TEXT,
+            notes TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
 
-    return nodemailer.createTransport({
-        host: process.env.SMTP_HOST || 'smtp.gmail.com',
-        port: parseInt(process.env.SMTP_PORT || '587', 10),
-        secure: false, // true pour 465, false pour 587
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS
-        },
-        tls: {
-            rejectUnauthorized: false
+    // Table des demandes restaurants
+    db.run(`
+        CREATE TABLE IF NOT EXISTS restaurant_orders (
+            id TEXT PRIMARY KEY,
+            order_number TEXT,
+            restaurant_name TEXT,
+            contact_name TEXT,
+            phone TEXT,
+            email TEXT,
+            address TEXT,
+            restaurant_type TEXT,
+            delivery_frequency TEXT,
+            special_notes TEXT,
+            items TEXT,
+            status TEXT DEFAULT 'pending',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
+    // Table des messages de contact
+    db.run(`
+        CREATE TABLE IF NOT EXISTS messages (
+            id TEXT PRIMARY KEY,
+            name TEXT,
+            email TEXT,
+            subject TEXT,
+            subject_text TEXT,
+            message TEXT,
+            read INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
+    // Table des utilisateurs admin
+    db.run(`
+        CREATE TABLE IF NOT EXISTS admin_users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE,
+            password_hash TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
+    // Insérer l'utilisateur admin par défaut si absent
+    db.get('SELECT * FROM admin_users WHERE username = ?', ['admin'], (err, row) => {
+        if (!row) {
+            // Mot de passe: Andy2025!
+            const bcrypt = require('bcrypt');
+            const saltRounds = 10;
+            bcrypt.hash('Andy2025!', saltRounds, (err, hash) => {
+                if (!err) {
+                    db.run('INSERT INTO admin_users (username, password_hash) VALUES (?, ?)', ['admin', hash]);
+                    console.log('✅ Utilisateur admin créé par défaut');
+                }
+            });
         }
+    });
+});
+
+// ===== FONCTIONS D'ACCÈS À LA BASE =====
+
+// Orders
+function getOrders(callback) {
+    db.all('SELECT * FROM orders ORDER BY created_at DESC', callback);
+}
+
+function getOrderById(id, callback) {
+    db.get('SELECT * FROM orders WHERE id = ?', [id], callback);
+}
+
+function createOrder(orderData, callback) {
+    const id = uuidv4();
+    const { order_number, customer_name, customer_phone, customer_email, customer_address, items, total, payment_method, delivery_method, notes } = orderData;
+    db.run(`
+        INSERT INTO orders (id, order_number, customer_name, customer_phone, customer_email, customer_address, items, total, payment_method, delivery_method, notes)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [id, order_number, customer_name, customer_phone, customer_email, customer_address, JSON.stringify(items), total, payment_method, delivery_method, notes], function(err) {
+        callback(err, { id, ...orderData });
     });
 }
 
-// ===================== FONCTION D'ENVOI D'EMAIL =====================
-
-async function sendBusinessEmail({ subject, text, html, replyTo }) {
-    const transporter = createTransporter();
-
-    if (!transporter) {
-        console.log('📧 Email (SMTP non configuré):', subject);
-        console.log(text);
-        return { sent: false, error: 'SMTP non configuré' };
-    }
-
-    try {
-        const info = await transporter.sendMail({
-            from: `"Andy la Boucherie" <${process.env.SMTP_USER}>`,
-            to: BUSINESS_EMAIL,
-            replyTo: replyTo || BUSINESS_EMAIL,
-            subject: subject,
-            text: text,
-            html: html || text.replace(/\n/g, '<br>')
-        });
-
-        console.log('✅ Email envoyé avec succès:', info.messageId);
-        return { sent: true, messageId: info.messageId };
-    } catch (error) {
-        console.error('❌ Erreur envoi email:', error);
-        return { sent: false, error: error.message };
-    }
+function updateOrderStatus(id, status, callback) {
+    db.run('UPDATE orders SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [status, id], function(err) {
+        callback(err, { id, status });
+    });
 }
 
-// ===================== FONCTIONS DE FORMATAGE =====================
-
-function formatOrderItems(items) {
-    if (!items || !items.length) return 'Aucun article';
-    return items.map(item => 
-        `• ${item.name} x${item.quantity} — ${(item.price * item.quantity).toLocaleString('fr-FR')} FCFA`
-    ).join('\n');
+// Restaurant Orders
+function getRestaurantOrders(callback) {
+    db.all('SELECT * FROM restaurant_orders ORDER BY created_at DESC', callback);
 }
 
-function formatOrderHTML(items) {
-    if (!items || !items.length) return '<p>Aucun article</p>';
-    return items.map(item => 
-        `<tr>
-            <td>${item.name}</td>
-            <td style="text-align:center">${item.quantity}</td>
-            <td style="text-align:right">${item.price.toLocaleString('fr-FR')} FCFA</td>
-            <td style="text-align:right">${(item.price * item.quantity).toLocaleString('fr-FR')} FCFA</td>
-        </tr>`
-    ).join('');
+function createRestaurantOrder(orderData, callback) {
+    const id = uuidv4();
+    const { order_number, restaurant_name, contact_name, phone, email, address, restaurant_type, delivery_frequency, special_notes, items } = orderData;
+    db.run(`
+        INSERT INTO restaurant_orders (id, order_number, restaurant_name, contact_name, phone, email, address, restaurant_type, delivery_frequency, special_notes, items)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [id, order_number, restaurant_name, contact_name, phone, email, address, restaurant_type, delivery_frequency, special_notes, JSON.stringify(items)], function(err) {
+        callback(err, { id, ...orderData });
+    });
 }
 
-// ===================== API =====================
+// Messages
+function getMessages(callback) {
+    db.all('SELECT * FROM messages ORDER BY created_at DESC', callback);
+}
 
-// --- 1. API pour les commandes clients ---
-app.post('/api/order', async (req, res) => {
-    try {
-        const { 
-            orderNumber, 
-            items, 
-            total, 
-            date, 
-            customerName, 
-            customerEmail, 
-            customerPhone, 
-            customerAddress, 
-            notes 
-        } = req.body;
+function createMessage(messageData, callback) {
+    const id = uuidv4();
+    const { name, email, subject, subject_text, message } = messageData;
+    db.run(`
+        INSERT INTO messages (id, name, email, subject, subject_text, message)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `, [id, name, email, subject, subject_text, message], function(err) {
+        callback(err, { id, ...messageData });
+    });
+}
 
-        // Vérification
-        if (!items || !items.length) {
-            return res.status(400).json({ success: false, error: 'Panier vide' });
+function markMessageRead(id, callback) {
+    db.run('UPDATE messages SET read = 1 WHERE id = ?', [id], function(err) {
+        callback(err, { id });
+    });
+}
+
+// ===== AUTHENTIFICATION =====
+const bcrypt = require('bcrypt');
+
+function authenticateUser(username, password, callback) {
+    db.get('SELECT * FROM admin_users WHERE username = ?', [username], (err, user) => {
+        if (err || !user) {
+            callback(null, false);
+            return;
         }
-
-        if (!customerName || !customerEmail || !customerPhone) {
-            return res.status(400).json({ success: false, error: 'Informations client incomplètes' });
-        }
-
-        // Formatage du message
-        const orderDate = date ? new Date(date).toLocaleString('fr-FR') : new Date().toLocaleString('fr-FR');
-        const formattedTotal = total.toLocaleString('fr-FR');
-
-        const textMessage = `
-🛒 NOUVELLE COMMANDE - Andy la Boucherie
-═══════════════════════════════════
-
-📋 N° commande : ${orderNumber || 'N/A'}
-📅 Date : ${orderDate}
-
-👤 INFORMATIONS CLIENT
-───────────────────────
-Nom : ${customerName}
-Téléphone : ${customerPhone}
-Email : ${customerEmail}
-Adresse : ${customerAddress || 'Non renseignée'}
-${notes ? `\n📝 Notes : ${notes}` : ''}
-
-📦 DÉTAILS DE LA COMMANDE
-───────────────────────
-${formatOrderItems(items)}
-
-💰 TOTAL : ${formattedTotal} FCFA
-═══════════════════════════════════
-`;
-
-        const htmlMessage = `
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"></head>
-<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-    <div style="background: #8B0000; color: white; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
-        <h1>🛒 Nouvelle Commande</h1>
-        <p style="font-size: 14px;">${orderNumber || 'N/A'} | ${orderDate}</p>
-    </div>
-    
-    <div style="padding: 20px; background: #f9f9f9; border-radius: 0 0 10px 10px;">
-        <h2 style="color: #8B0000;">👤 Client</h2>
-        <table style="width:100%; border-collapse: collapse;">
-            <tr><td><strong>Nom :</strong></td><td>${customerName}</td></tr>
-            <tr><td><strong>Téléphone :</strong></td><td>${customerPhone}</td></tr>
-            <tr><td><strong>Email :</strong></td><td>${customerEmail}</td></tr>
-            <tr><td><strong>Adresse :</strong></td><td>${customerAddress || 'Non renseignée'}</td></tr>
-        </table>
-        ${notes ? `<p><strong>📝 Notes :</strong> ${notes}</p>` : ''}
-        
-        <h2 style="color: #8B0000; margin-top: 20px;">📦 Détails</h2>
-        <table style="width:100%; border-collapse: collapse; background: white;">
-            <thead style="background: #8B0000; color: white;">
-                <tr>
-                    <th style="padding: 10px; text-align:left;">Produit</th>
-                    <th style="padding: 10px; text-align:center;">Qté</th>
-                    <th style="padding: 10px; text-align:right;">Prix unit.</th>
-                    <th style="padding: 10px; text-align:right;">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${formatOrderHTML(items)}
-            </tbody>
-            <tfoot>
-                <tr style="background: #8B0000; color: white; font-weight: bold;">
-                    <td colspan="3" style="padding: 10px; text-align:right;">TOTAL :</td>
-                    <td style="padding: 10px; text-align:right;">${formattedTotal} FCFA</td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-</body>
-</html>`;
-
-        // Envoyer l'email
-        const result = await sendBusinessEmail({
-            subject: `🛒 Nouvelle commande ${orderNumber || 'N/A'} - ${customerName}`,
-            text: textMessage,
-            html: htmlMessage,
-            replyTo: customerEmail
+        bcrypt.compare(password, user.password_hash, (err, result) => {
+            callback(err, result ? user : false);
         });
+    });
+}
 
-        if (!result.sent) {
-            console.warn('⚠️ Email non envoyé mais commande enregistrée:', result.error);
-            return res.json({ 
-                success: true, 
-                warning: 'Commande enregistrée mais email non envoyé',
-                error: result.error 
+// ===== ROUTES API =====
+
+// --- Authentification ---
+app.post('/api/admin/login', (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ success: false, error: 'Identifiant et mot de passe requis' });
+    }
+    authenticateUser(username, password, (err, user) => {
+        if (err || !user) {
+            return res.status(401).json({ success: false, error: 'Identifiant ou mot de passe incorrect' });
+        }
+        res.json({ success: true, user: { id: user.id, username: user.username } });
+    });
+});
+
+// --- Commandes clients ---
+app.post('/api/order', (req, res) => {
+    const orderData = req.body;
+    if (!orderData.items || !orderData.items.length) {
+        return res.status(400).json({ success: false, error: 'Panier vide' });
+    }
+    const order = {
+        order_number: orderData.orderNumber || 'CMD-' + Date.now().toString().slice(-6),
+        customer_name: orderData.customerName,
+        customer_phone: orderData.customerPhone,
+        customer_email: orderData.customerEmail,
+        customer_address: orderData.customerAddress || '',
+        items: orderData.items,
+        total: orderData.total || 0,
+        payment_method: orderData.paymentMethod || 'Wave',
+        delivery_method: orderData.deliveryMethod || 'Retrait en boutique',
+        notes: orderData.notes || ''
+    };
+    createOrder(order, (err, result) => {
+        if (err) {
+            console.error('Erreur création commande:', err);
+            return res.status(500).json({ success: false, error: 'Erreur lors de l\'enregistrement' });
+        }
+        res.json({ success: true, data: result });
+    });
+});
+
+app.get('/api/orders', (req, res) => {
+    getOrders((err, rows) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.json({ success: true, data: rows });
+    });
+});
+
+app.get('/api/orders/:id', (req, res) => {
+    getOrderById(req.params.id, (err, row) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        if (!row) {
+            return res.status(404).json({ success: false, error: 'Commande non trouvée' });
+        }
+        // Parse items
+        if (row.items) {
+            try { row.items = JSON.parse(row.items); } catch(e) {}
+        }
+        res.json({ success: true, data: row });
+    });
+});
+
+app.put('/api/orders/:id/status', (req, res) => {
+    const { status } = req.body;
+    if (!status) {
+        return res.status(400).json({ success: false, error: 'Statut requis' });
+    }
+    updateOrderStatus(req.params.id, status, (err, result) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.json({ success: true, data: result });
+    });
+});
+
+// --- Demandes restaurants ---
+app.post('/api/restaurant-order', (req, res) => {
+    const orderData = req.body;
+    if (!orderData.restaurantName || !orderData.contactName || !orderData.phone) {
+        return res.status(400).json({ success: false, error: 'Informations restaurant incomplètes' });
+    }
+    const order = {
+        order_number: orderData.orderNumber || 'PRO-' + Date.now().toString().slice(-6),
+        restaurant_name: orderData.restaurantName,
+        contact_name: orderData.contactName,
+        phone: orderData.phone,
+        email: orderData.email || '',
+        address: orderData.address || '',
+        restaurant_type: orderData.restaurantType || '',
+        delivery_frequency: orderData.deliveryFrequency || '',
+        special_notes: orderData.specialNotes || '',
+        items: orderData.items || []
+    };
+    createRestaurantOrder(order, (err, result) => {
+        if (err) {
+            console.error('Erreur création demande restaurant:', err);
+            return res.status(500).json({ success: false, error: 'Erreur lors de l\'enregistrement' });
+        }
+        res.json({ success: true, data: result });
+    });
+});
+
+app.get('/api/restaurant-orders', (req, res) => {
+    getRestaurantOrders((err, rows) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        // Parse items
+        rows.forEach(row => {
+            if (row.items) {
+                try { row.items = JSON.parse(row.items); } catch(e) {}
+            }
+        });
+        res.json({ success: true, data: rows });
+    });
+});
+
+// --- Messages ---
+app.post('/api/contact', (req, res) => {
+    const { name, email, subject, subjectText, message } = req.body;
+    if (!name || !email || !message) {
+        return res.status(400).json({ success: false, error: 'Tous les champs sont requis' });
+    }
+    createMessage({ name, email, subject, subject_text: subjectText || subject, message }, (err, result) => {
+        if (err) {
+            console.error('Erreur création message:', err);
+            return res.status(500).json({ success: false, error: 'Erreur lors de l\'enregistrement' });
+        }
+        res.json({ success: true, data: result });
+    });
+});
+
+app.get('/api/messages', (req, res) => {
+    getMessages((err, rows) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.json({ success: true, data: rows });
+    });
+});
+
+app.put('/api/messages/:id/read', (req, res) => {
+    markMessageRead(req.params.id, (err, result) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.json({ success: true, data: result });
+    });
+});
+
+// --- Statistiques ---
+app.get('/api/stats', (req, res) => {
+    db.get('SELECT COUNT(*) as total_orders FROM orders', (err, orderCount) => {
+        if (err) return res.status(500).json({ success: false, error: err.message });
+        db.get('SELECT COUNT(*) as pending_orders FROM orders WHERE status = "pending"', (err, pendingCount) => {
+            if (err) return res.status(500).json({ success: false, error: err.message });
+            db.get('SELECT COUNT(*) as completed_orders FROM orders WHERE status = "completed"', (err, completedCount) => {
+                if (err) return res.status(500).json({ success: false, error: err.message });
+                db.get('SELECT COUNT(*) as total_restaurant FROM restaurant_orders', (err, restaurantCount) => {
+                    if (err) return res.status(500).json({ success: false, error: err.message });
+                    db.get('SELECT COUNT(*) as unread_messages FROM messages WHERE read = 0', (err, unreadCount) => {
+                        if (err) return res.status(500).json({ success: false, error: err.message });
+                        res.json({
+                            success: true,
+                            data: {
+                                totalOrders: orderCount.total_orders || 0,
+                                pendingOrders: pendingCount.pending_orders || 0,
+                                completedOrders: completedCount.completed_orders || 0,
+                                totalRestaurant: restaurantCount.total_restaurant || 0,
+                                unreadMessages: unreadCount.unread_messages || 0
+                            }
+                        });
+                    });
+                });
             });
-        }
-
-        console.log('✅ Commande enregistrée et email envoyé');
-        res.json({ success: true, message: 'Commande enregistrée', messageId: result.messageId });
-
-    } catch (error) {
-        console.error('❌ Erreur API order:', error);
-        res.status(500).json({ success: false, error: 'Erreur lors du traitement' });
-    }
-});
-
-// --- 2. API pour les demandes restaurant ---
-app.post('/api/restaurant-order', async (req, res) => {
-    try {
-        const {
-            orderNumber,
-            restaurantName,
-            contactName,
-            email,
-            phone,
-            address,
-            restaurantType,
-            deliveryFrequency,
-            specialNotes,
-            items,
-            orderDate
-        } = req.body;
-
-        if (!restaurantName || !contactName || !email || !phone) {
-            return res.status(400).json({ success: false, error: 'Informations restaurant incomplètes' });
-        }
-
-        const formattedDate = orderDate || new Date().toLocaleString('fr-FR');
-
-        const textMessage = `
-🍽️ DEMANDE DE DEVIS - Andy la Boucherie
-═══════════════════════════════════
-
-📋 N° demande : ${orderNumber || 'N/A'}
-📅 Date : ${formattedDate}
-
-🏢 ÉTABLISSEMENT
-───────────────────────
-Nom : ${restaurantName}
-Contact : ${contactName}
-Téléphone : ${phone}
-Email : ${email}
-Adresse : ${address || 'Non renseignée'}
-Type : ${restaurantType || 'Non spécifié'}
-Fréquence livraison : ${deliveryFrequency || 'Non spécifiée'}
-
-📦 PRODUITS DEMANDÉS
-───────────────────────
-${formatRestaurantItems(items)}
-
-${specialNotes ? `\n📝 Notes : ${specialNotes}` : ''}
-═══════════════════════════════════
-`;
-
-        const htmlMessage = `
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"></head>
-<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-    <div style="background: #2E7D32; color: white; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
-        <h1>🍽️ Demande de Devis</h1>
-        <p style="font-size: 14px;">${orderNumber || 'N/A'} | ${formattedDate}</p>
-    </div>
-    
-    <div style="padding: 20px; background: #f9f9f9; border-radius: 0 0 10px 10px;">
-        <h2 style="color: #2E7D32;">🏢 Établissement</h2>
-        <table style="width:100%; border-collapse: collapse;">
-            <tr><td><strong>Nom :</strong></td><td>${restaurantName}</td></tr>
-            <tr><td><strong>Contact :</strong></td><td>${contactName}</td></tr>
-            <tr><td><strong>Téléphone :</strong></td><td>${phone}</td></tr>
-            <tr><td><strong>Email :</strong></td><td>${email}</td></tr>
-            <tr><td><strong>Adresse :</strong></td><td>${address || 'Non renseignée'}</td></tr>
-            <tr><td><strong>Type :</strong></td><td>${restaurantType || 'Non spécifié'}</td></tr>
-            <tr><td><strong>Fréquence :</strong></td><td>${deliveryFrequency || 'Non spécifiée'}</td></tr>
-        </table>
-        ${specialNotes ? `<p><strong>📝 Notes :</strong> ${specialNotes}</p>` : ''}
-        
-        <h2 style="color: #2E7D32; margin-top: 20px;">📦 Produits</h2>
-        <ul style="background: white; padding: 15px; border-radius: 5px;">
-            ${items.map(item => `<li>${item.name} x${item.quantity} (${item.unit || 'unité'})</li>`).join('')}
-        </ul>
-    </div>
-</body>
-</html>`;
-
-        const result = await sendBusinessEmail({
-            subject: `🍽️ Demande devis ${orderNumber || 'N/A'} - ${restaurantName}`,
-            text: textMessage,
-            html: htmlMessage,
-            replyTo: email
         });
-
-        if (!result.sent) {
-            console.warn('⚠️ Email non envoyé mais demande enregistrée:', result.error);
-            return res.json({ 
-                success: true, 
-                warning: 'Demande enregistrée mais email non envoyé' 
-            });
-        }
-
-        res.json({ success: true, message: 'Demande de devis enregistrée' });
-
-    } catch (error) {
-        console.error('❌ Erreur API restaurant-order:', error);
-        res.status(500).json({ success: false, error: 'Erreur lors du traitement' });
-    }
+    });
 });
 
-function formatRestaurantItems(items) {
-    if (!items || !items.length) return 'Aucun produit';
-    return items.map(item => 
-        `• ${item.name} x${item.quantity} (${item.unit || 'unité'})`
-    ).join('\n');
-}
-
-// --- 3. API pour le formulaire de contact ---
-app.post('/api/contact', async (req, res) => {
-    try {
-        const { name, email, subject, subjectText, message } = req.body;
-
-        if (!name || !email || !message) {
-            return res.status(400).json({ success: false, error: 'Tous les champs sont requis' });
-        }
-
-        const subjectLabel = subjectText || subject || 'Contact';
-
-        const textMessage = `
-📩 MESSAGE CONTACT - Andy la Boucherie
-═══════════════════════════════════
-
-👤 De : ${name}
-📧 Email : ${email}
-📌 Sujet : ${subjectLabel}
-
-💬 Message :
-${message}
-═══════════════════════════════════
-`;
-
-        const result = await sendBusinessEmail({
-            subject: `📩 Contact - ${subjectLabel} - ${name}`,
-            text: textMessage,
-            replyTo: email
-        });
-
-        res.json({ success: true, message: 'Message envoyé avec succès' });
-
-    } catch (error) {
-        console.error('❌ Erreur API contact:', error);
-        res.status(500).json({ success: false, error: 'Erreur lors de l\'envoi' });
-    }
-});
-
-// --- Santé du serveur ---
+// --- Santé ---
 app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'ok',
-        emailConfigured: !!(process.env.SMTP_USER && process.env.SMTP_PASS),
-        businessEmail: BUSINESS_EMAIL,
-        timestamp: new Date().toISOString()
+    db.get('SELECT 1 as health', (err) => {
+        res.json({
+            status: err ? 'error' : 'ok',
+            database: err ? 'disconnected' : 'connected',
+            timestamp: new Date().toISOString()
+        });
     });
 });
 
-// --- Test de l'email ---
-app.get('/api/test-email', async (req, res) => {
-    const result = await sendBusinessEmail({
-        subject: '🧪 Test de configuration Email',
-        text: 'Ceci est un test de votre configuration Nodemailer.\n\nSi vous recevez cet email, tout fonctionne parfaitement !'
-    });
-    res.json(result);
-});
-
-// ===================== ROUTES PAGES =====================
-
+// ===== ROUTES PAGES =====
 app.get('/', (req, res) => {
     res.sendFile(path.join(ROOT, 'index.html'));
 });
@@ -392,31 +390,13 @@ app.get('/restaurants', (req, res) => {
     res.sendFile(path.join(ROOT, 'restaurants.html'));
 });
 
-// ===================== LANCEMENT DU SERVEUR =====================
-
-process.on('unhandledRejection', (reason) => {
-    console.error('❌ Promesse rejetée non gérée:', reason);
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(ROOT, 'admin.html'));
 });
 
-const server = app.listen(PORT, '0.0.0.0', () => {
+// ===== DÉMARRAGE =====
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ Serveur démarré sur le port ${PORT}`);
-    console.log(`📧 Email de réception : ${BUSINESS_EMAIL}`);
-    console.log(`📧 SMTP configuré : ${!!(process.env.SMTP_USER && process.env.SMTP_PASS)}`);
-
-    // Vérification SMTP en arrière-plan (ne bloque pas le démarrage Render)
-    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-        const transporter = createTransporter();
-        if (transporter) {
-            transporter.verify()
-                .then(() => console.log('✅ Connexion SMTP Gmail vérifiée'))
-                .catch((error) => console.error('❌ Échec vérification SMTP :', error.message));
-        }
-    } else {
-        console.warn('⚠️ SMTP_USER ou SMTP_PASS manquant — les emails ne seront pas envoyés');
-    }
-});
-
-server.on('error', (error) => {
-    console.error('❌ Impossible de démarrer le serveur:', error.message);
-    process.exit(1);
+    console.log(`📊 Dashboard admin: http://localhost:${PORT}/admin`);
+    console.log(`📁 Base de données: ${path.join(ROOT, 'andy_data.db')}`);
 });
